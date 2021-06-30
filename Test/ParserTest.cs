@@ -14,8 +14,7 @@ namespace Test
         private ServiceProvider BuildServiceProvider()
         {
             var services = new ServiceCollection();
-            // services.AddFlowRunner(new FlowSettings());
-            services.AddFlowRunner();
+            services.AddExpressionEngine();
 
             return services.BuildServiceProvider();
         }

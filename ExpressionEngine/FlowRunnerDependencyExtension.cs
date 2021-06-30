@@ -11,7 +11,7 @@ namespace Parser
 {
     public static class FlowRunnerDependencyExtension
     {
-        public static void AddFlowRunner(this IServiceCollection services)
+        public static void AddExpressionEngine(this IServiceCollection services)
         {
             services.AddScoped<IExpressionEngine, ExpressionEngine.ExpressionEngine>();
             services.AddScoped<ExpressionGrammar>();
