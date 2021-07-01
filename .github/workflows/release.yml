@@ -55,7 +55,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Restore NuGet packages
-        run: nuget restore PowerAutomateMockUp.sln
+        run: nuget restore ExpressionEngine.sln
 
       - name: Package Parser
         run: msbuild /t:pack /p:PackageVersion=${env:RELEASE_VERSION} /p:OutputPath=..\\artifacts
