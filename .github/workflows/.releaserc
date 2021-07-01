@@ -16,7 +16,7 @@ plugins:
           label: Parser DLL
 
   - - "@semantic-release/exec"
-    - publishCmd: "dotnet nuget push ..\\..\\artifacts\\DG.ExpressionEngine.*.nupkg --source https://nuget.pkg.github.com/delegateas/index.json --api-key ${process.env.GITHUB_TOKEN}"
+    - publishCmd: "dotnet nuget push ..\\..\\artifacts\\Delegate.ExpressionEngine.*.nupkg --source https://nuget.pkg.github.com/delegateas/index.json --api-key ${process.env.GITHUB_TOKEN}"
 
-#  - - "@semantic-release/exec"
-#    - publishCmd: "dotnet nuget push ..\\..\\artifacts\\DG.ExpressionEngine.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${process.env.CI_NUGET_API_KEY}"
+  - - "@semantic-release/exec"
+    - publishCmd: "dotnet nuget push ..\\..\\artifacts\\Delegate.ExpressionEngine.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${process.env.CI_NUGET_API_KEY}"
