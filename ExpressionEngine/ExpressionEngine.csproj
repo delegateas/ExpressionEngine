@@ -3,8 +3,6 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
 
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
         <PackageId>DG.ExpressionEngine</PackageId>
         <Authors>Delegate A/S,thygesteffensen</Authors>
         <PackageDescription>Expression Engine for Power Automate expressions written in C# using Sprache.net!</PackageDescription>
