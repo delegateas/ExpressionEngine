@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
 
-        <PackageId>DG.ExpressionEngine</PackageId>
+        <PackageId>Delegate.ExpressionEngine</PackageId>
         <Authors>Delegate A/S,thygesteffensen</Authors>
         <PackageDescription>Expression Engine for Power Automate expressions written in C# using Sprache.net!</PackageDescription>
         <RepositoryUrl>https://github.com/delegateas/ExpressionEngine</RepositoryUrl>
