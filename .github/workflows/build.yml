@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  pull_request:
+    types: [ assigned, opened, synchronize, reopened ]
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  test:
+    runs-on: windows-latest
+    name: Testing
+    steps:
+      - name: Checkout code base
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: dotnet test --verbosity normal
+
+  build:
+    runs-on: windows-latest
+    name: Building
+    steps:
+      - name: Checkout code base
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Restore NuGet packages
+        run: nuget restore ExpressionEngine.sln
+
+      - name: Build solution
+        run: msbuild /p:OutputPath=../build /p:Configuration=Release /p:RestorePackages=false
+
+      - name: Archive build to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            build/ExpressionEngine.dll   
+          retention-days: 5
