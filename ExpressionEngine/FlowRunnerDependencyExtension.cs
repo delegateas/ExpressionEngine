@@ -19,6 +19,7 @@ namespace Parser
             AddStringFunctions(services);
             AddCollectionFunction(services);
             AddConversionFunction(services);
+            AddLogicalComparisonFunctions(services);
 
             services.AddTransient<IFunction, LengthFunction>();
             services.AddTransient<IFunction, GreaterFunction>();
@@ -67,6 +68,19 @@ namespace Parser
             services.AddTransient<IFunction, CreateArrayFunction>();
             services.AddTransient<IFunction, DataUriFunction>();
             services.AddTransient<IFunction, DataUriToBinaryFunction>();
+        }
+
+        private static void AddLogicalComparisonFunctions(IServiceCollection services)
+        {
+            services.AddTransient<IFunction, AndFunction>();
+            services.AddTransient<IFunction, EqualFunction>();
+            services.AddTransient<IFunction, GreaterFunction>();
+            services.AddTransient<IFunction, GreaterOrEqualsFunction>();
+            services.AddTransient<IFunction, IfFunction>();
+            services.AddTransient<IFunction, LessFunction>();
+            services.AddTransient<IFunction, LessOrEqualsFunction>();
+            services.AddTransient<IFunction, NotFunction>();
+            services.AddTransient<IFunction, OrFunction>();
         }
     }
 }
