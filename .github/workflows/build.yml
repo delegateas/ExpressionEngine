@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Run tests
         run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
