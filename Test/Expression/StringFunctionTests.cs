@@ -1,7 +1,6 @@
 ﻿using ExpressionEngine;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
 using NUnit.Framework;
-using Parser.ExpressionParser.Functions.Implementations.StringFunctions;
 
 namespace Test.Expression
 {
