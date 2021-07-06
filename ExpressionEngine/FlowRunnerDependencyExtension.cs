@@ -1,20 +1,18 @@
-﻿using ExpressionEngine;
-using ExpressionEngine.Functions.Base;
+﻿using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.Implementations.CollectionFunctions;
 using ExpressionEngine.Functions.Implementations.ConversionFunctions;
 using ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
 using Microsoft.Extensions.DependencyInjection;
-using Parser.ExpressionParser.Functions.Implementations.StringFunctions;
 
-namespace Parser
+namespace ExpressionEngine
 {
     public static class FlowRunnerDependencyExtension
     {
         public static void AddExpressionEngine(this IServiceCollection services)
         {
-            services.AddScoped<IExpressionEngine, ExpressionEngine.ExpressionEngine>();
-            services.AddScoped<ExpressionGrammar>();
+            services.AddScoped<IExpressionEngine, ExpressionEngine>();
+            services.AddSingleton<ExpressionGrammar>();
 
             AddStringFunctions(services);
             AddCollectionFunction(services);

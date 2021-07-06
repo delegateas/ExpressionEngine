@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
-using ExpressionEngine.Functions.Implementations.StringFunctions;
 
-namespace Parser.ExpressionParser.Functions.Implementations.StringFunctions
+namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
     public class GuidFunction : Function
     {
