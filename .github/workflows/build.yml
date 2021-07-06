@@ -43,7 +43,7 @@ jobs:
         run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
-        run: dotnet build -o ../build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.node }}
+        run: dotnet build -o ../build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
           
 
       - name: Archive build to artifacts
