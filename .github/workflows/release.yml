@@ -51,8 +51,11 @@ jobs:
       - name: Print release verison
         run: echo ${env:RELEASE_VERSION}
 
+      - name: Cleaning
+        run: dotnet clean
+
       - name: Restore NuGet packages
-        run: nuget restore ExpressionEngine.sln
+        run: dotnet restore ExpressionEngine.sln
 
       - name: Package Parser
         run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ../artifacts
