@@ -8,14 +8,18 @@ on:
 
 jobs:
   test:
-    name: Testing
     runs-on: windows-latest
+    name: Testing
+    strategy:
+      matrix:
+        dotnet: [ 'netcoreapp3.1', 'net5.0' ]
     steps:
-      - name: Checkout repo
+      - name: Checkout code base
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: dotnet test --verbosity normal
+        run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
+
 
   release:
     name: Releasing
@@ -26,6 +30,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+          
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -51,17 +59,17 @@ jobs:
       - name: Print release verison
         run: echo ${env:RELEASE_VERSION}
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+      - name: Cleaning
+        run: dotnet clean
 
       - name: Restore NuGet packages
-        run: nuget restore ExpressionEngine.sln
+        run: dotnet restore ExpressionEngine.sln
 
       - name: Package Parser
-        run: msbuild /t:pack /p:PackageVersion=${env:RELEASE_VERSION} /p:OutputPath=..\\artifacts
+        run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
         if: ${{ env.RELEASE_VERSION }}
 
-      - name: Release to GitHub
+      - name: Release to GitHub and NuGet
         working-directory: .\\.github\\workflows
         env:
           CI_NUGET_API_KEY: ${{ secrets.NUGETAPIKEY }}

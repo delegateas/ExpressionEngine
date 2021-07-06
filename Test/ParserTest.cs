@@ -3,7 +3,6 @@ using ExpressionEngine;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using Parser;
 
 
 namespace Test
