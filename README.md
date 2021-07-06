@@ -53,3 +53,4 @@ The `main` branch is the release branch which will release a production NuGet pa
 The `dev` branch is the development branch and will release a development NuGet package with the determined version number.
 
 Therefore, start by making a pull-request against `dev` which will trigger a pre-release and later on we can make a production release.
+
