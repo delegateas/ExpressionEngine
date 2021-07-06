@@ -8,18 +8,18 @@ on:
 
 jobs:
   test:
-    name: Testing
     runs-on: windows-latest
+    name: Testing
+    strategy:
+      matrix:
+        dotnet: [ 'netcoreapp3.1', 'net5.0' ]
     steps:
-      - name: Checkout repo
+      - name: Checkout code base
         uses: actions/checkout@v2
 
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
-
       - name: Run tests
-        run: dotnet test --verbosity normal
+        run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
+
 
   release:
     name: Releasing
