@@ -15,6 +15,10 @@ jobs:
       - name: Checkout code base
         uses: actions/checkout@v2
 
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
       - name: Run tests
         run: dotnet test --verbosity normal
 
@@ -24,7 +28,11 @@ jobs:
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
-        
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
       - name: Cleaning
         run: dotnet clean
 
