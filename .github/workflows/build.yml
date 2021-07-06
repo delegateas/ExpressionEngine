@@ -24,9 +24,12 @@ jobs:
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
+        
+      - name: Cleaning
+        run: dotnet clean
 
       - name: Restore NuGet packages
-        run: nuget restore ExpressionEngine.sln
+        run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
         run: dotnet build -o ../build -c Release --no-restore
