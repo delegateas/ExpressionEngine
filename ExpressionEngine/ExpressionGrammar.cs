@@ -17,6 +17,9 @@ namespace ExpressionEngine
 
             #region BasicAuxParsers
 
+            Parser<IRule> boolean = Parse.String("true").Select(b => new ConstantRule(new ValueContainer(true)))
+                .Or(Parse.String("false").Select(b => new ConstantRule(new ValueContainer(false))));
+
             Parser<IRule> integer =
                 Parse.Digit.AtLeastOnce().Text()
                     .Select(
@@ -25,10 +28,6 @@ namespace ExpressionEngine
 
             Parser<string> simpleString =
                 Parse.AnyChar.Except(Parse.Char('@')).AtLeastOnce().Text();
-
-            Parser<ConstantRule> simpleStringRule =
-                Parse.AnyChar.Except(Parse.Char('@')).Except(Parse.Char('(').Except(Parse.Char(')'))).AtLeastOnce()
-                    .Text().Select(x => new ConstantRule(new ValueContainer(x)));
 
             Parser<char> escapedCharacters =
                 from c in
@@ -49,7 +48,6 @@ namespace ExpressionEngine
 
             #endregion
 
-
             var lBracket = Parse.Char('[');
             var rBracket = Parse.Char(']');
             var lParenthesis = Parse.Char('(');
@@ -57,18 +55,26 @@ namespace ExpressionEngine
 
             Parser<bool> nullConditional = Parse.Char('?').Optional().Select(nC => !nC.IsEmpty);
 
-            Parser<IRule> indices =
+            Parser<IRule> bracketIndices =
                 from nll in nullConditional
                 from index in _method.Or(stringLiteral).Or(integer).Contained(lBracket, rBracket)
                 select new IndexRule(index, nll);
+            
+            Parser<IRule> dotIndices =
+                from nll in nullConditional
+                from dot in Parse.Char('.')
+                from index in Parse.AnyChar.Except(
+                    lBracket
+                        .Or(rBracket)
+                        .Or(lParenthesis)
+                        .Or(rParenthesis)
+                        .Or(Parse.Char('@'))
+                    ).Many().Text()
+                select new IndexRule(new StringLiteralRule(new ValueContainer(index)), nll);
 
             Parser<IRule> argument =
-                from arg in Parse.Ref(() => _method.Or(stringLiteral).Or(integer))
+                from arg in Parse.Ref(() => _method.Or(stringLiteral).Or(integer).Or(boolean))
                 select arg;
-
-            Parser<IRule[]> emptyArgument =
-                from empty in Parse.String("()")
-                select new IRule[0];
 
             Parser<IOption<IEnumerable<IRule>>> arguments =
                 from args in argument.Token().DelimitedBy(Parse.Char(',')).Optional()
@@ -86,9 +92,8 @@ namespace ExpressionEngine
             _method =
                 Parse.Ref(() =>
                     from func in function
-                    from indexes in indices.Many()
+                    from indexes in bracketIndices.Or(dotIndices).Many()
                     select (IRule) new AccessValueRule(func, indexes));
-            // .Or(simpleStringRule);
 
             Parser<ValueContainer> enclosedExpression =
                 _method.Contained(
@@ -100,8 +105,7 @@ namespace ExpressionEngine
                 from at in Parse.Char('@')
                 from method in _method
                 select method.Evaluate();
-
-
+            
             Parser<string> allowedString =
                 from t in simpleString.Or(allowedCharacters).Many()
                 select string.Concat(t);
