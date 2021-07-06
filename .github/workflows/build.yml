@@ -32,7 +32,7 @@ jobs:
         run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
-        run: dotnet build -o ../build -c Release --no-restore
+        run: dotnet build -o ../build -c Release --no-restore -m:1
 
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2
