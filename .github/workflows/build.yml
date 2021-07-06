@@ -15,6 +15,10 @@ jobs:
       - name: Checkout code base
         uses: actions/checkout@v2
 
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
       - name: Run tests
         run: dotnet test --verbosity normal
 
@@ -25,14 +29,18 @@ jobs:
       - name: Checkout code base
         uses: actions/checkout@v2
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
+      - name: Cleaning
+        run: dotnet clean
 
       - name: Restore NuGet packages
-        run: nuget restore ExpressionEngine.sln
+        run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
-        run: msbuild /p:OutputPath=../build /p:Configuration=Release /p:RestorePackages=false
+        run: dotnet build -o ../build -c Release --no-restore -m:1
 
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2
