@@ -29,21 +29,23 @@ namespace Test
             var exception = Assert.Throws(Is.InstanceOf(testInput.ExceptionType),
                 () => { engine.Parse(testInput.Input); });
 
-            Assert.AreEqual(testInput.ExpectedOutput, exception.Message);
+            Assert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
         }
 
         private static TestInput[] _simpleCasesExceptions =
         {
             new TestInput(
                 "@nonExistingFunction(\'input\')",
-                "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression."
+                new ValueContainer(
+                    "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression.")
             )
             {
                 ExceptionType = typeof(FunctionNotKnown)
             },
             new TestInput(
                 "@nonExistingFunction()",
-                "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression."
+                new ValueContainer(
+                    "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression.")
             )
             {
                 ExceptionType = typeof(FunctionNotKnown)
@@ -82,31 +84,34 @@ namespace Test
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
 
-            var result = engine.Parse(testInput.Input);
+            var result = engine.ParseToValueContainer(testInput.Input);
 
             Assert.AreEqual(testInput.ExpectedOutput, result);
         }
 
         private static TestInput[] _simpleCases =
         {
-            new TestInput("Just a simple string without an exceptions", "Just a simple string without an exceptions"),
-            new TestInput("tst@delegate.dk", "tst@delegate.dk"),
+            new TestInput("Just a simple string without an exceptions",
+                new ValueContainer("Just a simple string without an exceptions")),
+            new TestInput("tst@delegate.dk", new ValueContainer("tst@delegate.dk")),
             new TestInput(
-                "@{toLower(\'user@DOMAIN.dk\')} - Send me an email or call on 8888 8888!",
-                "user@domain.dk - Send me an email or call on 8888 8888!"
+                "@{toLower(\'user@DOMAIN.dk\')} - Send me an email or call on 8888 8888!", new ValueContainer(
+                    "user@domain.dk - Send me an email or call on 8888 8888!")
             ),
-            new TestInput("@concat(\'Hi you,\',\' Alice B.\')", "Hi you, Alice B."),
+            new TestInput("@concat(\'Hi you,\',\' Alice B.\')", new ValueContainer("Hi you, Alice B.")),
             new TestInput(
-                "@concat(\'Hej med dig\', \' Bob A\', \' hvordan \', \'går det?\')",
-                "Hej med dig Bob A hvordan går det?"
+                "@concat(\'Hej med dig\', \' Bob A\', \' hvordan \', \'går det?\')", new ValueContainer(
+                    "Hej med dig Bob A hvordan går det?")
             ),
-            new TestInput("@concat(\'Hi you,\', toLower(\' ALICE B\'))", "Hi you, alice b"),
-            new TestInput("@trim(\' What is up \')", "What is up"),
-            new TestInput("@toLower(\'It is John''s car.\')", "it is john's car."),
-            new TestInput("Hej med dig @{toUpper(\'charlie\')}", "Hej med dig CHARLIE"),
-            new TestInput("@{toLower(\'Hej med dig \')}@{trim(\' Mads \')}", "hej med dig Mads"),
-            new TestInput("@@1", "@1"),
-            new TestInput("@aes", "aes"),
+            new TestInput("@concat(\'Hi you,\', toLower(\' ALICE B\'))", new ValueContainer("Hi you, alice b")),
+            new TestInput("@trim(\' What is up \')", new ValueContainer("What is up")),
+            new TestInput("@toLower(\'It is John''s car.\')", new ValueContainer("it is john's car.")),
+            new TestInput("Hej med dig @{toUpper(\'charlie\')}", new ValueContainer("Hej med dig CHARLIE")),
+            new TestInput("@{toLower(\'Hej med dig \')}@{trim(\' Mads \')}", new ValueContainer("hej med dig Mads")),
+            new TestInput("@@1", new ValueContainer("@1")),
+            new TestInput("@aes", new ValueContainer("aes")),
+            new TestInput("@empty(trim(' ')?.name1)", new ValueContainer(true)),
+            new TestInput("@not(empty(trim(' ')?.name1))", new ValueContainer(false))
         };
 
         #endregion
@@ -308,9 +313,10 @@ namespace Test
             }
         };
 
-        */public class TestInput
+        */
+        public class TestInput
         {
-            public TestInput(string input, string expectedOutput)
+            public TestInput(string input, ValueContainer expectedOutput)
             {
                 Input = input;
                 ExpectedOutput = expectedOutput;
@@ -325,7 +331,7 @@ namespace Test
             public string VariableKey { get; set; }
             public ValueContainer[] ValueContainers { get; set; }
             public string Input { get; set; }
-            public string ExpectedOutput { get; set; }
+            public ValueContainer ExpectedOutput { get; set; }
             public ValueContainer.ValueType ExpectedOutputType { get; set; }
             public StorageOption StorageOption { get; set; }
 
@@ -336,7 +342,7 @@ namespace Test
         {
             Outputs,
             Variables
-        }/*
+        } /*
 
         #endregion*/
 

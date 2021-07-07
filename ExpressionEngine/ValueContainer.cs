@@ -9,7 +9,7 @@ namespace ExpressionEngine
     [JsonConverter(typeof(ValueContainerConverter))]
     public class ValueContainer : IComparable, IEquatable<ValueContainer>
     {
-        private readonly dynamic _value;
+        private readonly dynamic _value; // TODO: Consider changing this to object - CLR TYPE
         private readonly ValueType _type;
 
         public ValueContainer(string value, bool tryToParse = false)

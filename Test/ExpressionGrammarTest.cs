@@ -13,7 +13,17 @@ namespace Test
         [SetUp]
         public void SetUp()
         {
-            _dummyFunction = new DummyFunction(new ValueContainer(new Dictionary<string, ValueContainer>
+            _dummyFunction = new DummyFunction();
+
+            var functions = new List<IFunction> {_dummyFunction};
+
+            _expressionGrammar = new ExpressionGrammar(functions);
+        }
+
+        [Test]
+        public void IndicesTest()
+        {
+            _dummyFunction.ValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>
             {
                 {
                     "prop1", new ValueContainer(new Dictionary<string, ValueContainer>
@@ -26,24 +36,12 @@ namespace Test
                         }
                     })
                 }
-            }));
-
-            var functions = new List<IFunction>
-            {
-                _dummyFunction
-            };
-
-            _expressionGrammar = new ExpressionGrammar(functions);
-        }
-
-        [Test]
-        public void IndicesTest()
-        {
+            });
             const string expressionString = "@dummyFunction()['prop1'].prop2['prop3']";
 
-            var res = _expressionGrammar.EvaluateToString(expressionString);
+            var result = _expressionGrammar.EvaluateToString(expressionString);
 
-            Assert.AreEqual("value", res);
+            Assert.AreEqual("value", result);
         }
 
         [Test]
@@ -53,10 +51,10 @@ namespace Test
 
             _expressionGrammar.EvaluateToValueContainer(expressionString);
 
-            Assert.NotNull(_dummyFunction._parameters);
-            Assert.AreEqual(2, _dummyFunction._parameters.Length);
-            var param1 = _dummyFunction._parameters[0];
-            var param2 = _dummyFunction._parameters[1];
+            Assert.NotNull(_dummyFunction.Parameters);
+            Assert.AreEqual(2, _dummyFunction.Parameters.Length);
+            var param1 = _dummyFunction.Parameters[0];
+            var param2 = _dummyFunction.Parameters[1];
             Assert.NotNull(param1);
             Assert.NotNull(param2);
             Assert.AreEqual(ValueContainer.ValueType.Boolean, param1.Type());
@@ -64,26 +62,34 @@ namespace Test
             Assert.AreEqual(true, param1.GetValue<bool>());
             Assert.AreEqual(false, param2.GetValue<bool>());
         }
+
+        [Test]
+        public void NullConditional()
+        {
+            _dummyFunction.ValueContainer = new ValueContainer();
+
+            const string expressionString = "@dummyFunction()?.name1";
+
+            var result = _expressionGrammar.EvaluateToValueContainer(expressionString);
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ValueContainer.ValueType.Null, result.Type());
+        }
     }
 
     public class DummyFunction : Function
     {
-        private readonly ValueContainer _valueContainer;
-        internal ValueContainer[] _parameters;
+        internal ValueContainer ValueContainer;
+        internal ValueContainer[] Parameters;
 
         public DummyFunction() : base("dummyFunction")
         {
         }
 
-        public DummyFunction(ValueContainer valueContainer) : base("dummyFunction")
-        {
-            _valueContainer = valueContainer;
-        }
-
         public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
         {
-            _parameters = parameters;
-            return _valueContainer;
+            Parameters = parameters;
+            return ValueContainer;
         }
     }
 }
