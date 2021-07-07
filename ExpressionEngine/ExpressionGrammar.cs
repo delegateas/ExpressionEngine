@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Rules;
 using Sprache;
@@ -93,7 +94,7 @@ namespace ExpressionEngine
                 Parse.Ref(() =>
                     from func in function
                     from indexes in bracketIndices.Or(dotIndices).Many()
-                    select (IRule) new AccessValueRule(func, indexes));
+                    select indexes.Aggregate(func,(acc, next) => new AccessValueRule(acc, next)));
 
             Parser<ValueContainer> enclosedExpression =
                 _method.Contained(
