@@ -12,7 +12,7 @@ namespace ExpressionEngine
         public static void AddExpressionEngine(this IServiceCollection services)
         {
             services.AddScoped<IExpressionEngine, ExpressionEngine>();
-            services.AddSingleton<ExpressionGrammar>();
+            services.AddScoped<ExpressionGrammar>();
 
             AddStringFunctions(services);
             AddCollectionFunction(services);
