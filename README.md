@@ -18,9 +18,10 @@ ee = sp.GetRequiredService<IExpressionEngine>();
 EE can evaluate expression to a string or a ValueContainer. A ValueContainer can contain boolean, integer, float, string, object, array or null values.
 
 ```c#
-var str = ee.Parse("@{concat('Hello', ' ', 'World', '!'}"); // str = "Hello World!"
-var strVc = ee.ParseToValueContainer("@{concat('Hello', ' ', 'World', '!'}").GetValue<string>(); // str = "Hello World!"
+var str = ee.Parse("@concat('Hello', ' ', 'World', '!'"); // str = "Hello World!"
+var strVc = ee.ParseToValueContainer("@concat('Hello', ' ', 'World', '!'").GetValue<string>(); // str = "Hello World!"
 ```
+> :warning: Expressions can also be written inside strings, such as `someone@@@{toLower('DELEGATE')}.dk` will evaluate to `someone@delegate.dk`, the result using `@{<expression>}` will always evaluate to a [`ValueType.String`](https://github.com/delegateas/ExpressionEngine/blob/18e1717658b82a17a9c50fe7a2c66f988605c80e/ExpressionEngine/ValueContainer.cs#L134), whereas `@<expression>` will evaluate to the actual type.
 
 ### Extending with custom functions
 Write your function by extending the `Function` class and providing a function name:
