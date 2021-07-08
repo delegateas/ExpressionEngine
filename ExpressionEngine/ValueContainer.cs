@@ -156,7 +156,7 @@ namespace ExpressionEngine
                     throw new InvalidOperationException("Index operations can only be performed on arrays.");
                 }
 
-                return ((List<ValueContainer>) _value)[i];
+                return _value[i];
             }
             set
             {

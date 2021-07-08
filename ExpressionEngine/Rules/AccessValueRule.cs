@@ -25,7 +25,6 @@ namespace ExpressionEngine.Rules
 
             if (currentValue.Type() == ValueContainer.ValueType.Array)
             {
-                var asArray = currentValue.GetValue<ValueContainer[]>();
                 if (index.Type() != ValueContainer.ValueType.Integer)
                 {
                     throw InvalidTemplateException.BuildInvalidTemplateExceptionArray(
@@ -34,39 +33,40 @@ namespace ExpressionEngine.Rules
                         index.GetValue<string>());
                 }
 
-                var i = index.GetValue<int>();
-                if (i > asArray.Length)
+                try
+                {
+                    return currentValue[index.GetValue<int>()];
+                }
+                catch (IndexOutOfRangeException)
                 {
                     if (nullConditional)
                     {
                         return new ValueContainer();
                     }
-                    throw new IndexOutOfRangeException();
-                }
 
-                currentValue = asArray[i];
+                    throw;
+                }
             }
 
-            else if (currentValue.Type() == ValueContainer.ValueType.Object)
+            if (currentValue.Type() == ValueContainer.ValueType.Object)
             {
-                var asObject = currentValue.GetValue<Dictionary<string, ValueContainer>>();
-                var key = index.GetValue<string>();
-
-                if (asObject.ContainsKey(key))
+                try
                 {
-                    return asObject[key];
+                    return currentValue[index.GetValue<string>()];
                 }
-
+                catch (KeyNotFoundException)
+                {
                     if (nullConditional)
                     {
                         return new ValueContainer();
                     }
 
-                throw InvalidTemplateException.BuildInvalidTemplateExceptionObject(
-                    (_func as ExpressionRule)?.FunctionName,
-                    _func.PrettyPrint() + _indexRule.PrettyPrint(),
-                    index.GetValue<string>(),
-                    asObject.Keys.ToArray());
+                    throw InvalidTemplateException.BuildInvalidTemplateExceptionObject(
+                        (_func as ExpressionRule)?.FunctionName,
+                        _func.PrettyPrint() + _indexRule.PrettyPrint(),
+                        index.GetValue<string>(),
+                        currentValue.GetValue<Dictionary<string, ValueContainer>>().Keys.ToArray());
+                }
             }
 
             return currentValue;
@@ -74,7 +74,7 @@ namespace ExpressionEngine.Rules
 
         public string PrettyPrint()
         {
-            throw new NotImplementedException();
+            return $"{_func.PrettyPrint()}{_indexRule.PrettyPrint()}";
         }
     }
 }
