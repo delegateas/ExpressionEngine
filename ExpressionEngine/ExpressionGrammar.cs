@@ -61,7 +61,7 @@ namespace ExpressionEngine
                 from nll in nullConditional
                 from index in _method.Or(stringLiteral).Or(integer).Contained(lBracket, rBracket)
                 select new IndexRule(index, nll);
-            
+
             Parser<IRule> dotIndices =
                 from nll in nullConditional
                 from dot in Parse.Char('.')
@@ -71,7 +71,10 @@ namespace ExpressionEngine
                         .Or(lParenthesis)
                         .Or(rParenthesis)
                         .Or(Parse.Char('@'))
-                    ).Many().Text()
+                        .Or(Parse.Char(','))
+                        .Or(Parse.Char('.'))
+                        .Or(Parse.Char('?'))
+                ).Many().Text()
                 select new IndexRule(new StringLiteralRule(new ValueContainer(index)), nll);
 
             Parser<IRule> argument =
@@ -95,7 +98,7 @@ namespace ExpressionEngine
                 Parse.Ref(() =>
                     from func in function
                     from indexes in bracketIndices.Or(dotIndices).Many()
-                    select indexes.Aggregate(func,(acc, next) => new AccessValueRule(acc, next)));
+                    select indexes.Aggregate(func, (acc, next) => new AccessValueRule(acc, next)));
 
             Parser<ValueTask<ValueContainer>> enclosedExpression =
                 _method.Contained(
@@ -107,7 +110,7 @@ namespace ExpressionEngine
                 from at in Parse.Char('@')
                 from method in _method
                 select method.Evaluate();
-            
+
             Parser<string> allowedString =
                 from t in simpleString.Or(allowedCharacters).Many()
                 select string.Concat(t);
