@@ -1,4 +1,5 @@
-﻿using ExpressionEngine;
+﻿using System.Threading.Tasks;
+using ExpressionEngine;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
 using NUnit.Framework;
 
@@ -180,36 +181,37 @@ namespace Test.Expression
         };
 
         [Test]
-        public void GuidFunctionTest()
+        public async Task GuidFunctionTest()
         {
             var func = new GuidFunction();
 
             Assert.AreEqual("guid", func.FunctionName);
 
-            var result1 = func.ExecuteFunction();
+            var result1 = await func.ExecuteFunction();
 
             Assert.AreEqual(36, result1.GetValue<string>().Length);
 
-            var result2 = func.ExecuteFunction(new ValueContainer("N"));
+            var result2 = await func.ExecuteFunction(new ValueContainer("N"));
 
             Assert.AreEqual(32, result2.GetValue<string>().Length);
 
-            var result3 = func.ExecuteFunction(new ValueContainer("B"));
+            var result3 = await func.ExecuteFunction(new ValueContainer("B"));
 
             Assert.AreEqual(38, result3.GetValue<string>().Length);
         }
-        
+
         [Test]
-        public void SplitFunctionTest()
+        public async Task SplitFunctionTest()
         {
             var func = new SplitFunction();
 
             Assert.AreEqual("split", func.FunctionName);
 
-            var result1 = func.ExecuteFunction(new ValueContainer("This is sp a sp splitted sp string"), new ValueContainer("sp"));
+            var result1 = await func.ExecuteFunction(new ValueContainer("This is sp a sp splitted sp string"),
+                new ValueContainer("sp"));
 
             var array = result1.GetValue<ValueContainer[]>();
-            
+
             Assert.AreEqual(5, array.Length);
 
             Assert.AreEqual("This is ", array[0].GetValue<string>());

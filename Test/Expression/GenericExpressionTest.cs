@@ -1,4 +1,5 @@
-﻿using ExpressionEngine;
+﻿using System.Threading.Tasks;
+using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using NUnit.Framework;
 
@@ -12,10 +13,10 @@ namespace Test.Expression
         [TestCaseSource(typeof(LogicalFunctionTest), nameof(LogicalFunctionTest.LogicalFunctionTestInput))]
         [TestCaseSource(typeof(ConversionFunctionTest), nameof(ConversionFunctionTest.ConversionFunctionTestInput))]
         [TestCaseSource(typeof(MathFunctionTests), nameof(MathFunctionTests.MathFunctionTestInput))]
-        public void TestFunction(Function func, string name,
+        public async Task TestFunction(Function func, string name,
             ValueContainer[] parameters, ValueContainer expected)
         {
-            var result = func.ExecuteFunction(parameters);
+            var result = await func.ExecuteFunction(parameters);
 
             Assert.AreEqual(name, func.FunctionName);
             Assert.AreEqual(expected, result);

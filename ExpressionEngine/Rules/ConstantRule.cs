@@ -1,4 +1,6 @@
-﻿namespace ExpressionEngine.Rules
+﻿using System.Threading.Tasks;
+
+namespace ExpressionEngine.Rules
 {
     public class ConstantRule : IRule
     {
@@ -9,9 +11,9 @@
             _content = content;
         }
 
-        public ValueContainer Evaluate()
+        public ValueTask<ValueContainer> Evaluate()
         {
-            return _content;
+            return new ValueTask<ValueContainer>(_content);
         }
 
         public string PrettyPrint()

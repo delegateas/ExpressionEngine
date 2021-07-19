@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -112,20 +113,6 @@ namespace ExpressionEngine
             _value = null;
         }
 
-        public ValueContainer(JToken json, IExpressionEngine expressionEngine = null)
-        {
-            if (json == null)
-            {
-                _type = ValueType.Null;
-                _value = null;
-                return;
-            }
-
-            var v = JsonToValueContainer(json, expressionEngine);
-            _type = v._type;
-            _value = v._value;
-        }
-
         public ValueType Type()
         {
             return _type;
@@ -156,7 +143,7 @@ namespace ExpressionEngine
                     throw new InvalidOperationException("Index operations can only be performed on arrays.");
                 }
 
-                return ((List<ValueContainer>) _value)[i];
+                return _value[i];
             }
             set
             {
@@ -228,94 +215,6 @@ namespace ExpressionEngine
 
             throw new PowerAutomateMockUpException("Can't get none object value container as dict.");
         }
-
-        private ValueContainer JsonToValueContainer(JToken json, IExpressionEngine expressionEngine)
-        {
-            switch (json)
-            {
-                case JObject _:
-                {
-                    var dictionary = json.ToDictionary(pair => ((JProperty) pair).Name, token =>
-                    {
-                        if (token.Children().Count() != 1)
-                            return JsonToValueContainer(token.Children().First(), expressionEngine);
-
-                        var t = token.First;
-                        return t.Type switch
-                        {
-                            JTokenType.String => expressionEngine?.ParseToValueContainer(t.Value<string>()) ??
-                                                 new ValueContainer(t.Value<string>()),
-                            JTokenType.Boolean => new ValueContainer(t.Value<bool>()),
-                            JTokenType.Integer => new ValueContainer(t.Value<int>()),
-                            JTokenType.Float => new ValueContainer(t.Value<float>()),
-                            _ => JsonToValueContainer(token.Children().First(), expressionEngine)
-                        };
-                    });
-
-                    return new ValueContainer(dictionary);
-                }
-                case JArray jArray:
-                    return jArray.Count > 0 ? new ValueContainer() : JArrayToValueContainer(jArray);
-                case JValue jValue:
-                    if (jValue.HasValues)
-                    {
-                        throw new PowerAutomateMockUpException(
-                            "When parsing JToken to ValueContainer, the JToken as JValue can only contain one value.");
-                    }
-
-                    return jValue.Type switch
-                    {
-                        JTokenType.Boolean => new ValueContainer(jValue.Value<bool>()),
-                        JTokenType.Integer => new ValueContainer(jValue.Value<int>()),
-                        JTokenType.Float => new ValueContainer(jValue.Value<float>()),
-                        JTokenType.Null => new ValueContainer(),
-                        JTokenType.String => expressionEngine?.ParseToValueContainer(jValue.Value<string>()) ??
-                                             new ValueContainer(jValue.Value<string>()),
-                        JTokenType.None => new ValueContainer(),
-                        JTokenType.Guid => new ValueContainer(jValue.Value<Guid>().ToString()),
-                        _ => throw new PowerAutomateMockUpException(
-                            $"{jValue.Type} is not yet supported in ValueContainer conversion")
-                    };
-                default:
-                    throw new PowerAutomateMockUpException("Could not parse JToken to ValueContainer.");
-            }
-        }
-
-        private ValueContainer JArrayToValueContainer(JArray json)
-        {
-            var list = new List<ValueContainer>();
-
-            foreach (var jToken in json)
-            {
-                if (jToken.GetType() != typeof(JValue))
-                {
-                    throw new PowerAutomateMockUpException("Json can only contain arrays of primitive types.");
-                }
-
-                var t = (JValue) jToken;
-                switch (t.Value)
-                {
-                    case int i:
-                        list.Add(new ValueContainer(i));
-                        break;
-                    case string s:
-                        list.Add(new ValueContainer(s));
-                        break;
-                    case bool b:
-                        list.Add(new ValueContainer(b));
-                        break;
-                    case double d:
-                        list.Add(new ValueContainer(d));
-                        break;
-                    default:
-                        throw new PowerAutomateMockUpException(
-                            $"Type {t.Value.GetType()} is not recognized when converting Json to ValueContainer.");
-                }
-            }
-
-            return new ValueContainer(list);
-        }
-
 
         public override string ToString()
         {
@@ -451,7 +350,124 @@ namespace ExpressionEngine
                 }
             }
 
-            return current.ContainsKey(keys[keys.Length-1]);
+            return current.ContainsKey(keys[keys.Length - 1]);
+        }
+    }
+
+    public static class ValueContainerExtension
+    {
+        public static async ValueTask<ValueContainer> CreateValueContainerFromJToken(JToken json,
+            IExpressionEngine expressionEngine = null)
+        {
+            if (json == null)
+            {
+                return new ValueContainer();
+            }
+
+            var v = await JsonToValueContainer(json, expressionEngine);
+            return v;
+        }
+
+        private static async ValueTask<ValueContainer> JsonToValueContainer(JToken json, IExpressionEngine expressionEngine)
+        {
+            switch (json)
+            {
+                case JObject _:
+                {
+                    var dictionary = json.ToDictionary(pair => ((JProperty) pair).Name, async token =>
+                    {
+                        if (token.Children().Count() != 1)
+                        {
+                            var t1 = await JsonToValueContainer(token.Children().First(), expressionEngine);
+                            return t1;
+                        }
+
+                        var t = token.First;
+                        var result = t.Type switch
+                        {
+                            JTokenType.String when expressionEngine != null => expressionEngine.ParseToValueContainer(
+                                t.Value<string>()),
+                            JTokenType.String => new ValueTask<ValueContainer>(new ValueContainer(t.Value<string>())),
+                            JTokenType.Boolean => new ValueTask<ValueContainer>(new ValueContainer(t.Value<bool>())),
+                            JTokenType.Integer => new ValueTask<ValueContainer>(new ValueContainer(t.Value<int>())),
+                            JTokenType.Float => new ValueTask<ValueContainer>(new ValueContainer(t.Value<float>())),
+                            _ => JsonToValueContainer(token.Children().First(), expressionEngine)
+                        };
+
+                        return new ValueContainer(await result);
+                    });
+
+                    var pairs = await Task.WhenAll
+                    (
+                        dictionary.Select
+                        (
+                            async pair => new {pair.Key, Value = await pair.Value}
+                        )
+                    );
+
+                    return new ValueContainer(pairs.ToDictionary(pair => pair.Key, pair => pair.Value));
+                }
+                case JArray jArray:
+                    return jArray.Count > 0 ? new ValueContainer() : JArrayToValueContainer(jArray);
+                case JValue jValue:
+                    if (jValue.HasValues)
+                    {
+                        throw new PowerAutomateMockUpException(
+                            "When parsing JToken to ValueContainer, the JToken as JValue can only contain one value.");
+                    }
+
+                    return jValue.Type switch
+                    {
+                        JTokenType.Boolean => new ValueContainer(jValue.Value<bool>()),
+                        JTokenType.Integer => new ValueContainer(jValue.Value<int>()),
+                        JTokenType.Float => new ValueContainer(jValue.Value<float>()),
+                        JTokenType.Null => new ValueContainer(),
+                        JTokenType.String when expressionEngine != null => await expressionEngine.ParseToValueContainer(
+                            jValue.Value<string>()),
+                        JTokenType.String => new ValueContainer(jValue.Value<string>()),
+                        JTokenType.None => new ValueContainer(),
+                        JTokenType.Guid => new ValueContainer(jValue.Value<Guid>().ToString()),
+                        _ => throw new PowerAutomateMockUpException(
+                            $"{jValue.Type} is not yet supported in ValueContainer conversion")
+                    };
+                default:
+                    throw new PowerAutomateMockUpException("Could not parse JToken to ValueContainer.");
+            }
+        }
+
+        private static ValueContainer JArrayToValueContainer(JArray json)
+        {
+            var list = new List<ValueContainer>();
+
+            foreach (var jToken in json)
+            {
+                if (jToken.GetType() != typeof(JValue))
+                {
+                    throw new PowerAutomateMockUpException("Json can only contain arrays of primitive types.");
+                }
+
+                var t = (JValue) jToken;
+                switch (t.Value)
+                {
+                    case int i:
+                        list.Add(new ValueContainer(i));
+                        break;
+                    case string s:
+                        list.Add(new ValueContainer(s));
+                        break;
+                    case bool b:
+                        list.Add(new ValueContainer(b));
+                        break;
+                    case double d:
+                        list.Add(new ValueContainer(d));
+                        break;
+                    default:
+                        throw new PowerAutomateMockUpException(
+                            $"Type {t.Value.GetType()} is not recognized when converting Json to ValueContainer.");
+                }
+            }
+
+            return new ValueContainer(list);
         }
     }
 

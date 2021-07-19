@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Rules;
 using Sprache;
@@ -9,7 +11,7 @@ namespace ExpressionEngine
     public class ExpressionGrammar
     {
         private readonly Parser<IRule> _method;
-        private readonly Parser<ValueContainer> _input;
+        private readonly Parser<ValueTask<ValueContainer>> _input;
 
         public ExpressionGrammar(IEnumerable<IFunction> functions)
         {
@@ -93,15 +95,15 @@ namespace ExpressionEngine
                 Parse.Ref(() =>
                     from func in function
                     from indexes in bracketIndices.Or(dotIndices).Many()
-                    select (IRule) new AccessValueRule(func, indexes));
+                    select indexes.Aggregate(func,(acc, next) => new AccessValueRule(acc, next)));
 
-            Parser<ValueContainer> enclosedExpression =
+            Parser<ValueTask<ValueContainer>> enclosedExpression =
                 _method.Contained(
                         Parse.String("@{"),
                         Parse.Char('}'))
                     .Select(x => x.Evaluate());
 
-            Parser<ValueContainer> expression =
+            Parser<ValueTask<ValueContainer>> expression =
                 from at in Parse.Char('@')
                 from method in _method
                 select method.Evaluate();
@@ -110,32 +112,32 @@ namespace ExpressionEngine
                 from t in simpleString.Or(allowedCharacters).Many()
                 select string.Concat(t);
 
-            Parser<ValueContainer> joinedString =
+            Parser<ValueTask<ValueContainer>> joinedString =
                 from e in (
                         from preFix in allowedString
                         from exp in enclosedExpression.Optional()
                         select exp.IsEmpty ? preFix : preFix + exp.Get())
                     .Many()
-                select new ValueContainer(string.Concat(e));
+                select new ValueTask<ValueContainer>(new ValueContainer(string.Concat(e)));
 
-            Parser<ValueContainer> charPrefixedString =
+            Parser<ValueTask<ValueContainer>> charPrefixedString =
                 from at in Parse.Char('@')
                 from str in Parse.LetterOrDigit.Many().Text().Except(Parse.Chars('{', '@'))
-                select new ValueContainer(str);
+                select new ValueTask<ValueContainer>(new ValueContainer(str));
 
             _input = expression.Or(charPrefixedString).Or(joinedString);
         }
 
-        public string EvaluateToString(string input)
+        public async ValueTask<string> EvaluateToString(string input)
         {
-            var output = _input.Parse(input);
+            var output = await _input.Parse(input);
 
             return output.GetValue<string>();
         }
 
-        public ValueContainer EvaluateToValueContainer(string input)
+        public async ValueTask<ValueContainer> EvaluateToValueContainer(string input)
         {
-            return _input.Parse(input);
+            return await _input.Parse(input);
         }
     }
 }

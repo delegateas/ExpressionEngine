@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
@@ -9,14 +10,14 @@ namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 1)
             {
                 throw new ArgumentError("Too few arguments");
             }
             
-            return new ValueContainer(!parameters[0].GetValue<bool>());
+            return new ValueTask<ValueContainer>(new ValueContainer(!parameters[0].GetValue<bool>()));
         }
     }
 }

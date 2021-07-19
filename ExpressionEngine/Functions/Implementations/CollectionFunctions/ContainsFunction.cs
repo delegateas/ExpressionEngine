@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
@@ -11,7 +12,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             var collection = parameters[0];
             var value = parameters[1];
@@ -28,20 +29,20 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                         case ValueContainer.ValueType.String:
                         case ValueContainer.ValueType.Boolean:
                         case ValueContainer.ValueType.Null:
-                            return new ValueContainer(array.Contains(value));
+                            return new ValueTask<ValueContainer>(new ValueContainer(array.Contains(value)));
                         case ValueContainer.ValueType.Array:
                         case ValueContainer.ValueType.Object:
-                            return new ValueContainer(false);
+                            return new ValueTask<ValueContainer>(new ValueContainer(false));
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                 case ValueContainer.ValueType.Object:
                     var key = value.GetValue<string>();
-                    return new ValueContainer(collection.AsDict().ContainsKey(key));
+                    return new ValueTask<ValueContainer>(new ValueContainer(collection.AsDict().ContainsKey(key)));
                 case ValueContainer.ValueType.String:
                     var text = collection.GetValue<string>();
                     var substring = value.GetValue<string>();
-                    return new ValueContainer(text.Contains(substring));
+                    return new ValueTask<ValueContainer>(new ValueContainer(text.Contains(substring)));
                 default:
                     throw new PowerAutomateMockUpException($"Cannot perform contains on {collection.Type()}.");
             }

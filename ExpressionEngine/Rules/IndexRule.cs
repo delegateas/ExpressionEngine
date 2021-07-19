@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ExpressionEngine.Rules
 {
@@ -13,12 +14,12 @@ namespace ExpressionEngine.Rules
             _nullConditional = nullConditional;
         }
 
-        public ValueContainer Evaluate()
+        public async ValueTask<ValueContainer> Evaluate()
         {
             var indexContent = new Dictionary<string, ValueContainer>
             {
                 {"nullConditional", new ValueContainer(_nullConditional)},
-                {"index", _index.Evaluate()}
+                {"index", await _index.Evaluate()}
             };
 
             return new ValueContainer(indexContent);

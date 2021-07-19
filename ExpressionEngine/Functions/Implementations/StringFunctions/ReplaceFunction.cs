@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
@@ -9,7 +10,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 3)
             {
@@ -20,7 +21,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             var oldStr = AuxiliaryMethods.VcIsString(parameters[1]);
             var newStr = AuxiliaryMethods.VcIsString(parameters[2]);
 
-            return new ValueContainer(text.Replace(oldStr, newStr));
+            return new ValueTask<ValueContainer>(new ValueContainer(text.Replace(oldStr, newStr)));
         }
     }
 }

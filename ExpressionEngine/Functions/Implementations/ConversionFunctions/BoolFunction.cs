@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
@@ -8,7 +9,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             switch (parameters[0].Type())
             {
@@ -16,21 +17,21 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                     switch (parameters[0].GetValue<string>())
                     {
                         case "true":
-                            return new ValueContainer(true);
+                            return new ValueTask<ValueContainer>(new ValueContainer(true));
                         case "false":
-                            return new ValueContainer(false);
+                            return new ValueTask<ValueContainer>(new ValueContainer(false));
                         default:
                             throw new PowerAutomateMockUpException(
                                 $"Can only convert 'true' or 'false' to bool, not {parameters[0].GetValue<string>()}.");
                     }
                 case ValueContainer.ValueType.Integer:
                     var intValue = parameters[0].GetValue<int>();
-                    return new ValueContainer(intValue > 0 || intValue < 0);
+                    return new ValueTask<ValueContainer>(new ValueContainer(intValue > 0 || intValue < 0));
                 case ValueContainer.ValueType.Float:
                     var doubleValue = parameters[0].GetValue<double>();
-                    return new ValueContainer(doubleValue > 0 || doubleValue < 0);
+                    return new ValueTask<ValueContainer>(new ValueContainer(doubleValue > 0 || doubleValue < 0));
                 case ValueContainer.ValueType.Boolean:
-                    return parameters[0];
+                    return new ValueTask<ValueContainer>(parameters[0]);
                 default:
                     throw new PowerAutomateMockUpException(
                         $"Array function can only operate on strings, not {parameters[0].Type()}.");
