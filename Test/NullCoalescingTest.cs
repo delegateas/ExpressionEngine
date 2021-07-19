@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
-using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using NUnit.Framework;
 
 namespace Test
@@ -318,7 +316,7 @@ namespace Test
 
         #endregion
 
-        private static void AddValuesToState(string key, ValueContainer[] values, StorageOption storageOption,
+        private static void AddValuesToState(string key, IReadOnlyList<ValueContainer> values, StorageOption storageOption,
             VariablesFunction state)
         {
             if (values == null)
@@ -329,13 +327,13 @@ namespace Test
             switch (storageOption)
             {
                 case StorageOption.Outputs:
-                    if (values.Length == 1)
+                    if (values.Count == 1)
                         state.AddValueContainer(key, values[0]);
                     else
                         state.AddValueContainer(key, values);
                     break;
                 case StorageOption.Variables:
-                    if (values.Length == 1)
+                    if (values.Count == 1)
                         state.AddValueContainer(key, values[0]);
                     else
                         state.AddValueContainer(key, values);
@@ -349,7 +347,7 @@ namespace Test
     public class VariablesFunction : Function
     {
         public ValueContainer DefaultValueContainer { get; set; }
-        private ValueContainer _indexedValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>());
+        private readonly ValueContainer _indexedValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>());
 
 
         public VariablesFunction() : base("variables")
@@ -372,7 +370,7 @@ namespace Test
             _indexedValueContainer[key] = valueContainer;
         }
 
-        public void AddValueContainer(string key, ValueContainer[] valueContainer)
+        public void AddValueContainer(string key, IEnumerable<ValueContainer> valueContainer)
         {
             _indexedValueContainer[key] = new ValueContainer(valueContainer);
         }
