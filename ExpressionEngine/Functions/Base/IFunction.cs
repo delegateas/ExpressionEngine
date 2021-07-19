@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace ExpressionEngine.Functions.Base
 {
     public interface IFunction
     {
         string FunctionName { get; }
-        ValueContainer ExecuteFunction(ValueContainer[] strings);
+        ValueTask<ValueContainer> ExecuteFunction(ValueContainer[] strings);
     }
 
     public abstract class Function : IFunction
@@ -17,6 +18,6 @@ namespace ExpressionEngine.Functions.Base
             FunctionName = functionName ?? throw new ArgumentNullException(nameof(functionName));
         }
 
-        public abstract ValueContainer ExecuteFunction(params ValueContainer[] parameters);
+        public abstract ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters);
     }
 }

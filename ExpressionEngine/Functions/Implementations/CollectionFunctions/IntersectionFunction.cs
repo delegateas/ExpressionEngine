@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
@@ -10,7 +11,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters[0].Type() switch
             {
@@ -21,11 +22,11 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
             };
         }
 
-        private ValueContainer IntersectDict(IReadOnlyList<ValueContainer> parameters)
+        private ValueTask<ValueContainer> IntersectDict(IReadOnlyList<ValueContainer> parameters)
         {
             var first = parameters[0].GetValue<Dictionary<string, ValueContainer>>();
 
-            return new ValueContainer(parameters.Skip(1).Aggregate(first, ToDictionary));
+            return new ValueTask<ValueContainer>(new ValueContainer(parameters.Skip(1).Aggregate(first, ToDictionary)));
         }
 
         private Dictionary<string, ValueContainer> ToDictionary(Dictionary<string, ValueContainer> first,
@@ -37,7 +38,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                 .ToDictionary(x => x.Key, x => second[x.Key]);
         }
 
-        private ValueContainer IntersectList(IReadOnlyList<ValueContainer> parameters)
+        private ValueTask<ValueContainer> IntersectList(IReadOnlyList<ValueContainer> parameters)
         {
             var first = parameters[0].GetValue<IEnumerable<ValueContainer>>();
 
@@ -45,7 +46,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                 .Select(valueContainer => valueContainer.GetValue<IEnumerable<ValueContainer>>())
                 .Aggregate(first, (current, collection) => current.Intersect(collection));
 
-            return new ValueContainer(intersection);
+            return new ValueTask<ValueContainer>(new ValueContainer(intersection));
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic;
 using NUnit.Framework;
 
 namespace Test
@@ -31,14 +33,14 @@ namespace Test
         #region TriggerOutputs
 
         [TestCaseSource(nameof(_triggerOutputTest))]
-        public void TestTriggerOutputs(TestInput testInput)
+        public async Task TestTriggerOutputs(TestInput testInput)
         {
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
             var variablesFunction = sp.GetRequiredService<VariablesFunction>();
             variablesFunction.DefaultValueContainer = testInput.ValueContainers.First();
 
-            var result = engine.ParseToValueContainer(testInput.Input);
+            var result = await engine.ParseToValueContainer(testInput.Input);
 
             Assert.AreEqual(testInput.ExpectedOutput, result);
         }
@@ -113,7 +115,7 @@ namespace Test
         };
 
         #endregion
-        
+
         #region ErrorHandlingTest
 
         [TestCaseSource(nameof(_simpleCasesExceptions))]
@@ -124,8 +126,8 @@ namespace Test
             var variablesFunction = sp.GetRequiredService<VariablesFunction>();
             variablesFunction.DefaultValueContainer = testInput.ValueContainers.First();
 
-            var exception = Assert.Throws(Is.InstanceOf(testInput.ExceptionType),
-                () => { engine.Parse(testInput.Input); });
+            var exception = Assert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
+                async () => { await engine.Parse(testInput.Input); });
 
             Assert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
         }
@@ -159,7 +161,7 @@ namespace Test
         #region TestStorage
 
         [TestCaseSource(nameof(_testStorage))]
-        public void TestInternalsFlowStorage(TestInput input)
+        public async Task TestInternalsFlowStorage(TestInput input)
         {
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
@@ -167,7 +169,7 @@ namespace Test
 
             AddValuesToState(input.VariableKey, input.ValueContainers, input.StorageOption, state);
 
-            var result = engine.ParseToValueContainer(input.Input);
+            var result = await engine.ParseToValueContainer(input.Input);
 
             Assert.AreEqual(input.ExpectedOutput, result);
         }
@@ -225,7 +227,7 @@ namespace Test
         };
 
         [TestCaseSource(nameof(_testStorageValueContainer))]
-        public void TestInternalsFlowStorageValueContainer(TestInput input)
+        public async Task TestInternalsFlowStorageValueContainer(TestInput input)
         {
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
@@ -233,7 +235,7 @@ namespace Test
 
             AddValuesToState(input.VariableKey, input.ValueContainers, input.StorageOption, state);
 
-            var result = engine.ParseToValueContainer(input.Input);
+            var result = await engine.ParseToValueContainer(input.Input);
 
             Assert.AreEqual(input.ExpectedOutputType, result.Type());
         }
@@ -354,11 +356,12 @@ namespace Test
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters?.Length switch
             {
                 null => DefaultValueContainer,
+                0 => DefaultValueContainer,
                 1 => _indexedValueContainer[parameters.First().GetValue<string>()],
                 _ => new ValueContainer()
             };

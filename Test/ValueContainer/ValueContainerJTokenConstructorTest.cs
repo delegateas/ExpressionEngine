@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -9,11 +10,11 @@ namespace Test
     public class ValueContainerJTokenConstructorTest
     {
         [TestCaseSource(nameof(_valueContainerConstructorInput))]
-        public void ConstructorTest(JToken jToken, ValueContainer.ValueType expectedValueType,
+        public async Task ConstructorTest(JToken jToken, ValueContainer.ValueType expectedValueType,
             ValueContainer expectedValue)
         {
-            var valueContainer = new ValueContainer(jToken);
-
+            var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(jToken);
+            
             Assert.AreEqual(expectedValueType, valueContainer.Type());
             Assert.AreEqual(expectedValue, valueContainer);
         }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
@@ -11,7 +13,7 @@ namespace ExpressionEngine.Rules
         private readonly IEnumerable<IRule> _args;
         public string FunctionName { get; }
 
-        
+
         public ExpressionRule(IEnumerable<IFunction> functions, string functionName, IEnumerable<IRule> args)
         {
             _function = functions.ToList().Find(x => x.FunctionName == functionName);
@@ -25,11 +27,14 @@ namespace ExpressionEngine.Rules
             FunctionName = functionName;
         }
 
-        public ValueContainer Evaluate()
+        public async ValueTask<ValueContainer> Evaluate()
         {
-            var strings = _args?.Select(rule => rule.Evaluate()).ToArray();
+            // var strings = _args?.Select(async rule => await rule.Evaluate()).Select(x => x.Result).ToArray();
+            var strings = await Task.WhenAll(_args?.Select(async rule => await rule.Evaluate()) ??
+                                             Array.Empty<Task<ValueContainer>>());
 
-            return _function.ExecuteFunction(strings);
+
+            return await _function.ExecuteFunction(strings);
         }
 
         public string PrettyPrint()

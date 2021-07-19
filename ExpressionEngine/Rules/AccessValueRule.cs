@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Rules
@@ -16,10 +17,10 @@ namespace ExpressionEngine.Rules
             _indexRule = indexRule;
         }
 
-        public ValueContainer Evaluate()
+        public async ValueTask<ValueContainer> Evaluate()
         {
-            var currentValue = _func.Evaluate();
-            var indexRuleVc = _indexRule.Evaluate();
+            var currentValue = await _func.Evaluate();
+            var indexRuleVc = await _indexRule.Evaluate();
             var index = indexRuleVc["index"];
             var nullConditional = indexRuleVc["nullConditional"].GetValue<bool>();
 

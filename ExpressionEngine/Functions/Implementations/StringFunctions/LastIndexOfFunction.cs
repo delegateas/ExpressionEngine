@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
@@ -10,7 +11,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -30,13 +31,13 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
                  */
                 if (string.IsNullOrEmpty(AuxiliaryMethods.VcIsString(parameters[0])))
                 {
-                    return new ValueContainer(0);
+                    return new ValueTask<ValueContainer>(new ValueContainer(0));
                 }
-                return new ValueContainer(AuxiliaryMethods.VcIsString(parameters[0]).Length-1);
+                return new ValueTask<ValueContainer>(new ValueContainer(AuxiliaryMethods.VcIsString(parameters[0]).Length-1));
             }
     
-            return new ValueContainer(AuxiliaryMethods.VcIsString(parameters[0])
-                .LastIndexOf(AuxiliaryMethods.VcIsString(parameters[1]), StringComparison.OrdinalIgnoreCase));
+            return new ValueTask<ValueContainer>(new ValueContainer(AuxiliaryMethods.VcIsString(parameters[0])
+                .LastIndexOf(AuxiliaryMethods.VcIsString(parameters[1]), StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

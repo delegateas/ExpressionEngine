@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +27,8 @@ namespace Test
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
 
-            var exception = Assert.Throws(Is.InstanceOf(testInput.ExceptionType),
-                () => { engine.Parse(testInput.Input); });
+            var exception = Assert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
+                async () => { await engine.Parse(testInput.Input); });
 
             Assert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
         }
@@ -57,12 +58,12 @@ namespace Test
         #region SimpleCases
 
         [TestCaseSource(nameof(_simpleCases))]
-        public void TestSimpleInput(TestInput testInput)
+        public async Task TestSimpleInput(TestInput testInput)
         {
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
 
-            var result = engine.ParseToValueContainer(testInput.Input);
+            var result = await engine.ParseToValueContainer(testInput.Input);
 
             Assert.AreEqual(testInput.ExpectedOutput, result);
         }

@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
@@ -9,7 +10,7 @@ namespace ExpressionEngine.Functions.Math
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {
@@ -19,7 +20,7 @@ namespace ExpressionEngine.Functions.Math
             var first = parameters[0].GetValue<float>();
             var second = parameters[1].GetValue<float>();
 
-            return new ValueContainer(first + second);
+            return new ValueTask<ValueContainer>(new ValueContainer(first + second));
         }
     }
 }

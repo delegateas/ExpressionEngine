@@ -1,4 +1,6 @@
-﻿namespace ExpressionEngine.Rules
+﻿using System.Threading.Tasks;
+
+namespace ExpressionEngine.Rules
 {
     public class ArgumentRule : IRule
     {
@@ -9,9 +11,9 @@
             _argument = argument;
         }
 
-        public ValueContainer Evaluate()
+        public ValueTask<ValueContainer> Evaluate()
         {
-            return _argument;
+            return new ValueTask<ValueContainer>(_argument);
         }
 
         public string PrettyPrint()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace Test
         }
 
         [Test]
-        public void IndicesTest()
+        public async Task IndicesTest()
         {
             _dummyFunction.ValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>
             {
@@ -40,17 +41,17 @@ namespace Test
             });
             const string expressionString = "@dummyFunction()['prop1'].prop2['prop3']";
 
-            var result = _expressionGrammar.EvaluateToString(expressionString);
+            var result = await _expressionGrammar.EvaluateToString(expressionString);
 
             Assert.AreEqual("value", result);
         }
 
         [Test]
-        public void BooleanTest()
+        public async Task BooleanTest()
         {
             const string expressionString = "@dummyFunction(true, false)";
 
-            _expressionGrammar.EvaluateToValueContainer(expressionString);
+            await _expressionGrammar.EvaluateToValueContainer(expressionString);
 
             Assert.NotNull(_dummyFunction.Parameters);
             Assert.AreEqual(2, _dummyFunction.Parameters.Length);
@@ -65,13 +66,13 @@ namespace Test
         }
 
         [Test]
-        public void NullConditional()
+        public async Task NullConditional()
         {
             _dummyFunction.ValueContainer = new ValueContainer();
 
             const string expressionString = "@dummyFunction()?.name1";
 
-            var result = _expressionGrammar.EvaluateToValueContainer(expressionString);
+            var result = await _expressionGrammar.EvaluateToValueContainer(expressionString);
 
             Assert.NotNull(result);
             Assert.AreEqual(ValueContainer.ValueType.Null, result.Type());
@@ -87,10 +88,10 @@ namespace Test
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             Parameters = parameters;
-            return ValueContainer;
+            return new ValueTask<ValueContainer>(ValueContainer);
         }
     }
 }
