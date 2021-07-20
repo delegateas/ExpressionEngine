@@ -213,7 +213,7 @@ namespace ExpressionEngine
                 return GetValue<Dictionary<string, ValueContainer>>();
             }
 
-            throw new PowerAutomateMockUpException("Can't get none object value container as dict.");
+            throw new ExpressionEngineException("Can't get none object value container as dict.");
         }
 
         public override string ToString()
@@ -412,7 +412,7 @@ namespace ExpressionEngine
                 case JValue jValue:
                     if (jValue.HasValues)
                     {
-                        throw new PowerAutomateMockUpException(
+                        throw new ExpressionEngineException(
                             "When parsing JToken to ValueContainer, the JToken as JValue can only contain one value.");
                     }
 
@@ -427,11 +427,11 @@ namespace ExpressionEngine
                         JTokenType.String => new ValueContainer(jValue.Value<string>()),
                         JTokenType.None => new ValueContainer(),
                         JTokenType.Guid => new ValueContainer(jValue.Value<Guid>().ToString()),
-                        _ => throw new PowerAutomateMockUpException(
+                        _ => throw new ExpressionEngineException(
                             $"{jValue.Type} is not yet supported in ValueContainer conversion")
                     };
                 default:
-                    throw new PowerAutomateMockUpException("Could not parse JToken to ValueContainer.");
+                    throw new ExpressionEngineException("Could not parse JToken to ValueContainer.");
             }
         }
 
@@ -443,7 +443,7 @@ namespace ExpressionEngine
             {
                 if (jToken.GetType() != typeof(JValue))
                 {
-                    throw new PowerAutomateMockUpException("Json can only contain arrays of primitive types.");
+                    throw new ExpressionEngineException("Json can only contain arrays of primitive types.");
                 }
 
                 var t = (JValue) jToken;
@@ -462,7 +462,7 @@ namespace ExpressionEngine
                         list.Add(new ValueContainer(d));
                         break;
                     default:
-                        throw new PowerAutomateMockUpException(
+                        throw new ExpressionEngineException(
                             $"Type {t.Value.GetType()} is not recognized when converting Json to ValueContainer.");
                 }
             }

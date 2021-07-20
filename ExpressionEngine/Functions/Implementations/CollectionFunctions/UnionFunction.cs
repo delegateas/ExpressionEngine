@@ -17,7 +17,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
             {
                 ValueContainer.ValueType.Array => UnionList(parameters),
                 ValueContainer.ValueType.Object => UnionDict(parameters),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Can only union Array and Object, not {parameters[0].Type()}.")
             };
         }

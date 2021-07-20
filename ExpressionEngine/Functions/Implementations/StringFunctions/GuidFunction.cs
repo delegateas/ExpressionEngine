@@ -24,7 +24,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             var format = AuxiliaryMethods.VcIsString(parameters[0]);
             if (!new[] {"n", "d", "b", "p", "x"}.Contains(format.ToLower()))
             {
-                throw new PowerAutomateMockUpException($"The given format, {format}, is not recognized.");
+                throw new ExpressionEngineException($"The given format, {format}, is not recognized.");
             }
 
             return new ValueTask<ValueContainer>(new ValueContainer(Guid.NewGuid().ToString(format.ToUpper())));

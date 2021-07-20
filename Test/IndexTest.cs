@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
@@ -93,6 +92,55 @@ namespace Test
             Assert.AreEqual(ValueContainer.ValueType.Boolean, output.Type());
             Assert.AreEqual(true, output.GetValue<bool>());
         }
+        
+        
+        [Test]
+        public async Task Test5()
+        {
+            const string str = "@variables().account";
+            var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
+             
+            var output = await ee.ParseToValueContainer(str);
+        
+            Assert.AreEqual(ValueContainer.ValueType.Object, output.Type());
+            Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+        }
 
+        [Test]
+        public async Task Test6()
+        {
+            const string str = "@{variables().account.name}";
+            var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
+            
+            var output = await ee.ParseToValueContainer(str);
+        
+            Assert.AreEqual(ValueContainer.ValueType.String, output.Type());
+            Assert.AreEqual("John Doe", output.GetValue<string>());
+        }
+        
+        [Test]
+        public async Task Test7()
+        {
+            const string str = "@variables()['account']";
+            var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
+            
+            var output = await ee.ParseToValueContainer(str);
+        
+            Assert.AreEqual(ValueContainer.ValueType.Object, output.Type());
+            Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+        }
+        
+                
+        [Test]
+        public async Task Test8()
+        {
+            const string str = "@{variables()['account']['name']}";
+            var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
+            
+            var output = await ee.ParseToValueContainer(str);
+        
+            Assert.AreEqual(ValueContainer.ValueType.String, output.Type());
+            Assert.AreEqual("John Doe", output.GetValue<string>());
+        }
     }
 }

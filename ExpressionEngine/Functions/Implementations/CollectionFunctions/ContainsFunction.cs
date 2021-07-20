@@ -44,7 +44,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                     var substring = value.GetValue<string>();
                     return new ValueTask<ValueContainer>(new ValueContainer(text.Contains(substring)));
                 default:
-                    throw new PowerAutomateMockUpException($"Cannot perform contains on {collection.Type()}.");
+                    throw new ExpressionEngineException($"Cannot perform contains on {collection.Type()}.");
             }
         }
     }
