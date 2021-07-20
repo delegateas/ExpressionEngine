@@ -15,7 +15,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
             {
                 ValueContainer.ValueType.String => new ValueTask<ValueContainer>(
                     new ValueContainer(new[] {parameters[0]})),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Array function can only operate on strings, not {parameters[0].Type()}.")
             };
         }

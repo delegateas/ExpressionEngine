@@ -21,7 +21,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                     value.GetValue<string>().ToCharArray().Last().ToString())),
                 ValueContainer.ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<IEnumerable<ValueContainer>>().Last())),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Empty expression can only operate on String or Array types, not {value.Type()}.")
             };
         }

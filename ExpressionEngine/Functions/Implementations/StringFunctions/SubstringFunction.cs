@@ -27,7 +27,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
 
             if (startIndex + length > str.Length)
             {
-                throw new PowerAutomateMockUpException(
+                throw new ExpressionEngineException(
                     "The template language function 'substring' parameters are out of range: 'start index' " +
                     "and 'length' must be non-negative integers and their sum must be no larger than the length of " +
                     "the string.");

@@ -24,7 +24,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
                 ValueContainer.ValueType.Object => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<Dictionary<string, ValueContainer>>().Count == 0)),
                 ValueContainer.ValueType.Null => new ValueTask<ValueContainer>(new ValueContainer(true)),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Empty expression can only operate on String, Array or Object types, not {value.Type()}.")
             };
         }

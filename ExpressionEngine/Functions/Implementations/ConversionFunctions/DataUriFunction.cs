@@ -22,7 +22,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                 ValueContainer.ValueType.String =>
                     new ValueTask<ValueContainer>(new ValueContainer(
                         $"data:text/plain;charset=utf-8;base64,{System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(parameters[0].GetValue<string>()))}")),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Array function can only operate on strings, not {parameters[0].Type()}.")
             };
         }

@@ -40,7 +40,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
                 return new ValueTask<ValueContainer>(new ValueContainer(floatValue.ToString(format, CultureInfo.CreateSpecificCulture(locale))));
             }
 
-            throw new PowerAutomateMockUpException("Expected an numeric value when formatting numbers.");
+            throw new ExpressionEngineException("Expected an numeric value when formatting numbers.");
         }
     }
 }
