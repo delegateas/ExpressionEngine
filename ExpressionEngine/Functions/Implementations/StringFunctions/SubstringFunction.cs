@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
@@ -9,7 +10,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2 || parameters.Length > 3)
             {
@@ -19,7 +20,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             var str = parameters[0].GetValue<string>();
             var startIndex = parameters[1].GetValue<int>();
 
-            if (parameters.Length <= 2) return new ValueContainer(str.Substring(startIndex));
+            if (parameters.Length <= 2) return new ValueTask<ValueContainer>(new ValueContainer(str.Substring(startIndex)));
             
             
             var length = parameters[2].GetValue<int>();
@@ -32,7 +33,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
                     "the string.");
             }
 
-            return new ValueContainer(str.Substring(startIndex, length));
+            return new ValueTask<ValueContainer>(new ValueContainer(str.Substring(startIndex, length)));
         }
     }
 }

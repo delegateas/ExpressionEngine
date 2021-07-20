@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
@@ -10,7 +11,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2 || parameters.Length > 3)
             {
@@ -29,14 +30,14 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             {
                 var intValue = value.GetValue<int>();
 
-                return new ValueContainer(intValue.ToString(format, CultureInfo.CreateSpecificCulture(locale)));
+                return new ValueTask<ValueContainer>(new ValueContainer(intValue.ToString(format, CultureInfo.CreateSpecificCulture(locale))));
             }
 
             if (value.Type() == ValueContainer.ValueType.Float)
             {
                 var floatValue = value.GetValue<double>();
 
-                return new ValueContainer(floatValue.ToString(format, CultureInfo.CreateSpecificCulture(locale)));
+                return new ValueTask<ValueContainer>(new ValueContainer(floatValue.ToString(format, CultureInfo.CreateSpecificCulture(locale))));
             }
 
             throw new PowerAutomateMockUpException("Expected an numeric value when formatting numbers.");

@@ -1,9 +1,11 @@
-﻿namespace ExpressionEngine
+﻿using System.Threading.Tasks;
+
+namespace ExpressionEngine
 {
     public interface IExpressionEngine
     {
-        string Parse(string input);
-        ValueContainer ParseToValueContainer(string input);
+        ValueTask<string> Parse(string input);
+        ValueTask<ValueContainer> ParseToValueContainer(string input);
     }
 
     public class ExpressionEngine : IExpressionEngine
@@ -15,14 +17,14 @@
             _expressionGrammar = grammar;
         }
 
-        public string Parse(string input)
+        public async ValueTask<string> Parse(string input)
         {
-            return _expressionGrammar.EvaluateToString(input);
+            return await _expressionGrammar.EvaluateToString(input);
         }
 
-        public ValueContainer ParseToValueContainer(string input)
+        public async ValueTask<ValueContainer> ParseToValueContainer(string input)
         {
-            return _expressionGrammar.EvaluateToValueContainer(input);
+            return await _expressionGrammar.EvaluateToValueContainer(input);
         }
     }
 }

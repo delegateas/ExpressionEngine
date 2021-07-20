@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
@@ -12,7 +13,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {
@@ -24,8 +25,8 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             return item.Type() switch
             {
                 ValueContainer.ValueType.Array =>
-                    new ValueContainer(parameters[0].GetValue<IEnumerable<ValueContainer>>().Count()),
-                ValueContainer.ValueType.String => new ValueContainer(parameters[0].GetValue<string>().Length),
+                    new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<IEnumerable<ValueContainer>>().Count())),
+                ValueContainer.ValueType.String => new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<string>().Length)),
                 _ => throw new Exception(
                     "The template language function 'length' expects its parameter to be an array or a string. " +
                     $"The provided value is of type '{item.Type()}'. " +

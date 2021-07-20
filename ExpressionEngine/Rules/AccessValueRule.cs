@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Rules
@@ -8,81 +9,54 @@ namespace ExpressionEngine.Rules
     public class AccessValueRule : IRule
     {
         private readonly IRule _func;
-        private readonly IEnumerable<IRule> _indexRules;
+        private readonly IRule _indexRule;
 
-        public AccessValueRule(IRule func, IEnumerable<IRule> indexRules)
+        public AccessValueRule(IRule func, IRule indexRule)
         {
             _func = func;
-            var tempIndexRules = new List<IRule>();
+            _indexRule = indexRule;
+        }
 
-            foreach (var indexRule in indexRules)
+        public async ValueTask<ValueContainer> Evaluate()
+        {
+            var currentValue = await _func.Evaluate();
+            var indexRuleVc = await _indexRule.Evaluate();
+            var index = indexRuleVc["index"];
+            var nullConditional = indexRuleVc["nullConditional"].GetValue<bool>();
+
+            if (currentValue.Type() == ValueContainer.ValueType.Array)
             {
-                var indexObject = indexRule.Evaluate().GetValue<Dictionary<string, ValueContainer>>();
-                var index = indexObject["index"];
-                var nullConditional = indexObject["nullConditional"].GetValue<bool>();
-
-                if (index.Type() == ValueContainer.ValueType.String)
+                if (index.Type() != ValueContainer.ValueType.Integer)
                 {
-                    var indexes = index.GetValue<string>().Split('/');
-
-                    tempIndexRules.Add(new IndexRule(new ConstantRule(new ValueContainer(indexes.First())),
-                        nullConditional));
-
-                    foreach (var accessor in indexes.Skip(1))
-                    {
-                        tempIndexRules.Add(new IndexRule(new ConstantRule(new ValueContainer(accessor)), nullConditional));
-                    }
+                    throw InvalidTemplateException.BuildInvalidTemplateExceptionArray(
+                        (_func as ExpressionRule)?.FunctionName,
+                        _func.PrettyPrint() + _indexRule.PrettyPrint(),
+                        index.GetValue<string>());
                 }
-                else
+
+                try
                 {
-                    tempIndexRules.Add(indexRule);
+                    return currentValue[index.GetValue<int>()];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    if (nullConditional)
+                    {
+                        return new ValueContainer();
+                    }
+
+                    throw;
                 }
             }
 
-            _indexRules = tempIndexRules;
-        }
-
-        public ValueContainer Evaluate()
-        {
-            var currentValue = _func.Evaluate();
-
-            foreach (var indexRule in _indexRules)
+            if (currentValue.Type() == ValueContainer.ValueType.Object)
             {
-                var indexObject = indexRule.Evaluate().GetValue<Dictionary<string, ValueContainer>>();
-                var index = indexObject["index"];
-                var nullConditional = indexObject["nullConditional"].GetValue<bool>();
-
-                if (currentValue.Type() == ValueContainer.ValueType.Array)
+                try
                 {
-                    var asArray = currentValue.GetValue<ValueContainer[]>();
-                    if (index.Type() != ValueContainer.ValueType.Integer)
-                    {
-                        throw InvalidTemplateException.BuildInvalidTemplateExceptionArray(
-                            (_func as ExpressionRule)?.FunctionName,
-                            _func.PrettyPrint() + string.Join(", ", _indexRules.Select(x => x.PrettyPrint())),
-                            index.GetValue<string>());
-                    }
-
-                    var i = index.GetValue<int>();
-                    if (i > asArray.Length)
-                    {
-                        throw new IndexOutOfRangeException();
-                    }
-
-                    currentValue = asArray[i];
+                    return currentValue[index.GetValue<string>()];
                 }
-
-                else if (currentValue.Type() == ValueContainer.ValueType.Object)
+                catch (KeyNotFoundException)
                 {
-                    var asObject = currentValue.GetValue<Dictionary<string, ValueContainer>>();
-                    var key = index.GetValue<string>();
-
-                    if (asObject.ContainsKey(key))
-                    {
-                        currentValue = asObject[key];
-                        continue;
-                    }
-
                     if (nullConditional)
                     {
                         return new ValueContainer();
@@ -90,9 +64,9 @@ namespace ExpressionEngine.Rules
 
                     throw InvalidTemplateException.BuildInvalidTemplateExceptionObject(
                         (_func as ExpressionRule)?.FunctionName,
-                        _func.PrettyPrint() + string.Join(", ", _indexRules.Select(x => x.PrettyPrint())),
+                        _func.PrettyPrint() + _indexRule.PrettyPrint(),
                         index.GetValue<string>(),
-                        asObject.Keys.ToArray());
+                        currentValue.GetValue<Dictionary<string, ValueContainer>>().Keys.ToArray());
                 }
             }
 
@@ -101,7 +75,7 @@ namespace ExpressionEngine.Rules
 
         public string PrettyPrint()
         {
-            throw new NotImplementedException();
+            return $"{_func.PrettyPrint()}{_indexRule.PrettyPrint()}";
         }
     }
 }

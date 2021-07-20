@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -143,12 +144,12 @@ namespace Test
         }
         
         [Test]
-        public void TestJValueToValueContainer()
+        public async Task TestJValueToValueContainer()
         {
             var expectedValue = "Value";
             var jValue = new JValue(expectedValue);
 
-            var valueContainer = new ValueContainer(jValue);
+            var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(jValue);
 
             Assert.IsNotNull(valueContainer);
             Assert.AreEqual(ValueContainer.ValueType.String, valueContainer.Type());
@@ -161,12 +162,12 @@ namespace Test
         }
 
         [Test]
-        public void TestJsonToValueContainerSimple()
+        public async Task TestJsonToValueContainerSimple()
         {
             var json = JToken.Parse("{\"Terminate\":{\"Key1\":\"Value1\",\"Key2\":\"Value2\"}}");
             
-            var valueContainer = new ValueContainer(json);
-            
+            var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(json);
+
             Assert.IsTrue(valueContainer.GetValue<Dictionary<string, ValueContainer>>().ContainsKey("Terminate"));
             Assert.AreEqual(1,valueContainer.GetValue<Dictionary<string, ValueContainer>>().Count);
             
@@ -174,7 +175,7 @@ namespace Test
         }
         
         [Test]
-        public void TestJsonToValueContainerTypicalInputSection()
+        public async Task TestJsonToValueContainerTypicalInputSection()
         {
             var json = JToken.Parse(
                 "{\"inputs\": {\"host\": {\"connectionName\": \"shared_commondataserviceforapps\",\"operationId\": \"GetItem\"," +
@@ -182,7 +183,7 @@ namespace Test
                 "\"parameters\": {\"entityName\": \"accounts\",\"recordId\": \"@triggerOutputs()?['body/accountid']\"}," +
                 "\"authentication\": \"@parameters('$authentication')\"}}");
             
-            var valueContainer = new ValueContainer(json);
+            var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(json);
             
             Assert.IsTrue(valueContainer.GetValue<Dictionary<string, ValueContainer>>().ContainsKey("inputs"));
             Assert.AreEqual(1,valueContainer.GetValue<Dictionary<string, ValueContainer>>().Count);

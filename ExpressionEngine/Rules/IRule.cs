@@ -1,8 +1,10 @@
-﻿namespace ExpressionEngine.Rules
+﻿using System.Threading.Tasks;
+
+namespace ExpressionEngine.Rules
 {
     public interface IRule
     {
-        ValueContainer Evaluate();
+        ValueTask<ValueContainer> Evaluate();
 
         string PrettyPrint();
     }

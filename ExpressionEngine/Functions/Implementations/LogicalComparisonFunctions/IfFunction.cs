@@ -1,4 +1,5 @@
-﻿using ExpressionEngine.Functions.Base;
+﻿using System.Threading.Tasks;
+using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
@@ -8,9 +9,9 @@ namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
         {
         }
 
-        public override ValueContainer ExecuteFunction(params ValueContainer[] parameters)
+        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
-            return parameters[0].GetValue<bool>() ? parameters[1] : parameters[2];
+            return new ValueTask<ValueContainer>(parameters[0].GetValue<bool>() ? parameters[1] : parameters[2]);
         }
     }
 }
