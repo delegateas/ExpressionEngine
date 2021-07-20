@@ -66,14 +66,7 @@ namespace ExpressionEngine
                 from nll in nullConditional
                 from dot in Parse.Char('.')
                 from index in Parse.AnyChar.Except(
-                    lBracket
-                        .Or(rBracket)
-                        .Or(lParenthesis)
-                        .Or(rParenthesis)
-                        .Or(Parse.Char('@'))
-                        .Or(Parse.Char(','))
-                        .Or(Parse.Char('.'))
-                        .Or(Parse.Char('?'))
+                    Parse.Chars('[', ']', '{', '}', '[', ']', '@', ',', '.', '?')
                 ).Many().Text()
                 select new IndexRule(new StringLiteralRule(new ValueContainer(index)), nll);
 
@@ -123,12 +116,7 @@ namespace ExpressionEngine
                     .Many()
                 select new ValueTask<ValueContainer>(new ValueContainer(string.Concat(e)));
 
-            Parser<ValueTask<ValueContainer>> charPrefixedString =
-                from at in Parse.Char('@')
-                from str in Parse.LetterOrDigit.Many().Text().Except(Parse.Chars('{', '@'))
-                select new ValueTask<ValueContainer>(new ValueContainer(str));
-
-            _input = expression.Or(charPrefixedString).Or(joinedString);
+            _input = expression.Or(joinedString);
         }
 
         public async ValueTask<string> EvaluateToString(string input)

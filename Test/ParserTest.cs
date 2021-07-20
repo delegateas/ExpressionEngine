@@ -88,9 +88,7 @@ namespace Test
             new TestInput("Hej med dig @{toUpper(\'charlie\')}", new ValueContainer("Hej med dig CHARLIE")),
             new TestInput("@{toLower(\'Hej med dig \')}@{trim(\' Mads \')}", new ValueContainer("hej med dig Mads")),
             new TestInput("@@1", new ValueContainer("@1")),
-            new TestInput("@aes", new ValueContainer("aes")),
-            new TestInput("@empty(trim(' ')?.name1)", new ValueContainer(true)),
-            new TestInput("@not(empty(trim(' ')?.name1))", new ValueContainer(false))
+            new TestInput("aes", new ValueContainer("aes")),
         };
 
         #endregion
