@@ -21,7 +21,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                         case "false":
                             return new ValueTask<ValueContainer>(new ValueContainer(false));
                         default:
-                            throw new PowerAutomateMockUpException(
+                            throw new ExpressionEngineException(
                                 $"Can only convert 'true' or 'false' to bool, not {parameters[0].GetValue<string>()}.");
                     }
                 case ValueContainer.ValueType.Integer:
@@ -33,7 +33,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                 case ValueContainer.ValueType.Boolean:
                     return new ValueTask<ValueContainer>(parameters[0]);
                 default:
-                    throw new PowerAutomateMockUpException(
+                    throw new ExpressionEngineException(
                         $"Array function can only operate on strings, not {parameters[0].Type()}.");
             }
         }

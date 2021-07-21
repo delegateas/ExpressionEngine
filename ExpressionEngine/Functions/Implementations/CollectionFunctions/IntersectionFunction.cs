@@ -17,7 +17,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
             {
                 ValueContainer.ValueType.Array => IntersectList(parameters),
                 ValueContainer.ValueType.Object => IntersectDict(parameters),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Can only intersect Array and Object, not {parameters[0].Type()}.")
             };
         }

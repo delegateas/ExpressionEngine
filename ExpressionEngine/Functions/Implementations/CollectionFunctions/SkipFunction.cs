@@ -20,7 +20,7 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
             {
                 ValueContainer.ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<IEnumerable<ValueContainer>>().Skip(count))),
-                _ => throw new PowerAutomateMockUpException(
+                _ => throw new ExpressionEngineException(
                     $"Empty expression can only operate on String or Array types, not {value.Type()}.")
             };
         }

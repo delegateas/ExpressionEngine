@@ -70,7 +70,11 @@ namespace ExpressionEngine.Rules
                 }
             }
 
-            return currentValue;
+            throw new InvalidTemplateException(
+                "Unable to process template language expressions in action 'Compose' inputs " +
+                $"at line 'x' and column 'y': 'The template language expression '{_func.PrettyPrint()}{(nullConditional ? "?" : "")}.{index}' cannot be " +
+                $"evaluated because property '{index}' cannot be selected. Property selection is not supported on values " +
+                $"of type '{currentValue.Type()}'.");
         }
 
         public string PrettyPrint()

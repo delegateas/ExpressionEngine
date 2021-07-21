@@ -6,7 +6,7 @@
         {
             return vc.Type() == ValueContainer.ValueType.String
                 ? vc.GetValue<string>()
-                : throw new PowerAutomateMockUpException("ValueContainer must be of type string.");
+                : throw new ExpressionEngineException("ValueContainer must be of type string.");
         }
     }
 }
