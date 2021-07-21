@@ -11,7 +11,7 @@ namespace ExpressionEngine
     public class ExpressionGrammar
     {
         private readonly Parser<IRule> _method;
-        private readonly Parser<ValueTask<ValueContainer>> _input;
+        private readonly Parser<Task<ValueContainer>> _input;
 
         public ExpressionGrammar(IEnumerable<IFunction> functions)
         {
@@ -66,7 +66,7 @@ namespace ExpressionEngine
                 from nll in nullConditional
                 from dot in Parse.Char('.')
                 from index in Parse.AnyChar.Except(
-                    Parse.Chars('[', ']', '{', '}', '[', ']', '@', ',', '.', '?')
+                    Parse.Chars('[', ']', '{', '}', '(', ')', '@', ',', '.', '?')
                 ).Many().Text()
                 select new IndexRule(new StringLiteralRule(new ValueContainer(index)), nll);
 
@@ -99,22 +99,20 @@ namespace ExpressionEngine
                         Parse.Char('}'))
                     .Select(x => x.Evaluate());
 
-            Parser<ValueTask<ValueContainer>> expression =
-                from at in Parse.Char('@')
-                from method in _method
-                select method.Evaluate();
+            Parser<Task<ValueContainer>> expression =
+                Parse.Char('@').SelectMany(at => _method, async (at, method) => await method.Evaluate());
 
             Parser<string> allowedString =
                 from t in simpleString.Or(allowedCharacters).Many()
                 select string.Concat(t);
 
-            Parser<ValueTask<ValueContainer>> joinedString =
+            Parser<Task<ValueContainer>> joinedString =
                 from e in (
                         from preFix in allowedString
                         from exp in enclosedExpression.Optional()
                         select exp.IsEmpty ? preFix : preFix + exp.Get())
                     .Many()
-                select new ValueTask<ValueContainer>(new ValueContainer(string.Concat(e)));
+                select Task.FromResult(new ValueContainer(string.Concat(e)));
 
             _input = expression.Or(joinedString);
         }
