@@ -15,8 +15,8 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
         {
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.Array => UnionList(parameters),
-                ValueContainer.ValueType.Object => UnionDict(parameters),
+                ValueType.Array => UnionList(parameters),
+                ValueType.Object => UnionDict(parameters),
                 _ => throw new ExpressionEngineException(
                     $"Can only union Array and Object, not {parameters[0].Type()}.")
             };

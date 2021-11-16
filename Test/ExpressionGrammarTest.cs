@@ -60,8 +60,8 @@ namespace Test
             var param2 = _dummyFunction.Parameters[1];
             Assert.NotNull(param1);
             Assert.NotNull(param2);
-            Assert.AreEqual(ValueContainer.ValueType.Boolean, param1.Type());
-            Assert.AreEqual(ValueContainer.ValueType.Boolean, param2.Type());
+            Assert.AreEqual(ValueType.Boolean, param1.Type());
+            Assert.AreEqual(ValueType.Boolean, param2.Type());
             Assert.AreEqual(true, param1.GetValue<bool>());
             Assert.AreEqual(false, param2.GetValue<bool>());
         }
@@ -76,7 +76,7 @@ namespace Test
             var result = await _expressionGrammar.EvaluateToValueContainer(expressionString);
 
             Assert.NotNull(result);
-            Assert.AreEqual(ValueContainer.ValueType.Null, result.Type());
+            Assert.AreEqual(ValueType.Null, result.Type());
         }
         
         [Test]

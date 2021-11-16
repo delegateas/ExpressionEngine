@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ExpressionEngine;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
 {
@@ -103,7 +104,7 @@ namespace Test
                 }
             });
 
-            Assert.AreEqual(ValueContainer.ValueType.Object, valueContainer["body"].Type());
+            Assert.AreEqual(ValueType.Object, valueContainer["body"].Type());
 
             Assert.AreEqual("James P. \"Sulley\" Sullivan", valueContainer["body"]["name"].GetValue<string>());
 
@@ -152,7 +153,7 @@ namespace Test
             var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(jValue);
 
             Assert.IsNotNull(valueContainer);
-            Assert.AreEqual(ValueContainer.ValueType.String, valueContainer.Type());
+            Assert.AreEqual(ValueType.String, valueContainer.Type());
             Assert.AreEqual(expectedValue, valueContainer.GetValue<string>());
         }
 

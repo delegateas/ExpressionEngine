@@ -18,7 +18,7 @@ namespace ExpressionEngine.Rules
 
         public string PrettyPrint()
         {
-            return _content.Type() == ValueContainer.ValueType.String? $"'{_content}'" : _content.ToString();
+            return _content.Type() == ValueType.String? $"'{_content}'" : _content.ToString();
         }
     }
 }

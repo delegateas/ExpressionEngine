@@ -26,14 +26,14 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
                 locale = parameters[2].GetValue<string>();
             }
 
-            if (value.Type() == ValueContainer.ValueType.Integer)
+            if (value.Type() == ValueType.Integer)
             {
                 var intValue = value.GetValue<int>();
 
                 return new ValueTask<ValueContainer>(new ValueContainer(intValue.ToString(format, CultureInfo.CreateSpecificCulture(locale))));
             }
 
-            if (value.Type() == ValueContainer.ValueType.Float)
+            if (value.Type() == ValueType.Float)
             {
                 var floatValue = value.GetValue<double>();
 

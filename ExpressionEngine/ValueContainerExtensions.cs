@@ -24,7 +24,7 @@ namespace ExpressionEngine
             if (keys.Length == 1)
             {
                 var dict = current.GetValue<Dictionary<string, ValueContainer>>();
-                if (dict.ContainsKey(keys[0]) && value.Type() == ValueContainer.ValueType.Object)
+                if (dict.ContainsKey(keys[0]) && value.Type() == ValueType.Object)
                 {
                     var innerDict = dict[keys[0]].GetValue<Dictionary<string, ValueContainer>>();
                     var valueDict = value.GetValue<Dictionary<string, ValueContainer>>();

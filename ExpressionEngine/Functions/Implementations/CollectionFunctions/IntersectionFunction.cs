@@ -15,8 +15,8 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
         {
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.Array => IntersectList(parameters),
-                ValueContainer.ValueType.Object => IntersectDict(parameters),
+                ValueType.Array => IntersectList(parameters),
+                ValueType.Object => IntersectDict(parameters),
                 _ => throw new ExpressionEngineException(
                     $"Can only intersect Array and Object, not {parameters[0].Type()}.")
             };

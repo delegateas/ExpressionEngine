@@ -17,13 +17,13 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 
             return value.Type() switch
             {
-                ValueContainer.ValueType.String => new ValueTask<ValueContainer>(
+                ValueType.String => new ValueTask<ValueContainer>(
                     new ValueContainer(string.IsNullOrEmpty(value.GetValue<string>()))),
-                ValueContainer.ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
+                ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
                     !value.GetValue<IEnumerable<ValueContainer>>().Any())),
-                ValueContainer.ValueType.Object => new ValueTask<ValueContainer>(new ValueContainer(
+                ValueType.Object => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<Dictionary<string, ValueContainer>>().Count == 0)),
-                ValueContainer.ValueType.Null => new ValueTask<ValueContainer>(new ValueContainer(true)),
+                ValueType.Null => new ValueTask<ValueContainer>(new ValueContainer(true)),
                 _ => throw new ExpressionEngineException(
                     $"Empty expression can only operate on String, Array or Object types, not {value.Type()}.")
             };

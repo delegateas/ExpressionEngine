@@ -13,7 +13,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
             switch (parameters[0].Type())
             {
-                case ValueContainer.ValueType.String:
+                case ValueType.String:
                     switch (parameters[0].GetValue<string>())
                     {
                         case "true":
@@ -24,13 +24,13 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                             throw new ExpressionEngineException(
                                 $"Can only convert 'true' or 'false' to bool, not {parameters[0].GetValue<string>()}.");
                     }
-                case ValueContainer.ValueType.Integer:
+                case ValueType.Integer:
                     var intValue = parameters[0].GetValue<int>();
                     return new ValueTask<ValueContainer>(new ValueContainer(intValue > 0 || intValue < 0));
-                case ValueContainer.ValueType.Float:
+                case ValueType.Float:
                     var doubleValue = parameters[0].GetValue<double>();
                     return new ValueTask<ValueContainer>(new ValueContainer(doubleValue > 0 || doubleValue < 0));
-                case ValueContainer.ValueType.Boolean:
+                case ValueType.Boolean:
                     return new ValueTask<ValueContainer>(parameters[0]);
                 default:
                     throw new ExpressionEngineException(

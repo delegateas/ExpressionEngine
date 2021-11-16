@@ -13,7 +13,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.String =>
+                ValueType.String =>
                     new ValueTask<ValueContainer>(new ValueContainer(
                         System.Convert.ToBase64String(
                             System.Text.Encoding.UTF8.GetBytes(parameters[0].GetValue<string>())))),
