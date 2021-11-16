@@ -16,7 +16,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.String =>
+                ValueType.String =>
                     new ValueTask<ValueContainer>(new ValueContainer(Encoding.UTF8
                         .GetBytes(parameters[0].GetValue<string>())
                         .Aggregate("", (s, b) => s + Convert.ToString(b, 2).PadLeft(8, '0')))),

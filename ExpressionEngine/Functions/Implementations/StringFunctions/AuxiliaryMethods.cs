@@ -4,7 +4,7 @@
     {
         public static string VcIsString(ValueContainer vc)
         {
-            return vc.Type() == ValueContainer.ValueType.String
+            return vc.Type() == ValueType.String
                 ? vc.GetValue<string>()
                 : throw new ExpressionEngineException("ValueContainer must be of type string.");
         }

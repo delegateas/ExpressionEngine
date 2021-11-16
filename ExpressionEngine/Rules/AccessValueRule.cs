@@ -24,9 +24,14 @@ namespace ExpressionEngine.Rules
             var index = indexRuleVc["index"];
             var nullConditional = indexRuleVc["nullConditional"].GetValue<bool>();
 
-            if (currentValue.Type() == ValueContainer.ValueType.Array)
+            if (nullConditional && currentValue.Type() == ValueType.Null)
             {
-                if (index.Type() != ValueContainer.ValueType.Integer)
+                return currentValue;
+            }
+
+            if (currentValue.Type() == ValueType.Array)
+            {
+                if (index.Type() != ValueType.Integer)
                 {
                     throw InvalidTemplateException.BuildInvalidTemplateExceptionArray(
                         (_func as ExpressionRule)?.FunctionName,
@@ -49,7 +54,7 @@ namespace ExpressionEngine.Rules
                 }
             }
 
-            if (currentValue.Type() == ValueContainer.ValueType.Object)
+            if (currentValue.Type() == ValueType.Object)
             {
                 try
                 {

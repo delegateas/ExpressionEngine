@@ -17,9 +17,9 @@ namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 
             return value.Type() switch
             {
-                ValueContainer.ValueType.String => new ValueTask<ValueContainer>(new ValueContainer(
+                ValueType.String => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<string>().Substring(0, 1))),
-                ValueContainer.ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
+                ValueType.Array => new ValueTask<ValueContainer>(new ValueContainer(
                     value.GetValue<IEnumerable<ValueContainer>>().First())),
                 _ => throw new ExpressionEngineException(
                     $"Empty expression can only operate on String or Array types, not {value.Type()}.")

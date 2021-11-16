@@ -19,7 +19,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.String =>
+                ValueType.String =>
                     new ValueTask<ValueContainer>(new ValueContainer(
                         $"data:text/plain;charset=utf-8;base64,{System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(parameters[0].GetValue<string>()))}")),
                 _ => throw new ExpressionEngineException(
