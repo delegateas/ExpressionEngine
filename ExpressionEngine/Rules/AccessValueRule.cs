@@ -24,6 +24,11 @@ namespace ExpressionEngine.Rules
             var index = indexRuleVc["index"];
             var nullConditional = indexRuleVc["nullConditional"].GetValue<bool>();
 
+            if (nullConditional && currentValue.Type() == ValueContainer.ValueType.Null)
+            {
+                return currentValue;
+            }
+
             if (currentValue.Type() == ValueContainer.ValueType.Array)
             {
                 if (index.Type() != ValueContainer.ValueType.Integer)
