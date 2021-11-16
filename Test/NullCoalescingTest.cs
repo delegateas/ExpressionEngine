@@ -6,6 +6,7 @@ using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
 {
@@ -242,7 +243,7 @@ namespace Test
         {
             new TestInput(
                 "@variables(\'array\')",
-                ValueContainer.ValueType.Array)
+                ValueType.Array)
             {
                 VariableKey = "array",
                 ValueContainers = new[] {new ValueContainer("Thyge"), new ValueContainer("Poul")},
@@ -250,7 +251,7 @@ namespace Test
             },
             new TestInput(
                 "@toLower(variables(\'name\'))",
-                ValueContainer.ValueType.String)
+                ValueType.String)
             {
                 VariableKey = "name",
                 ValueContainers = new[] {new ValueContainer("Alice Bob")},
@@ -258,7 +259,7 @@ namespace Test
             },
             new TestInput(
                 "@variables('Compose_name')",
-                ValueContainer.ValueType.String)
+                ValueType.String)
             {
                 VariableKey = "Compose_name",
                 ValueContainers = new[] {new ValueContainer("Alice Bob")},
@@ -267,7 +268,7 @@ namespace Test
             new TestInput
             (
                 "@variables(\'dictionary\')?[0]?[\'firstChildValue\'][\'secondChildValue\']",
-                ValueContainer.ValueType.String)
+                ValueType.String)
             {
                 VariableKey = "dictionary",
                 ValueContainers = BigValue,
@@ -276,7 +277,7 @@ namespace Test
             new TestInput
             (
                 "@greater(variables('Variable'), 10)",
-                ValueContainer.ValueType.Boolean)
+                ValueType.Boolean)
             {
                 VariableKey = "Variable",
                 ValueContainers = new[] {new ValueContainer(11)},
@@ -292,7 +293,7 @@ namespace Test
                 ExpectedOutput = expectedOutput;
             }
 
-            public TestInput(string input, ValueContainer.ValueType expectedOutputType)
+            public TestInput(string input, ValueType expectedOutputType)
             {
                 Input = input;
                 ExpectedOutputType = expectedOutputType;
@@ -302,7 +303,7 @@ namespace Test
             public ValueContainer[] ValueContainers { get; set; }
             public string Input { get; set; }
             public ValueContainer ExpectedOutput { get; set; }
-            public ValueContainer.ValueType ExpectedOutputType { get; set; }
+            public ValueType ExpectedOutputType { get; set; }
             public StorageOption StorageOption { get; set; }
 
             public Type ExceptionType { get; set; }

@@ -4,6 +4,7 @@ using ExpressionEngine;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using ValueType = ExpressionEngine.ValueType;
 
 
 namespace Test
@@ -103,7 +104,7 @@ namespace Test
             public ValueContainer[] ValueContainers { get; set; }
             public string Input { get; set; }
             public ValueContainer ExpectedOutput { get; set; }
-            public ValueContainer.ValueType ExpectedOutputType { get; set; }
+            public ValueType ExpectedOutputType { get; set; }
 
             public Type ExceptionType { get; set; }
         }

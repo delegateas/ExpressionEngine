@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace ExpressionEngine
 {
     [JsonConverter(typeof(ValueContainerConverter))]
-    public class ValueContainer : IComparable, IEquatable<ValueContainer>
+    public partial class ValueContainer : IComparable, IEquatable<ValueContainer>
     {
         private readonly dynamic _value; // TODO: Consider changing this to object - CLR TYPE
         private readonly ValueType _type;
@@ -116,17 +116,6 @@ namespace ExpressionEngine
         public ValueType Type()
         {
             return _type;
-        }
-
-        public enum ValueType
-        {
-            Boolean,
-            Integer,
-            Float,
-            String,
-            Object,
-            Array,
-            Null
         }
 
         public T GetValue<T>()

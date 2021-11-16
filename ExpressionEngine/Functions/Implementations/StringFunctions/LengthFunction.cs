@@ -24,9 +24,9 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
 
             return item.Type() switch
             {
-                ValueContainer.ValueType.Array =>
+                ValueType.Array =>
                     new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<IEnumerable<ValueContainer>>().Count())),
-                ValueContainer.ValueType.String => new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<string>().Length)),
+                ValueType.String => new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<string>().Length)),
                 _ => throw new Exception(
                     "The template language function 'length' expects its parameter to be an array or a string. " +
                     $"The provided value is of type '{item.Type()}'. " +

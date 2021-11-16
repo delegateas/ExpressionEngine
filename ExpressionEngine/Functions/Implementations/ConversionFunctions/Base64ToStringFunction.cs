@@ -15,7 +15,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
             return parameters[0].Type() switch
             {
-                ValueContainer.ValueType.String =>
+                ValueType.String =>
                     new ValueTask<ValueContainer>(new ValueContainer(Encoding.UTF8.GetString(Convert.FromBase64String(parameters[0].GetValue<string>())))),
                 _ => throw new ExpressionEngineException(
                     $"Array function can only operate on strings, not {parameters[0].Type()}.")
