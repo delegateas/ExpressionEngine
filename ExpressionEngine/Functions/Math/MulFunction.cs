@@ -4,9 +4,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class AddFunction : Function
+    public class MulFunction : Function
     {
-        public AddFunction() : base("add")
+        public MulFunction() : base("mul")
         {
         }
 
@@ -15,14 +15,14 @@ namespace ExpressionEngine.Functions.Math
             if (parameters.Length != 2)
             {
                 throw new InvalidTemplateException(
-                    "The template language function 'add' expects two numeric parameters: " +
-                    "the first summand as the first parameter and the second summand as the second parameter.");
+                    "The template language function 'mul' expects two numeric parameters: " +
+                    "the first multiplicand as the first parameter and the second multiplicand as the second parameter");
             }
 
             var first = parameters[0].GetValue<double>();
             var second = parameters[1].GetValue<double>();
 
-            return new ValueTask<ValueContainer>(new ValueContainer(first + second));
+            return new ValueTask<ValueContainer>(new ValueContainer(first * second));
         }
     }
 }
