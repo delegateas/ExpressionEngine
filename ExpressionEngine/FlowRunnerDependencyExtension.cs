@@ -3,6 +3,7 @@ using ExpressionEngine.Functions.Implementations.CollectionFunctions;
 using ExpressionEngine.Functions.Implementations.ConversionFunctions;
 using ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
+using ExpressionEngine.Functions.Math;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ExpressionEngine
@@ -18,6 +19,7 @@ namespace ExpressionEngine
             AddCollectionFunction(services);
             AddConversionFunction(services);
             AddLogicalComparisonFunctions(services);
+            AddMathFunctions(services);
 
             services.AddTransient<IFunction, LengthFunction>();
             services.AddTransient<IFunction, GreaterFunction>();
@@ -79,6 +81,19 @@ namespace ExpressionEngine
             services.AddTransient<IFunction, LessOrEqualsFunction>();
             services.AddTransient<IFunction, NotFunction>();
             services.AddTransient<IFunction, OrFunction>();
+        }
+
+        private static void AddMathFunctions(IServiceCollection services)
+        {
+            services.AddTransient<IFunction, AndFunction>();
+            services.AddTransient<IFunction, DivFunction>();
+            services.AddTransient<IFunction, MaxFunction>();
+            services.AddTransient<IFunction, MinFunction>();
+            services.AddTransient<IFunction, ModFunction>();
+            services.AddTransient<IFunction, MulFunction>();
+            services.AddTransient<IFunction, RandFunction>();
+            services.AddTransient<IFunction, RangeFunction>();
+            services.AddTransient<IFunction, SubFunction>();
         }
     }
 }
