@@ -93,6 +93,139 @@ namespace Test.Expression
                 new[] {new ValueContainer(false)},
                 new ValueContainer(false)
             },
+                       new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer("100")},
+                new ValueContainer(100)
+            },
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer("-120")},
+                new ValueContainer(-120)
+            },
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(1.12345.ToString())},
+                new ValueContainer(1)
+            },
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(1.66.ToString())},
+                new ValueContainer(2)
+            },
+
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(-1)},
+                new ValueContainer(-1)
+            },
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(1000000)},
+                new ValueContainer(1000000)
+            },
+            new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(false)},
+                new ValueContainer(0)
+            },        new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer(true)},
+                new ValueContainer(1)
+            },        new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer("true") },
+                new ValueContainer(1)
+            },
+                 new object[]
+            {
+                new IntFunction(),
+                "int",
+                new[] {new ValueContainer("false") },
+                new ValueContainer(0)
+            },
+                        new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer("true")},
+                new ValueContainer(1)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer("false")},
+                new ValueContainer(0)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(0)},
+                new ValueContainer(0)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(10005000)},
+                new ValueContainer(10005000)
+            },
+
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(-10000078)},
+                new ValueContainer(-10000078)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(1.444444555)},
+                new ValueContainer(1.444444555)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(-100.567890)},
+                new ValueContainer(-100.56789)
+            },
+             new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer(1.2534.ToString())},
+                new ValueContainer(1.2534)
+            },
+            new object[]
+            {
+                new FloatFunction(),
+                "float",
+                new[] {new ValueContainer((-101500.56).ToString())},
+                new ValueContainer(-101500.56)
+            },
             new object[]
             {
                 new CreateArrayFunction(),
