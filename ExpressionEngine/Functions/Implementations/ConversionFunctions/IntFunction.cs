@@ -57,6 +57,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                         $"Int function can not operate on type: {parameters[0].Type()}.");
             }
         }
+
         private void CheckIntMaxOrMin(int val)
         {
             if (val == int.MinValue)

@@ -71,7 +71,6 @@ namespace Test.Expression
                 new[] {new ValueContainer(1)},
                 new ValueContainer(true)
             },
-
             new object[]
             {
                 new BoolFunction(),
@@ -93,7 +92,7 @@ namespace Test.Expression
                 new[] {new ValueContainer(false)},
                 new ValueContainer(false)
             },
-                       new object[]
+            new object[]
             {
                 new IntFunction(),
                 "int",
@@ -121,7 +120,6 @@ namespace Test.Expression
                 new[] {new ValueContainer(1.66.ToString())},
                 new ValueContainer(2)
             },
-
             new object[]
             {
                 new IntFunction(),
@@ -142,27 +140,29 @@ namespace Test.Expression
                 "int",
                 new[] {new ValueContainer(false)},
                 new ValueContainer(0)
-            },        new object[]
+            },
+            new object[]
             {
                 new IntFunction(),
                 "int",
                 new[] {new ValueContainer(true)},
                 new ValueContainer(1)
-            },        new object[]
+            },
+            new object[]
             {
                 new IntFunction(),
                 "int",
                 new[] {new ValueContainer("true") },
                 new ValueContainer(1)
             },
-                 new object[]
+            new object[]
             {
                 new IntFunction(),
                 "int",
                 new[] {new ValueContainer("false") },
                 new ValueContainer(0)
             },
-                        new object[]
+            new object[]
             {
                 new FloatFunction(),
                 "float",
@@ -190,7 +190,6 @@ namespace Test.Expression
                 new[] {new ValueContainer(10005000)},
                 new ValueContainer(10005000)
             },
-
             new object[]
             {
                 new FloatFunction(),
@@ -212,7 +211,7 @@ namespace Test.Expression
                 new[] {new ValueContainer(-100.567890)},
                 new ValueContainer(-100.56789)
             },
-             new object[]
+            new object[]
             {
                 new FloatFunction(),
                 "float",
