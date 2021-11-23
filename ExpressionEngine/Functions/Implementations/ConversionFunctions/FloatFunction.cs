@@ -15,7 +15,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
         {
             if (parameters.Length != 1)
             {
-                throw new ArgumentError(parameters.Length > 1 ? "Too many arguments" : "Too few arguments")
+                throw new ArgumentError(parameters.Length > 1 ? "Too many arguments" : "Too few arguments");
             }
 
             switch (parameters[0].Type())
