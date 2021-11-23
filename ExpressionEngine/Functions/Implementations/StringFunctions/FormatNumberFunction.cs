@@ -13,7 +13,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
 
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
-            if (parameters.Length < 2 || parameters.Length > 3)
+            if (parameters.Length != 3)
             {
                 throw new ArgumentError(parameters.Length > 3 ? "Too many arguments" : "Too few arguments");
             }
