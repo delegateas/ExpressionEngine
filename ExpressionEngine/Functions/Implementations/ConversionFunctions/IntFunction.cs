@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
+using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
@@ -12,6 +13,11 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
+            if (parameters.Length == 0)
+            {
+                throw InvalidTemplateException.BuildInvalidLanguageFunction("SomeAction", "int");
+            }
+
             switch (parameters[0].Type())
             {
                 case ValueType.String:
