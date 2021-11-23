@@ -13,9 +13,9 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
-            if (parameters.Length == 0)
+            if (parameters.Length != 1)
             {
-                throw InvalidTemplateException.BuildInvalidLanguageFunction("SomeAction", "float");
+                throw new ArgumentError(parameters.Length > 1 ? "Too many arguments" : "Too few arguments")
             }
 
             switch (parameters[0].Type())
