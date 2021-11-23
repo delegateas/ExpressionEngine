@@ -90,6 +90,11 @@ namespace Test
             new TestInput("@{toLower(\'Hej med dig \')}@{trim(\' Mads \')}", new ValueContainer("hej med dig Mads")),
             new TestInput("@@1", new ValueContainer("@1")),
             new TestInput("aes", new ValueContainer("aes")),
+            new TestInput("@greater(11, 10)", new ValueContainer(true)),
+            new TestInput("@greater(10.1, 10.0)", new ValueContainer(true)),
+            new TestInput("@greater(10.1, 10)", new ValueContainer(true)),
+            new TestInput("@add(10,0.5)", new ValueContainer(10.5)),
+            
         };
 
         #endregion

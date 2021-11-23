@@ -28,6 +28,11 @@ namespace ExpressionEngine
                         constString => new ConstantRule(new ValueContainer(constString, true))
                     );
 
+            Parser<IRule> decimalInvariant =
+                Parse.DecimalInvariant.Select(x => new ConstantRule(new ValueContainer(x, true)));
+
+            Parser<IRule> number = decimalInvariant.Or(integer);
+
             Parser<string> simpleString =
                 Parse.AnyChar.Except(Parse.Char('@')).AtLeastOnce().Text();
 
@@ -71,7 +76,7 @@ namespace ExpressionEngine
                 select new IndexRule(new StringLiteralRule(new ValueContainer(index)), nll);
 
             Parser<IRule> argument =
-                from arg in Parse.Ref(() => _method.Or(stringLiteral).Or(integer).Or(boolean))
+                from arg in Parse.Ref(() => _method.Or(stringLiteral).Or(number).Or(boolean))
                 select arg;
 
             Parser<IOption<IEnumerable<IRule>>> arguments =

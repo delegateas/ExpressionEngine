@@ -85,7 +85,7 @@ namespace ExpressionEngine
 
         private static void AddMathFunctions(IServiceCollection services)
         {
-            services.AddTransient<IFunction, AndFunction>();
+            services.AddTransient<IFunction, AddFunction>();
             services.AddTransient<IFunction, DivFunction>();
             services.AddTransient<IFunction, MaxFunction>();
             services.AddTransient<IFunction, MinFunction>();

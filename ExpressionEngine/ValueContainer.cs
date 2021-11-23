@@ -24,15 +24,15 @@ namespace ExpressionEngine
 
             if (tryToParse)
             {
-                if (int.TryParse(value, out var iValue))
-                {
-                    _value = iValue;
-                    _type = ValueType.Integer;
-                }
-                else if (float.TryParse(value, out var fValue))
+                if (value.Contains('.') && double.TryParse(value, out var fValue))
                 {
                     _value = fValue;
                     _type = ValueType.Float;
+                }
+                else if (int.TryParse(value, out var iValue))
+                {
+                    _value = iValue;
+                    _type = ValueType.Integer;
                 }
                 else if (bool.TryParse(value, out var bValue))
                 {
@@ -236,37 +236,29 @@ namespace ExpressionEngine
                 throw new InvalidOperationException("Cannot compare these two...");
 
             var other = (ValueContainer) obj;
-            if (other.Type() != _type)
-            {
-                // TODO: Fix comparison
 
-                throw new InvalidOperationException("Cannot compare two different ValueContainers");
-            }
-            else
+            switch (_value)
             {
-                switch (_value)
-                {
-                    case bool b:
-                        return b.CompareTo(other._value);
-                    case int i:
-                        return i.CompareTo(other._value);
-                    case float f:
-                        return f.CompareTo(other._value);
-                    case double f:
-                        return f.CompareTo(other._value);
-                    case decimal f:
-                        return f.CompareTo(other._value);
-                    case string s:
-                        return s.CompareTo(other._value);
-                    case Dictionary<string, ValueContainer> d:
-                        var d2 = (Dictionary<string, ValueContainer>) other._value;
-                        return d.Count - d2.Count;
-                    case IEnumerable<ValueContainer> l:
-                        var l2 = (IEnumerable<ValueContainer>) other._value;
-                        return l.Count() - l2.Count();
-                    default:
-                        return -1;
-                }
+                case bool b:
+                    return b.CompareTo(other._value);
+                case int i:
+                    return i.CompareTo(other._value);
+                case float f:
+                    return f.CompareTo(other._value);
+                case double f:
+                    return f.CompareTo(other._value);
+                case decimal f:
+                    return f.CompareTo(other._value);
+                case string s:
+                    return s.CompareTo(other._value);
+                case Dictionary<string, ValueContainer> d:
+                    var d2 = (Dictionary<string, ValueContainer>) other._value;
+                    return d.Count - d2.Count;
+                case IEnumerable<ValueContainer> l:
+                    var l2 = (IEnumerable<ValueContainer>) other._value;
+                    return l.Count() - l2.Count();
+                default:
+                    return -1;
             }
         }
 
@@ -357,7 +349,8 @@ namespace ExpressionEngine
             return v;
         }
 
-        private static async ValueTask<ValueContainer> JsonToValueContainer(JToken json, IExpressionEngine expressionEngine)
+        private static async ValueTask<ValueContainer> JsonToValueContainer(JToken json,
+            IExpressionEngine expressionEngine)
         {
             switch (json)
             {
