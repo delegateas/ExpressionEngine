@@ -12,6 +12,24 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
+        /// <functionName>split</functionName>
+        /// <summary>
+        /// Return an array that contains substrings, separated by commas, based on the specified delimiter character in the original string.
+        /// </summary>
+        /// <definition>
+        /// split('$lttext$gt', '$ltdelimiter$gt')
+        /// </definition>
+        /// <parameters>
+        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to separate into substrings based on the specified delimiter in the original string</parameter>
+        ///     <parameter name="$lttext$gt" required="Yes" type="String">The character in the original string to use as the delimiter</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>[$ltsubstring1$gt,$ltsubstring2$gt,...]</value>
+        ///     <type>Array</type>
+        ///     <description>An array that contains substrings from the original string, separated by commas</description>
+        /// </returns>
+        // [ArguementAttribute()]
+        // [ArguementAttribute()]
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)

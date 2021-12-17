@@ -12,6 +12,31 @@ namespace ExpressionEngine.Functions.Math
         {
         }
 
+        /// <functionName>max</functionName>
+        /// <summary>
+        /// Return the highest value from a list or array with numbers that is inclusive at both ends.
+        /// </summary>
+        /// <definition>
+        /// max($ltnumber1$gt, $ltnumber2$gt, ...)
+        /// max([$ltnumber1$gt, $ltnumber2$gt, ...])
+        /// </definition>
+        /// <parameters>
+        ///     <parameter name="$ltnumber_1$gt, $ltnumber_2$gt,..." required="Yes" type="Integer, Float, or both">The set of numbers from which you want the highest value</parameter>
+        ///     <parameter name="$[ltnumber_1$gt, $ltnumber_2$gt, ...]" required="Yes" type="Array - Integer, Float, or both">The array of numbers from which you want the highest value</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>$ltmax-sum$gt</value>
+        ///     <type>Integer or Float</type>
+        ///     <description>The highest value in the specified array or set of numbers</description>
+        /// </returns>
+        /// <example>
+        /// These examples get the highest value from the set of numbers and the array:
+        /// <code>
+        /// max(1, 2, 3)
+        /// max(createArray(1, 2, 3))
+        /// </code>
+        /// And return this result: <c>3</c>
+        /// </example>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length == 0)

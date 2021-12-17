@@ -12,6 +12,31 @@ namespace ExpressionEngine.Functions.Math
         {
         }
 
+        /// <functionName>min</functionName>
+        /// <summary>
+        /// Return the lowest value from a list or array with numbers that is inclusive at both ends.
+        /// </summary>
+        /// <definition>
+        /// min($ltnumber1$gt, $ltnumber2$gt, ...)
+        /// min([$ltnumber1$gt, $ltnumber2$gt, ...])
+        /// </definition>
+        /// <parameters>
+        ///     <parameter name="$ltnumber_1$gt, $ltnumber_2$gt,..." required="Yes" type="Integer, Float, or both">The set of numbers from which you want the lowest value</parameter>
+        ///     <parameter name="$[ltnumber_1$gt, $ltnumber_2$gt, ...]" required="Yes" type="Array - Integer, Float, or both">The array of numbers from which you want the lowest value</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>$ltmin-sum$gt</value>
+        ///     <type>Integer or Float</type>
+        ///     <description>The lowest value in the specified set of numbers or specified array</description>
+        /// </returns>
+        /// <example>
+        /// These examples get the highest value from the set of numbers and the array:
+        /// <code>
+        /// min(1, 2, 3)
+        /// min(createArray(1, 2, 3))
+        /// </code>
+        /// And return this result: <c>1</c>
+        /// </example>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length == 0)

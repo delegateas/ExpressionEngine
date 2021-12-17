@@ -10,6 +10,36 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
+        /// <functionName>startsWith</functionName>
+        /// <summary>
+        /// Check whether a string starts with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive.
+        /// </summary>
+        /// <definition>
+        /// startsWith('$lttext$gt', '$ltsearchText$gt')
+        /// </definition>
+        /// <parameters>
+        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to check</parameter>
+        ///     <parameter name="$ltsearchText$gt" required="Yes" type="String">The starting string to find</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>true or false</value>
+        ///     <type>Boolean</type>
+        ///     <description>Return true when the starting substring is found. Return false when not found.</description>
+        /// </returns>
+        /// <example>
+        /// This example checks whether the "hello world" string starts with the "hello" substring:
+        /// <code>
+        /// startsWith('hello world', 'hello')
+        /// </code>
+        /// And returns this result: <c>true</c>
+        ///
+        ///
+        /// This example checks whether the "hello world" string starts with the "greetings" substring:
+        /// <code>
+        /// startsWith('hello world', 'greetings')
+        /// </code>
+        /// And returns this result: <c>false</c>
+        /// </example>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
