@@ -115,7 +115,7 @@ namespace ExpressionEngine
                 from e in (
                         from preFix in allowedString
                         from exp in enclosedExpression.Optional()
-                        select exp.IsEmpty ? preFix : preFix + exp.Get())
+                        select exp.IsEmpty ? preFix : preFix + exp.Get().Result) //TODO - fix real async
                     .Many()
                 select Task.FromResult(new ValueContainer(string.Concat(e)));
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ExpressionEngine;
+using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -9,6 +10,19 @@ using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
 {
+    public class AsynctestFunction : Function
+    {
+        public AsynctestFunction() : base("asynctest")
+        {
+
+        }
+
+        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        {
+            await Task.Delay((int) (new Random().NextDouble()* 10000));
+            return new ValueContainer("Hello World");
+        }
+    }
     [TestFixture]
     public class ParserTest
     {
@@ -16,7 +30,7 @@ namespace Test
         {
             var services = new ServiceCollection();
             services.AddExpressionEngine();
-
+            services.AddTransient<IFunction, AsynctestFunction>();
             return services.BuildServiceProvider();
         }
 
@@ -95,10 +109,31 @@ namespace Test
             new TestInput("@greater(10.1, 10)", new ValueContainer(true)),
             new TestInput("@add(10,0.5)", new ValueContainer(10.5)),
             
+
         };
 
         #endregion
-        
+
+        [TestCaseSource(nameof(_async))]
+        public async Task TestAsync(TestInput testInput)
+        {
+            var sp = BuildServiceProvider();
+            var engine = sp.GetRequiredService<IExpressionEngine>();
+
+            var result = await engine.ParseToValueContainer(testInput.Input);
+
+            Assert.AreEqual(testInput.ExpectedOutput, result);
+        }
+
+        private static TestInput[] _async =
+      {
+           
+            new TestInput("@{asynctest()} - @{asynctest()} - @{asynctest()}", new ValueContainer("Hello World - Hello World - Hello World")),
+
+        };
+
+     
+
         public class TestInput
         {
             public TestInput(string input, ValueContainer expectedOutput)
