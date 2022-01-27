@@ -126,10 +126,9 @@ namespace Test
         }
 
         private static TestInput[] _async =
-      {
-           
-            new TestInput("@{asynctest()} - @{asynctest()} - @{asynctest()}", new ValueContainer("Hello World - Hello World - Hello World")),
-
+        {
+            new TestInput("@{asynctest()} - @{asynctest()} - @{asynctest()}",
+                new ValueContainer("Hello World - Hello World - Hello World")),
         };
 
      
