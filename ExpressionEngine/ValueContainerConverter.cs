@@ -57,7 +57,10 @@ namespace ExpressionEngine
                         break;
                     case ValueType.Date:
                         serializer.Serialize(writer, data.GetValue<DateTimeOffset>());
-                      //  writer.WriteValue(data.GetValue<DateTimeOffset>());
+                        break;
+                    case ValueType.Guid:
+                        serializer.Serialize(writer, data.GetValue<Guid>());
+                        //  writer.WriteValue(data.GetValue<DateTimeOffset>());
                         break;
                     default:
                         break;
