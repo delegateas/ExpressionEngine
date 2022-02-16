@@ -226,6 +226,7 @@ namespace ExpressionEngine
                     .Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}",
                 ValueType.Array => "[" + string.Join(", ", GetValue<IEnumerable<ValueContainer>>().ToList()) + "]",
                 ValueType.Null => "<null>",
+                ValueType.Date => _value.ToString(),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
