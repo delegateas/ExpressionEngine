@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace ExpressionEngine
@@ -7,8 +8,63 @@ namespace ExpressionEngine
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            // Ignored - This will not be implemented until it throws an error the first time.
-            throw new NotImplementedException();
+            if(value is ValueContainer data)
+            {
+                switch (data.Type())
+                {
+                    case ValueType.Boolean:
+                        serializer.Serialize(writer, data.GetValue<bool>());
+                       //writer.WriteValue(data.GetValue<bool>());
+                        break;
+                    case ValueType.Integer:
+                        serializer.Serialize(writer, data.GetValue<int>());
+                        //writer.WriteValue(data.GetValue<int>());
+                        break;
+                    case ValueType.Float:
+                        serializer.Serialize(writer, data.GetValue<float>());
+                       // writer.WriteValue(data.GetValue<float>());
+                        break;
+                    case ValueType.String:
+                        serializer.Serialize(writer, data.GetValue<string>());
+                       // writer.WriteValue(data.GetValue<string>());
+                        break;
+                    case ValueType.Object:
+                        serializer.Serialize(writer, data.AsDict());
+                        //writer.WriteStartObject();
+
+                        //foreach (var prop in data.AsDict())
+                        //{
+                        //    writer.WritePropertyName(prop.Key);
+                        //    writer.WriteValue(prop.Value);
+                        //}
+
+                        //writer.WriteEndObject();
+                        break;
+                    case ValueType.Array:
+                        serializer.Serialize(writer, data.GetValue<List<ValueContainer>>());
+                        //writer.WriteStartArray();
+
+                        //foreach (var prop in data.GetValue<List<ValueContainer>>())
+                        //{   
+                        //    writer.WriteValue(prop);
+                        //}
+
+                        //writer.WriteEndArray();
+                        break;
+                    case ValueType.Null:
+                        serializer.Serialize(writer, null);
+                       // writer.WriteNull();
+                        break;
+                    case ValueType.Date:
+                        serializer.Serialize(writer, data.GetValue<DateTimeOffset>());
+                      //  writer.WriteValue(data.GetValue<DateTimeOffset>());
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+           
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
