@@ -9,6 +9,7 @@
         Object,
         Array,
         Null,
-        Date
+        Date,
+        Guid
     }
 }
