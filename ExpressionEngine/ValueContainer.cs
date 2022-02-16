@@ -57,6 +57,11 @@ namespace ExpressionEngine
             _value = stringValue;
             _type = ValueType.String;
         }
+        public ValueContainer(DateTimeOffset dateTime)
+        {
+            _value = dateTime;
+            _type = ValueType.Date;
+        }
 
         public ValueContainer(float floatValue)
         {
@@ -373,6 +378,7 @@ namespace ExpressionEngine
                             JTokenType.Boolean => new ValueTask<ValueContainer>(new ValueContainer(t.Value<bool>())),
                             JTokenType.Integer => new ValueTask<ValueContainer>(new ValueContainer(t.Value<int>())),
                             JTokenType.Float => new ValueTask<ValueContainer>(new ValueContainer(t.Value<float>())),
+                            JTokenType.Date => new ValueTask<ValueContainer>(new ValueContainer(t.Value<DateTimeOffset>())),
                             _ => JsonToValueContainer(token.Children().First(), expressionEngine)
                         };
 
@@ -409,6 +415,7 @@ namespace ExpressionEngine
                         JTokenType.String => new ValueContainer(jValue.Value<string>()),
                         JTokenType.None => new ValueContainer(),
                         JTokenType.Guid => new ValueContainer(jValue.Value<Guid>().ToString()),
+                        JTokenType.Date => new ValueContainer(jValue.Value<DateTimeOffset>()),
                         _ => throw new ExpressionEngineException(
                             $"{jValue.Type} is not yet supported in ValueContainer conversion")
                     };
