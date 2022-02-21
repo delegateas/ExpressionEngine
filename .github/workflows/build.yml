@@ -34,6 +34,9 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
+          
+      - name: Install Xml to Markdown tool
+        run: dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown        
 
       - name: Cleaning
         run: dotnet clean
@@ -43,11 +46,16 @@ jobs:
 
       - name: Build solution
         run: dotnet build -o build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
+        
+      - name: Generate Markdown
+        run: tomd --input build/net5.0/ExpressionEngine.xml --output Documentation.md
 
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2.3.1
         with:
           name: build
           path: |
-            build/${{ matrix.dotnet }}/*
+            build/netcoreapp3.1/
+            build/net5.0/
+            Documentation.md
           retention-days: 5
