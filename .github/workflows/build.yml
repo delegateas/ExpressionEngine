@@ -34,7 +34,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
-
+          
       - name: Cleaning
         run: dotnet clean
 
@@ -42,12 +42,45 @@ jobs:
         run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
-        run: dotnet build -o ../build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
+        run: dotnet build -o build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
+        
+      - name: Cache artifactes
+        uses: actions/cache@v2
+        with:
+          path: build
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-temp
+  
+  publish:
+    runs-on: windows-latest
+    name: Generate docs and publish artifacts
+    needs: ['build']
+    steps:
+      - name: Get cache
+        uses: actions/cache@v2
+        with:
+          path: build
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-temp
+      
+      - run: dir
+
+      - run: dir build
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+  
+      - name: Install Xml to Markdown tool
+        run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown
+        
+      - name: Generate docs
+        run: dotnet tool run tomd --input build/netcoreapp3.1/ExpressionEngine.xml --output Documentation.md
 
       - name: Archive build to artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: build
           path: |
-            build/${{ matrix.dotnet }}/*
+            build/netcoreapp3.1/
+            build/net5.0/
+            Documentation.md
           retention-days: 5

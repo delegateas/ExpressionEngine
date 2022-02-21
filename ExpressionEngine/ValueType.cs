@@ -8,6 +8,8 @@
         String,
         Object,
         Array,
-        Null
+        Null,
+        Date,
+        Guid
     }
 }

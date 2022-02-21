@@ -111,13 +111,11 @@ namespace ExpressionEngine
                 from t in simpleString.Or(allowedCharacters).Many()
                 select string.Concat(t);
 
-            Parser<Task<ValueContainer>> joinedString =
-                from e in (
-                        from preFix in allowedString
-                        from exp in enclosedExpression.Optional()
-                        select exp.IsEmpty ? preFix : preFix + exp.Get())
-                    .Many()
-                select Task.FromResult(new ValueContainer(string.Concat(e)));
+            Parser<Task<ValueContainer>> joinedString = allowedString
+                .SelectMany(preFix => enclosedExpression.Optional(),
+                    async (preFix, exp) => exp.IsEmpty ? preFix : preFix + await exp.Get())
+                .Many()
+                .Select(async e => await Task.FromResult(new ValueContainer(string.Concat(await Task.WhenAll(e)))));
 
             _input = expression.Or(joinedString);
         }
