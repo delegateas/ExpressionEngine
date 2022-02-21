@@ -36,7 +36,7 @@ jobs:
           dotnet-version: '5.0.x'
           
       - name: Install Xml to Markdown tool
-        run: dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown        
+        run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown        
 
       - name: Cleaning
         run: dotnet clean
