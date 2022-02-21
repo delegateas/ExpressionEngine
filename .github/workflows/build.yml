@@ -42,12 +42,12 @@ jobs:
         run: dotnet restore ExpressionEngine.sln
 
       - name: Build solution
-        run: dotnet build -o ../build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
+        run: dotnet build -o build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
 
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2.3.1
         with:
           name: build
           path: |
-            ../build/${{ matrix.dotnet }}/*
+            build/${{ matrix.dotnet }}/*
           retention-days: 5
