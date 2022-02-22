@@ -48,18 +48,24 @@ jobs:
         uses: actions/cache@v2
         with:
           path: build
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.dotnet }}
+          key: ${{ runner.os }}-build-${{ matrix.dotnet }}
   
   publish:
     runs-on: windows-latest
     name: Generate docs and publish artifacts
     needs: ['build']
     steps:
-      - name: Get cache
+      - name: Get cache - net5.0
         uses: actions/cache@v2
         with:
-          path: build
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          path: build/net5.0
+          key: ${{ runner.os }}-build-net5.0
+
+      - name: Get cache - netcoreapp3.1
+        uses: actions/cache@v2
+        with:
+          path: build/netcoreap3.1
+          key: ${{ runner.os }}-build-netcoreap3.1
       
       - run: dir
 
