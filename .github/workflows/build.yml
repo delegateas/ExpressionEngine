@@ -64,8 +64,8 @@ jobs:
       - name: Get cache - netcoreapp3.1
         uses: actions/cache@v2
         with:
-          path: build/netcoreap3.1
-          key: ${{ runner.os }}-build-netcoreap3.1
+          path: build/netcoreapp3.1
+          key: ${{ runner.os }}-build-netcoreapp3.1
       
       - run: dir
 
