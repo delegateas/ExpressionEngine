@@ -44,11 +44,11 @@ jobs:
       - name: Build solution
         run: dotnet build -o build/${{ matrix.dotnet }} -c Release --no-restore -m:1 -f ${{ matrix.dotnet }}
         
-      - name: Cache artifactes
+      - name: Cache build artifacts
         uses: actions/cache@v2
         with:
           path: build
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-temp
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.dotnet }}
   
   publish:
     runs-on: windows-latest
@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: build
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-temp
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
       
       - run: dir
 
