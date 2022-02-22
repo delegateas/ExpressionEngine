@@ -18,7 +18,7 @@ namespace ExpressionEngine.Functions.Math
         /// add($ltsummand_1$gt, $ltsummand_2$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltsummand_1$gt, $ltsummand_2$gt" required="Yes" type="Integer, Float, or mixed">The numbers to add</parameter>
+        ///     <parameter def="$ltsummand_1$gt, $ltsummand_2$gt" required="Yes" type="Integer, Float, or mixed">The numbers to add</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltresult-sum$gt</value>

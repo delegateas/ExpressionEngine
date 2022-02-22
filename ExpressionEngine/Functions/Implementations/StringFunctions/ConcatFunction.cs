@@ -19,7 +19,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// concat('$lttext1$gt', '$lttext2$gt', ...)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext1$gt, $lttext2$gt, ..." required="Yes" type="String">At least two strings to combine</parameter>
+        ///     <parameter def="$lttext1$gt, $lttext2$gt, ..." required="Yes" type="String">At least two strings to combine</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$lttext1$gt, $lttext2$gt, ...</value>

@@ -20,8 +20,8 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// split('$lttext$gt', '$ltdelimiter$gt')
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to separate into substrings based on the specified delimiter in the original string</parameter>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The character in the original string to use as the delimiter</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string to separate into substrings based on the specified delimiter in the original string</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The character in the original string to use as the delimiter</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>[$ltsubstring1$gt,$ltsubstring2$gt,...]</value>

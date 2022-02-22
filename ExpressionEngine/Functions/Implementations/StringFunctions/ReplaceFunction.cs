@@ -19,9 +19,9 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// replace('$lttext$gt', '$ltoldText$gt', '$ltnewText$gt')
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string that has the substring to replace</parameter>
-        ///     <parameter name="$ltoldText$gt" required="Yes" type="String">The substring to replace</parameter>
-        ///     <parameter name="$ltnewtext$gt" required="Yes" type="String">The replacement string</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string that has the substring to replace</parameter>
+        ///     <parameter def="$ltoldText$gt" required="Yes" type="String">The substring to replace</parameter>
+        ///     <parameter def="$ltnewtext$gt" required="Yes" type="String">The replacement string</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltupdated-text$gt</value>

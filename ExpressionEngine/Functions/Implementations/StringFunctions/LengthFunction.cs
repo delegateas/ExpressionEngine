@@ -22,7 +22,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// length([$ltcollection$gt])
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltcollection$gt" required="Yes" type="String or Array">The collection with the items to count</parameter>
+        ///     <parameter def="$ltcollection$gt" required="Yes" type="String or Array">The collection with the items to count</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltlength-or-count$gt</value>

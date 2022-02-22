@@ -19,8 +19,8 @@ namespace ExpressionEngine.Functions.Math
         /// range($ltstartIndex$gt, $ltcount$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltstartIndex$gt" required="Yes" type="Integer">An integer value that starts the array as the first item</parameter>
-        ///     <parameter name="$ltcount$gt" required="Yes" type="Integer">The number of integers in the array. The <c>count</c> parameter value must be a positive integer that doesn't exceed 100,000.<br/><br/>Note: The sum of the <c>startIndex</c> and <c>count</c> values must not exceed 2,147,483,647.</parameter>
+        ///     <parameter def="$ltstartIndex$gt" required="Yes" type="Integer">An integer value that starts the array as the first item</parameter>
+        ///     <parameter def="$ltcount$gt" required="Yes" type="Integer">The number of integers in the array. The <c>count</c> parameter value must be a positive integer that doesn't exceed 100,000.<br/><br/>Note: The sum of the <c>startIndex</c> and <c>count</c> values must not exceed 2,147,483,647.</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>[$ltrange-result$gt]</value>

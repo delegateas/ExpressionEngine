@@ -18,8 +18,8 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// startsWith('$lttext$gt', '$ltsearchText$gt')
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to check</parameter>
-        ///     <parameter name="$ltsearchText$gt" required="Yes" type="String">The starting string to find</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string to check</parameter>
+        ///     <parameter def="$ltsearchText$gt" required="Yes" type="String">The starting string to find</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>true or false</value>

@@ -18,7 +18,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// toLower('$lttext$gt')
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to return in lowercase format</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string to return in lowercase format</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltlowercase-text$gt</value>

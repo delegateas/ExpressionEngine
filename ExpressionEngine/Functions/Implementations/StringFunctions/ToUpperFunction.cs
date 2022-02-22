@@ -19,7 +19,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// toUpper('$lttext$gt')
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string to return in uppercase format</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string to return in uppercase format</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltuppercase-text$gt</value>

@@ -19,8 +19,8 @@ namespace ExpressionEngine.Functions.Math
         /// rand($ltminValue$gt, $ltmaxValue$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltminValue$gt" required="Yes" type="Integer">The lowest integer in the range</parameter>
-        ///     <parameter name="$ltmaxValue$gt" required="Yes" type="Integer">The integer that follows the highest integer in the range that the function can return</parameter>
+        ///     <parameter def="$ltminValue$gt" required="Yes" type="Integer">The lowest integer in the range</parameter>
+        ///     <parameter def="$ltmaxValue$gt" required="Yes" type="Integer">The integer that follows the highest integer in the range that the function can return</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltproduct-resul$gt</value>

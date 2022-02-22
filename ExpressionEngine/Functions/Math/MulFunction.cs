@@ -18,8 +18,8 @@ namespace ExpressionEngine.Functions.Math
         /// mul($ltmultiplicand1$gt, $ltmultiplicand2$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltmultiplicand1$gt" required="Yes" type="Integer, Float, or mixed">The number to multiply by multiplicand2</parameter>
-        ///     <parameter name="$ltmultiplicand1$gt" required="Yes" type="Integer, Float, or mixed">The number that multiples multiplicand1</parameter>
+        ///     <parameter def="$ltmultiplicand1$gt" required="Yes" type="Integer, Float, or mixed">The number to multiply by multiplicand2</parameter>
+        ///     <parameter def="$ltmultiplicand1$gt" required="Yes" type="Integer, Float, or mixed">The number that multiples multiplicand1</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltproduct-resul$gt</value>

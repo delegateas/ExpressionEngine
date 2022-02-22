@@ -18,8 +18,8 @@ namespace ExpressionEngine.Functions.Math
         /// sub($ltminuend$gt, $ltsubtrahend$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltminuend$gt" required="Yes" type="Integer or Float">The number from which to subtract the subtrahend</parameter>
-        ///     <parameter name="$ltsubtrahend$gt" required="Yes" type="Integer or Float">The number to subtract from the minuend</parameter>
+        ///     <parameter def="$ltminuend$gt" required="Yes" type="Integer or Float">The number from which to subtract the subtrahend</parameter>
+        ///     <parameter def="$ltsubtrahend$gt" required="Yes" type="Integer or Float">The number to subtract from the minuend</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltresul$gt</value>

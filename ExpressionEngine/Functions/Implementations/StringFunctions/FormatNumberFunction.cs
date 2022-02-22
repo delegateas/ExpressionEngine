@@ -19,9 +19,9 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// formatNumber($ltnumber$gt, $ltformat$gt, $ltlocale$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltnumber$gt" required="Yes" type="Integer or Double">The value that you want to format.</parameter>
-        ///     <parameter name="$ltformat$gt" required="Yes" type="String">A composite format string that specifies the format that you want to use. For the supported numeric format strings, see Standard numeric format strings, which are supported by number.ToString($ltformat$gt, $ltlocale$gt).</parameter>
-        ///     <parameter name="$ltlocale$gt" required="Mo" type="String">The locale to use as supported by <c>number.ToString($ltformat$gt, $ltlocale$gt)</c>. If not specified, the default value is <c>en-us</c>.</parameter>
+        ///     <parameter def="$ltnumber$gt" required="Yes" type="Integer or Double">The value that you want to format.</parameter>
+        ///     <parameter def="$ltformat$gt" required="Yes" type="String">A composite format string that specifies the format that you want to use. For the supported numeric format strings, see Standard numeric format strings, which are supported by number.ToString($ltformat$gt, $ltlocale$gt).</parameter>
+        ///     <parameter def="$ltlocale$gt" required="Mo" type="String">The locale to use as supported by <c>number.ToString($ltformat$gt, $ltlocale$gt)</c>. If not specified, the default value is <c>en-us</c>.</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltformatted-number$gt</value>

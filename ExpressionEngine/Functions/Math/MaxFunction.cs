@@ -21,8 +21,8 @@ namespace ExpressionEngine.Functions.Math
         /// max([$ltnumber1$gt, $ltnumber2$gt, ...])
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltnumber_1$gt, $ltnumber_2$gt,..." required="Yes" type="Integer, Float, or both">The set of numbers from which you want the highest value</parameter>
-        ///     <parameter name="$[ltnumber_1$gt, $ltnumber_2$gt, ...]" required="Yes" type="Array - Integer, Float, or both">The array of numbers from which you want the highest value</parameter>
+        ///     <parameter def="$ltnumber_1$gt, $ltnumber_2$gt,..." required="Yes" type="Integer, Float, or both">The set of numbers from which you want the highest value</parameter>
+        ///     <parameter def="$[ltnumber_1$gt, $ltnumber_2$gt, ...]" required="Yes" type="Array - Integer, Float, or both">The array of numbers from which you want the highest value</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltmax-sum$gt</value>

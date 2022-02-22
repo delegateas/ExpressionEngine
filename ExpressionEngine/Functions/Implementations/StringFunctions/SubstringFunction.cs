@@ -19,9 +19,9 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// substring('$lttext$gt', $ltstartIndex$gt, $ltlength$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$lttext$gt" required="Yes" type="String">The string whose characters you want</parameter>
-        ///     <parameter name="$ltstartIndex$gt" required="Yes" type="Integer">A positive number equal to or greater than 0 that you want to use as the starting position or index value</parameter>
-        ///     <parameter name="$ltlength$gt" required="Yes" type="Integer">A positive number of characters that you want in the substring</parameter>
+        ///     <parameter def="$lttext$gt" required="Yes" type="String">The string whose characters you want</parameter>
+        ///     <parameter def="$ltstartIndex$gt" required="Yes" type="Integer">A positive number equal to or greater than 0 that you want to use as the starting position or index value</parameter>
+        ///     <parameter def="$ltlength$gt" required="Yes" type="Integer">A positive number of characters that you want in the substring</parameter>
         /// </parameters>
         /// <note>
         /// Make sure that the sum from adding the startIndex and length parameter values is less than the length of the string that you provide for the text parameter. Otherwise, you get an error, unlike similar functions in other languages where the result is the substring from the startIndex to the end of the string. The length parameter is optional and if not provided, the substring() function takes all the characters beginning from startIndex to the end of the string.

@@ -18,8 +18,8 @@ namespace ExpressionEngine.Functions.Math
         /// mod($ltdividend$gt, $ltdivisor$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="$ltdividend$gt" required="Yes" type="Integer or Float">The number to divide by the divisor</parameter>
-        ///     <parameter name="$ltdivisor$gt" required="Yes" type="Integer or Float">The number that divides the dividend, but cannot be 0.</parameter>
+        ///     <parameter def="$ltdividend$gt" required="Yes" type="Integer or Float">The number to divide by the divisor</parameter>
+        ///     <parameter def="$ltdivisor$gt" required="Yes" type="Integer or Float">The number that divides the dividend, but cannot be 0.</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltmodulo-result$gt</value>

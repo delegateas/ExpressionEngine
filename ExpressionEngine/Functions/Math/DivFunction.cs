@@ -18,8 +18,8 @@ namespace ExpressionEngine.Functions.Math
         /// add($ltsummand_1$gt, $ltsummand_2$gt)
         /// </definition>
         /// <parameters>
-        ///     <parameter name="dividend" required="Yes" type="Integer or Float">The number to divide by the divisor</parameter>
-        ///     <parameter name="divisor" required="Yes" type="Integer or Float">The number that divides the dividend, but cannot be 0</parameter>
+        ///     <parameter def="dividend" required="Yes" type="Integer or Float">The number to divide by the divisor</parameter>
+        ///     <parameter def="divisor" required="Yes" type="Integer or Float">The number that divides the dividend, but cannot be 0</parameter>
         /// </parameters>
         /// <returns>
         ///     <value>$ltquotient-resultgt</value>
