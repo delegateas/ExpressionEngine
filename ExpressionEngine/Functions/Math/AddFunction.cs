@@ -10,6 +10,28 @@ namespace ExpressionEngine.Functions.Math
         {
         }
 
+        /// <functionName>add</functionName>
+        /// <summary>
+        /// Return the result from adding two numbers.
+        /// </summary>
+        /// <definition>
+        /// add($ltsummand_1$gt, $ltsummand_2$gt)
+        /// </definition>
+        /// <parameters>
+        ///     <parameter def="$ltsummand_1$gt, $ltsummand_2$gt" required="Yes" type="Integer, Float, or mixed">The numbers to add</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>$ltresult-sum$gt</value>
+        ///     <type>Integer or Float</type>
+        ///     <description>The result from adding the specified numbers</description>
+        /// </returns>
+        /// <example>
+        /// This example adds the specified numbers:
+        /// <code>
+        /// add(1, 1.5)
+        /// </code>
+        /// And returns this result: <c>2.5</c>
+        /// </example>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)

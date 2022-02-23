@@ -11,6 +11,29 @@ namespace ExpressionEngine.Functions.Math
         {
         }
 
+        /// <functionName>range</functionName>
+        /// <summary>
+        /// Return an integer array that starts from a specified integer.
+        /// </summary>
+        /// <definition>
+        /// range($ltstartIndex$gt, $ltcount$gt)
+        /// </definition>
+        /// <parameters>
+        ///     <parameter def="$ltstartIndex$gt" required="Yes" type="Integer">An integer value that starts the array as the first item</parameter>
+        ///     <parameter def="$ltcount$gt" required="Yes" type="Integer">The number of integers in the array. The <c>count</c> parameter value must be a positive integer that doesn't exceed 100,000.<br/><br/>Note: The sum of the <c>startIndex</c> and <c>count</c> values must not exceed 2,147,483,647.</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>[$ltrange-result$gt]</value>
+        ///     <type>Array</type>
+        ///     <description>The array with integers starting from the specified index</description>
+        /// </returns>
+        /// <example>
+        /// This example creates an integer array that starts from the specified index and has the specified number of integers:
+        /// <code>
+        /// range(1, 4)
+        /// </code>
+        /// And returns this result: <c>[1, 2, 3, 4]</c>
+        /// </example>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)

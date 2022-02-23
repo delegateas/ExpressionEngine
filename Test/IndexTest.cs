@@ -128,6 +128,8 @@ namespace Test
         
             Assert.AreEqual(ValueType.Object, output.Type());
             Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+
+            var t = new ValueContainer();
         }
         
                 
