@@ -89,6 +89,5 @@ jobs:
       - name: Archive documentation to artifacts
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: docs
-          path: |
-            Documentation.md
+          name: Documentation.md
+          path: Documentation.md
