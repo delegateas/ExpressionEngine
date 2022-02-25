@@ -65,7 +65,8 @@ jobs:
         run: dotnet restore ExpressionEngine.sln
 
       - name: Package Parser
-        run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
+        run: dotnet pack -c Release -o ./artifacts
+#        run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
 #        if: ${{ env.RELEASE_VERSION }}
         
       - run: dir
