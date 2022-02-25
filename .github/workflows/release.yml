@@ -66,7 +66,7 @@ jobs:
 
       - name: Package Parser
         run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
-        if: ${{ env.RELEASE_VERSION }}
+#        if: ${{ env.RELEASE_VERSION }}
         
       - run: dir
       - run: dir artifacts
