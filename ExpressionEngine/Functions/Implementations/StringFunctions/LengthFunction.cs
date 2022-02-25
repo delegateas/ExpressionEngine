@@ -13,6 +13,22 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         {
         }
 
+        /// <functionName>length</functionName>
+        /// <summary>
+        /// Return the number of items in a collection.
+        /// </summary>
+        /// <definition>
+        /// length('$ltcollection$gt')
+        /// length([$ltcollection$gt])
+        /// </definition>
+        /// <parameters>
+        ///     <parameter def="$ltcollection$gt" required="Yes" type="String or Array">The collection with the items to count</parameter>
+        /// </parameters>
+        /// <returns>
+        ///     <value>$ltlength-or-count$gt</value>
+        ///     <type>Integer</type>
+        ///     <description>The number of items in the collection</description>
+        /// </returns>
         public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)

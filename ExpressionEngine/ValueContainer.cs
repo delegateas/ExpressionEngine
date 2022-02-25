@@ -24,15 +24,15 @@ namespace ExpressionEngine
 
             if (tryToParse)
             {
-                if (int.TryParse(value, out var iValue))
-                {
-                    _value = iValue;
-                    _type = ValueType.Integer;
-                }
-                else if (float.TryParse(value, out var fValue))
+                if (value.Contains('.') && double.TryParse(value, out var fValue))
                 {
                     _value = fValue;
                     _type = ValueType.Float;
+                }
+                else if (int.TryParse(value, out var iValue))
+                {
+                    _value = iValue;
+                    _type = ValueType.Integer;
                 }
                 else if (bool.TryParse(value, out var bValue))
                 {
@@ -56,6 +56,17 @@ namespace ExpressionEngine
         {
             _value = stringValue;
             _type = ValueType.String;
+        }
+        public ValueContainer(Guid guid)
+        {
+            _value = guid;
+            _type = ValueType.Guid;
+        }
+
+        public ValueContainer(DateTimeOffset dateTime)
+        {
+            _value = dateTime;
+            _type = ValueType.Date;
         }
 
         public ValueContainer(float floatValue)
@@ -120,8 +131,11 @@ namespace ExpressionEngine
 
         public T GetValue<T>()
         {
+            
+         
             return _value;
         }
+        
 
         public ValueContainer this[int i]
         {
@@ -221,6 +235,8 @@ namespace ExpressionEngine
                     .Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}",
                 ValueType.Array => "[" + string.Join(", ", GetValue<IEnumerable<ValueContainer>>().ToList()) + "]",
                 ValueType.Null => "<null>",
+                ValueType.Date => _value.ToString(),
+                ValueType.Guid => _value.ToString(),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -236,37 +252,33 @@ namespace ExpressionEngine
                 throw new InvalidOperationException("Cannot compare these two...");
 
             var other = (ValueContainer) obj;
-            if (other.Type() != _type)
-            {
-                // TODO: Fix comparison
 
-                throw new InvalidOperationException("Cannot compare two different ValueContainers");
-            }
-            else
+            switch (_value)
             {
-                switch (_value)
-                {
-                    case bool b:
-                        return b.CompareTo(other._value);
-                    case int i:
-                        return i.CompareTo(other._value);
-                    case float f:
-                        return f.CompareTo(other._value);
-                    case double f:
-                        return f.CompareTo(other._value);
-                    case decimal f:
-                        return f.CompareTo(other._value);
-                    case string s:
-                        return s.CompareTo(other._value);
-                    case Dictionary<string, ValueContainer> d:
-                        var d2 = (Dictionary<string, ValueContainer>) other._value;
-                        return d.Count - d2.Count;
-                    case IEnumerable<ValueContainer> l:
-                        var l2 = (IEnumerable<ValueContainer>) other._value;
-                        return l.Count() - l2.Count();
-                    default:
-                        return -1;
-                }
+                case bool b:
+                    return b.CompareTo(other._value);
+                case int i:
+                    return i.CompareTo(other._value);
+                case float f:
+                    return f.CompareTo(other._value);
+                case double f:
+                    return f.CompareTo(other._value);
+                case decimal f:
+                    return f.CompareTo(other._value);
+                case string s:
+                    return s.CompareTo(other._value);
+                case Guid g:
+                    return g.CompareTo(other._value);
+                case DateTimeOffset d:
+                    return d.CompareTo(other._value);
+                case Dictionary<string, ValueContainer> d:
+                    var d2 = (Dictionary<string, ValueContainer>) other._value;
+                    return d.Count - d2.Count;
+                case IEnumerable<ValueContainer> l:
+                    var l2 = (IEnumerable<ValueContainer>) other._value;
+                    return l.Count() - l2.Count();
+                default:
+                    return -1;
             }
         }
 
@@ -357,33 +369,38 @@ namespace ExpressionEngine
             return v;
         }
 
-        private static async ValueTask<ValueContainer> JsonToValueContainer(JToken json, IExpressionEngine expressionEngine)
+        private static async ValueTask<ValueContainer> JsonToValueContainer(JToken json,
+            IExpressionEngine expressionEngine)
         {
             switch (json)
             {
                 case JObject _:
                 {
-                    var dictionary = json.ToDictionary(pair => ((JProperty) pair).Name, async token =>
+                    var dictionary = json.OfType<JProperty>().ToDictionary(pair => pair.Name, token =>
                     {
-                        if (token.Children().Count() != 1)
-                        {
-                            var t1 = await JsonToValueContainer(token.Children().First(), expressionEngine);
-                            return t1;
-                        }
+                        return JsonToValueContainer(token.Value, expressionEngine);
+                        //if (token.Children().Count() != 1)
+                        //{
+                        //    var t1 = await JsonToValueContainer(token.Children().First(), expressionEngine);
+                        //    return t1;
+                        //}
 
-                        var t = token.First;
-                        var result = t.Type switch
-                        {
-                            JTokenType.String when expressionEngine != null => expressionEngine.ParseToValueContainer(
-                                t.Value<string>()),
-                            JTokenType.String => new ValueTask<ValueContainer>(new ValueContainer(t.Value<string>())),
-                            JTokenType.Boolean => new ValueTask<ValueContainer>(new ValueContainer(t.Value<bool>())),
-                            JTokenType.Integer => new ValueTask<ValueContainer>(new ValueContainer(t.Value<int>())),
-                            JTokenType.Float => new ValueTask<ValueContainer>(new ValueContainer(t.Value<float>())),
-                            _ => JsonToValueContainer(token.Children().First(), expressionEngine)
-                        };
+                     //   var t = token.First;
+                        //var result = token.Type switch
+                        //{
+                        //    JTokenType.String when expressionEngine != null => expressionEngine.ParseToValueContainer(
+                        //        token.Value<string>()),
+                        //    JTokenType.String => new ValueTask<ValueContainer>(new ValueContainer(token.Value<string>())),
+                        //    JTokenType.Boolean => new ValueTask<ValueContainer>(new ValueContainer(token.Value<bool>())),
+                        //    JTokenType.Integer => new ValueTask<ValueContainer>(new ValueContainer(token.Value<int>())),
+                        //    JTokenType.Float => new ValueTask<ValueContainer>(new ValueContainer(token.Value<float>())),
+                        //    JTokenType.Date => new ValueTask<ValueContainer>(new ValueContainer(token.Value<DateTimeOffset>())),
+                        //    JTokenType.Guid => new ValueTask<ValueContainer>(new ValueContainer(token.Value<Guid>())),
+                        //    //JTokenType.Array => new ValueTask<ValueContainer>(new ValueContainer(await Task.WhenAll()),
+                        //    _ => JsonToValueContainer(token, expressionEngine)
+                        //};
 
-                        return new ValueContainer(await result);
+                        //return new ValueContainer(await result);
                     });
 
                     var pairs = await Task.WhenAll
@@ -397,7 +414,7 @@ namespace ExpressionEngine
                     return new ValueContainer(pairs.ToDictionary(pair => pair.Key, pair => pair.Value));
                 }
                 case JArray jArray:
-                    return jArray.Count > 0 ? new ValueContainer() : JArrayToValueContainer(jArray);
+                    return jArray.Count == 0 ? new ValueContainer(): await JArrayToValueContainer(jArray, expressionEngine);
                 case JValue jValue:
                     if (jValue.HasValues)
                     {
@@ -415,45 +432,47 @@ namespace ExpressionEngine
                             jValue.Value<string>()),
                         JTokenType.String => new ValueContainer(jValue.Value<string>()),
                         JTokenType.None => new ValueContainer(),
-                        JTokenType.Guid => new ValueContainer(jValue.Value<Guid>().ToString()),
+                        JTokenType.Guid => new ValueContainer(jValue.Value<Guid>()),
+                        JTokenType.Date => new ValueContainer(jValue.Value<DateTimeOffset>()),
                         _ => throw new ExpressionEngineException(
                             $"{jValue.Type} is not yet supported in ValueContainer conversion")
                     };
                 default:
-                    throw new ExpressionEngineException("Could not parse JToken to ValueContainer.");
+                    throw new ExpressionEngineException("Could not parse JToken to ValueContainer. "+ json.Type);
             }
         }
 
-        private static ValueContainer JArrayToValueContainer(JArray json)
+        private static async ValueTask<ValueContainer> JArrayToValueContainer(JArray json, IExpressionEngine expressionEngine)
         {
             var list = new List<ValueContainer>();
 
             foreach (var jToken in json)
             {
-                if (jToken.GetType() != typeof(JValue))
-                {
-                    throw new ExpressionEngineException("Json can only contain arrays of primitive types.");
-                }
+                list.Add( await JsonToValueContainer(jToken, expressionEngine));
+                //if (jToken.GetType() != typeof(JValue))
+                //{
+                //    throw new ExpressionEngineException("Json can only contain arrays of primitive types.");
+                //}
 
-                var t = (JValue) jToken;
-                switch (t.Value)
-                {
-                    case int i:
-                        list.Add(new ValueContainer(i));
-                        break;
-                    case string s:
-                        list.Add(new ValueContainer(s));
-                        break;
-                    case bool b:
-                        list.Add(new ValueContainer(b));
-                        break;
-                    case double d:
-                        list.Add(new ValueContainer(d));
-                        break;
-                    default:
-                        throw new ExpressionEngineException(
-                            $"Type {t.Value.GetType()} is not recognized when converting Json to ValueContainer.");
-                }
+                //var t = (JValue) jToken;
+                //switch (t.Value)
+                //{
+                //    case int i:
+                //        list.Add(new ValueContainer(i));
+                //        break;
+                //    case string s:
+                //        list.Add(new ValueContainer(s));
+                //        break;
+                //    case bool b:
+                //        list.Add(new ValueContainer(b));
+                //        break;
+                //    case double d:
+                //        list.Add(new ValueContainer(d));
+                //        break;
+                //    default:
+                //        throw new ExpressionEngineException(
+                //            $"Type {t.Value.GetType()} is not recognized when converting Json to ValueContainer.");
+                //}
             }
 
             return new ValueContainer(list);

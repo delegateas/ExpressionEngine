@@ -128,6 +128,8 @@ namespace Test
         
             Assert.AreEqual(ValueType.Object, output.Type());
             Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+
+            var t = new ValueContainer();
         }
         
                 
@@ -135,6 +137,18 @@ namespace Test
         public async Task Test8()
         {
             const string str = "@{variables()['account']['name']}";
+            var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
+            
+            var output = await ee.ParseToValueContainer(str);
+        
+            Assert.AreEqual(ValueType.String, output.Type());
+            Assert.AreEqual("John Doe", output.GetValue<string>());
+        }
+        
+        [Test]
+        public async Task Test9()
+        {
+            const string str = "@{variables()?['account']?['name']}";
             var ee = _serviceProvider.GetRequiredService<IExpressionEngine>();
             
             var output = await ee.ParseToValueContainer(str);

@@ -68,6 +68,8 @@ namespace ExpressionEngine
             services.AddTransient<IFunction, CreateArrayFunction>();
             services.AddTransient<IFunction, DataUriFunction>();
             services.AddTransient<IFunction, DataUriToBinaryFunction>();
+            services.AddTransient<IFunction, FloatFunction>();
+            services.AddTransient<IFunction, IntFunction>();
         }
 
         private static void AddLogicalComparisonFunctions(IServiceCollection services)
@@ -85,7 +87,7 @@ namespace ExpressionEngine
 
         private static void AddMathFunctions(IServiceCollection services)
         {
-            services.AddTransient<IFunction, AndFunction>();
+            services.AddTransient<IFunction, AddFunction>();
             services.AddTransient<IFunction, DivFunction>();
             services.AddTransient<IFunction, MaxFunction>();
             services.AddTransient<IFunction, MinFunction>();
