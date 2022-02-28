@@ -34,7 +34,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
             }
 
             return new ValueTask<ValueContainer>(new ValueContainer(parameters.Aggregate("",
-                (current, value) => current + AuxiliaryMethods.VcIsString(value))));
+                (current, value) => current + value)));
         }
     }
 }
