@@ -25,6 +25,17 @@ namespace ExpressionEngine
             services.AddTransient<IFunction, GreaterFunction>();
         }
 
+        /// <summary>
+        /// Added FunctionDefinition to service collection
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public static void AddFunctionDefinition(this IServiceCollection services, string from, string to)
+        {
+            services.AddTransient<IFunctionDefinition, FunctionDefinition>(_ => new FunctionDefinition(from, to));
+        }
+
         private static void AddStringFunctions(IServiceCollection services)
         {
             services.AddTransient<IFunction, ConcatFunction>();

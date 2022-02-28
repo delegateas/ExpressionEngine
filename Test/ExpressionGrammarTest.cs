@@ -20,7 +20,7 @@ namespace Test
 
             var functions = new List<IFunction> {_dummyFunction};
 
-            _expressionGrammar = new ExpressionGrammar(functions);
+            _expressionGrammar = new ExpressionGrammar(functions, null);
         }
 
         [Test]
