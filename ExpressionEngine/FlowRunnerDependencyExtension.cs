@@ -1,4 +1,5 @@
 ﻿using ExpressionEngine.Functions.Base;
+using ExpressionEngine.Functions.CustomException;
 using ExpressionEngine.Functions.Implementations.CollectionFunctions;
 using ExpressionEngine.Functions.Implementations.ConversionFunctions;
 using ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions;
@@ -26,14 +27,20 @@ namespace ExpressionEngine
         }
 
         /// <summary>
-        /// Added FunctionDefinition to service collection
+        /// Added FunctionDefinition to service collection.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        public static void AddFunctionDefinition(this IServiceCollection services, string from, string to)
+        /// <param name="fromFunctionName">The name of the function, without function parenthesis</param>
+        /// <param name="toExpression">The full expression which is inserted</param>
+        public static void AddFunctionDefinition(this IServiceCollection services, string fromFunctionName, string toExpression)
         {
-            services.AddTransient<IFunctionDefinition, FunctionDefinition>(_ => new FunctionDefinition(from, to));
+            if (fromFunctionName.EndsWith("()"))
+            {
+                throw new ArgumentError($"{nameof(fromFunctionName)} cannot end in ()");
+            }
+
+            services.AddTransient<IFunctionDefinition, FunctionDefinition>(_ =>
+                new FunctionDefinition(fromFunctionName + "()", toExpression));
         }
 
         private static void AddStringFunctions(IServiceCollection services)
