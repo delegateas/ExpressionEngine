@@ -23,6 +23,21 @@ namespace Test
             return new ValueContainer("Hello World");
         }
     }
+    
+    public class NonExistingFunction1 : Function
+    {
+        public NonExistingFunction1() : base("nonExistingFunction1")
+        {
+
+        }
+
+        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        {
+            return new ValueContainer("Hello World");
+        }
+    }
+
+    
     [TestFixture]
     public class ParserTest
     {
@@ -30,7 +45,8 @@ namespace Test
         {
             var services = new ServiceCollection();
             services.AddExpressionEngine();
-            services.AddTransient<IFunction, AsynctestFunction>();
+            services.RegisterTransientFunctionAlias<AsynctestFunction>("asynctest");
+            services.AddSingleton(_ => new FunctionMetadata(typeof(NonExistingFunction1),"nonExistingFunction1"));
             return services.BuildServiceProvider();
         }
 
@@ -51,9 +67,9 @@ namespace Test
         private static TestInput[] _simpleCasesExceptions =
         {
             new TestInput(
-                "@nonExistingFunction(\'input\')",
+                "@nonExistingFunction1(\'input\')",
                 new ValueContainer(
-                    "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression.")
+                    "Function with name: nonExistingFunction1, does not exist.\nAdd the function to the expression engine to test this expression.")
             )
             {
                 ExceptionType = typeof(FunctionNotKnown)
@@ -61,7 +77,7 @@ namespace Test
             new TestInput(
                 "@nonExistingFunction()",
                 new ValueContainer(
-                    "Function with name: nonExistingFunction, does not exist.\nAdd the function to the expression engine to test this expression.")
+                    "Function metadata for function with name: nonExistingFunction, does not exist.\nAdd the function metadata to the expression engine to test this expression.")
             )
             {
                 ExceptionType = typeof(FunctionNotKnown)

@@ -5,7 +5,6 @@ namespace ExpressionEngine.Functions.Base
 {
     public interface IFunction
     {
-        string FunctionName { get; }
         ValueTask<ValueContainer> ExecuteFunction(ValueContainer[] strings);
     }
 

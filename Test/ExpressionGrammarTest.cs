@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Test
@@ -16,11 +17,14 @@ namespace Test
         [SetUp]
         public void SetUp()
         {
+            var t = new ServiceCollection();
             _dummyFunction = new DummyFunction();
+            t.AddTransient(_ => _dummyFunction);
+            t.AddSingleton(new FunctionMetadata(typeof(DummyFunction), "dummyFunction"));
 
-            var functions = new List<IFunction> {_dummyFunction};
+            var functions = new List<FunctionMetadata> {new FunctionMetadata(typeof(DummyFunction), "dummyFunction")};
 
-            _expressionGrammar = new ExpressionGrammar(functions);
+            _expressionGrammar = new ExpressionGrammar(functions, t.BuildServiceProvider());
         }
 
         [Test]

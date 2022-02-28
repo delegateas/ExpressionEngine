@@ -21,8 +21,7 @@ namespace Test
             {
                 var services = new ServiceCollection();
                 services.AddExpressionEngine();
-                services.AddScoped<VariablesFunction>();
-                services.AddScoped<IFunction, VariablesFunction>(x => x.GetRequiredService<VariablesFunction>());
+                services.RegisterScopedFunctionAlias<VariablesFunction>("variables");
                 _serviceProvider = services.BuildServiceProvider();
             }
 
@@ -342,38 +341,6 @@ namespace Test
                 default:
                     throw new ArgumentOutOfRangeException(nameof(storageOption), storageOption, null);
             }
-        }
-    }
-
-    public class VariablesFunction : Function
-    {
-        public ValueContainer DefaultValueContainer { get; set; }
-        private readonly ValueContainer _indexedValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>());
-
-
-        public VariablesFunction() : base("variables")
-        {
-        }
-
-        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
-        {
-            return parameters?.Length switch
-            {
-                null => DefaultValueContainer,
-                0 => DefaultValueContainer,
-                1 => _indexedValueContainer[parameters.First().GetValue<string>()],
-                _ => new ValueContainer()
-            };
-        }
-
-        public void AddValueContainer(string key, ValueContainer valueContainer)
-        {
-            _indexedValueContainer[key] = valueContainer;
-        }
-
-        public void AddValueContainer(string key, IEnumerable<ValueContainer> valueContainer)
-        {
-            _indexedValueContainer[key] = new ValueContainer(valueContainer);
         }
     }
 }
