@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ExpressionEngine;
-using ExpressionEngine.Functions.Base;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using ValueType = ExpressionEngine.ValueType;
