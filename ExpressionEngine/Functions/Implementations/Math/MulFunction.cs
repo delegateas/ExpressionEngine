@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class MulFunction : Function
+    public class MulFunction : IFunction
     {
-        public MulFunction() : base("mul")
-        {
-        }
-
         /// <functionName>mul</functionName>
         /// <summary>
         /// Return the product from multiplying two numbers.
@@ -37,7 +33,7 @@ namespace ExpressionEngine.Functions.Math
         /// First example: <c>2</c>
         /// Second example <c>3</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

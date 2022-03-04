@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class EndsWithFunction : Function
+    public class EndsWithFunction : IFunction
     {
-        public EndsWithFunction() : base("endsWith")
-        {
-        }
-
         /// <functionName>endsWith</functionName>
         /// <summary>
         /// Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive.
@@ -26,7 +22,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         ///     <type>Boolean</type>
         ///     <description>Return true when the ending substring is found. Return false when not found.</description>
         /// </returns>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {

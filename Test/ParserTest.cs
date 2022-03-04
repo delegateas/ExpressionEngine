@@ -10,28 +10,18 @@ using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
 {
-    public class AsynctestFunction : Function
+    public class AsynctestFunction : IFunction
     {
-        public AsynctestFunction() : base("asynctest")
-        {
-
-        }
-
-        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             await Task.Delay((int) (new Random().NextDouble()* 10000));
             return new ValueContainer("Hello World");
         }
     }
     
-    public class NonExistingFunction1 : Function
+    public class NonExistingFunction1 : IFunction
     {
-        public NonExistingFunction1() : base("nonExistingFunction1")
-        {
-
-        }
-
-        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return new ValueContainer("Hello World");
         }

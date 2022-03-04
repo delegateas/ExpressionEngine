@@ -6,17 +6,12 @@ using ExpressionEngine.Functions.Base;
 
 namespace Test
 {
-    public class VariablesFunction : Function
+    public class VariablesFunction : IFunction
     {
         public ValueContainer DefaultValueContainer { get; set; }
         private readonly ValueContainer _indexedValueContainer = new ValueContainer(new Dictionary<string, ValueContainer>());
 
-
-        public VariablesFunction() : base("variables")
-        {
-        }
-
-        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters?.Length switch
             {

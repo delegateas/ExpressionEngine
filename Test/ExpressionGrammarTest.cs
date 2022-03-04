@@ -99,16 +99,12 @@ namespace Test
         }
     }
 
-    public class DummyFunction : Function
+    public class DummyFunction : IFunction
     {
         internal ValueContainer ValueContainer;
         internal ValueContainer[] Parameters;
-
-        public DummyFunction() : base("dummyFunction")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             Parameters = parameters;
             return new ValueTask<ValueContainer>(ValueContainer);

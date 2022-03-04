@@ -6,12 +6,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class SplitFunction : Function
+    public class SplitFunction : IFunction
     {
-        public SplitFunction() : base("split")
-        {
-        }
-
         /// <functionName>split</functionName>
         /// <summary>
         /// Return an array that contains substrings, separated by commas, based on the specified delimiter character in the original string.
@@ -30,7 +26,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// </returns>
         // [ArguementAttribute()]
         // [ArguementAttribute()]
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {

@@ -40,16 +40,12 @@ namespace Test
         }
     }
 
-    internal class ReturnData : Function
+    internal class ReturnData : IFunction
     {
         internal ValueContainer ValueContainer;
         internal ValueContainer[] Parameters;
 
-        public ReturnData() : base("returnData")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public  ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             Parameters = parameters;
             return new ValueTask<ValueContainer>(ValueContainer);
