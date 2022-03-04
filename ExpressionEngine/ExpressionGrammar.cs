@@ -141,7 +141,7 @@ namespace ExpressionEngine
             {
                 input = _functionDefinitions.Aggregate(input,
                     (current, functionDefinition) =>
-                        current.Replace(functionDefinition.From(), functionDefinition.To()));
+                        current.Replace(functionDefinition.From, functionDefinition.To));
             }
 
             return await _input.Parse(input);

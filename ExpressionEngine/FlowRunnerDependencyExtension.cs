@@ -39,7 +39,7 @@ namespace ExpressionEngine
                 throw new ArgumentError($"{nameof(fromFunctionName)} cannot end in ()");
             }
 
-            services.AddSingleton<IFunctionDefinition>(new FunctionDefinition(fromFunctionName + "()", toExpression));
+            services.AddSingleton<IFunctionDefinition>(new FunctionDefinition{From = fromFunctionName + "()", To = toExpression});
         }
 
         private static void AddStringFunctions(IServiceCollection services)
