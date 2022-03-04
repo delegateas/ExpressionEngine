@@ -6,36 +6,13 @@ namespace ExpressionEngine
     /// </summary>
     public class FunctionDefinition : IFunctionDefinition
     {
-        private readonly string _from;
-        private readonly string _to;
-
         /// <summary>
-        /// Construction a Function Definition
+        /// The from 'function name' which is replaced
         /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        public FunctionDefinition(string from, string to)
-        {
-            _from = @from;
-            _to = to;
-        }
-
+        public string From { get; set; }
         /// <summary>
-        /// 
+        /// The replacement
         /// </summary>
-        /// <returns></returns>
-        public string From()
-        {
-            return _from;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public string To()
-        {
-            return _to;
-        }
+        public string To { get; set; }
     }
 }
