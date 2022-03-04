@@ -68,9 +68,6 @@ jobs:
         run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
         if: ${{ env.RELEASE_VERSION }}
         
-      - run: dir
-      - run: dir artifacts
-        
       - name: Install Xml to Markdown tool
         run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown --version 1.0.0
 
