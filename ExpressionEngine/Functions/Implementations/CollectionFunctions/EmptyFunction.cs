@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
-    public class EmptyFunction : Function
+    public class EmptyFunction : IFunction
     {
-        public EmptyFunction() : base("empty")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             var value = parameters[0];
 

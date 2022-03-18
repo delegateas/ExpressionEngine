@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
-    public class TakeFunction : Function
+    public class TakeFunction : IFunction
     {
-        public TakeFunction() : base("take")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             var value = parameters[0];
             var count = parameters[1].GetValue<int>();

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Test
@@ -15,11 +16,15 @@ namespace Test
         [SetUp]
         public void Setup()
         {
+            var t = new ServiceCollection();
+            t.RegisterTransientFunctionAlias<DummyFunction>("dummy");
             _returnData = new ReturnData();
+            t.RegisterScopedFunctionAlias("returnData", _ => _returnData);
+            t.BuildServiceProvider().GetService<IExpressionEngine>();
 
-            var functions = new List<IFunction> {_returnData};
+            t.AddSingleton<ExpressionGrammar>();
 
-            _expressionGrammar = new ExpressionGrammar(functions, null);
+            _expressionGrammar = t.BuildServiceProvider().GetService<ExpressionGrammar>();
         }
 
         [Test]
@@ -35,16 +40,12 @@ namespace Test
         }
     }
 
-    internal class ReturnData : Function
+    internal class ReturnData : IFunction
     {
         internal ValueContainer ValueContainer;
         internal ValueContainer[] Parameters;
 
-        public ReturnData() : base("returnData")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public  ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             Parameters = parameters;
             return new ValueTask<ValueContainer>(ValueContainer);

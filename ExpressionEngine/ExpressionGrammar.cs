@@ -14,11 +14,11 @@ namespace ExpressionEngine
         private readonly Parser<IRule> _method;
         private readonly Parser<Task<ValueContainer>> _input;
 
-        public ExpressionGrammar(IEnumerable<IFunction> functions, IEnumerable<IFunctionDefinition> functionDefinitions)
+        public ExpressionGrammar(IEnumerable<FunctionMetadata> functions, IEnumerable<IFunctionDefinition> functionDefinitions, IServiceProvider serviceProvider)
         {
             _functionDefinitions = functionDefinitions?.ToList();
 
-            var functionCollection = functions ?? throw new ArgumentNullException(nameof(functions));
+            var functionCollection = functions.ToList() ?? throw new ArgumentNullException(nameof(functions));
 
             #region BasicAuxParsers
 
@@ -92,7 +92,7 @@ namespace ExpressionEngine
                 from mandatoryLetter in Parse.Letter
                 from rest in Parse.LetterOrDigit.Many().Text()
                 from args in arguments.Contained(lParenthesis, rParenthesis)
-                select new ExpressionRule(functionCollection, mandatoryLetter + rest,
+                select new ExpressionRule(functionCollection, serviceProvider, mandatoryLetter + rest,
                     args.IsEmpty
                         ? null
                         : args.Get());

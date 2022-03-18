@@ -4,13 +4,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
-    public class EqualFunction : Function
+    public class EqualFunction : IFunction
     {
-        public EqualFunction() : base("equal")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {

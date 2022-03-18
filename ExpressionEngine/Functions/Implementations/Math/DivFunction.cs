@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class DivFunction : Function
+    public class DivFunction : IFunction
     {
-        public DivFunction() : base("div")
-        {
-        }
-        
         /// <functionName>div</functionName>
         /// <summary>
         /// Return the result from dividing two numbers. To get the remainder result, see <see cref="ModFunction"/>/>.
@@ -38,7 +34,7 @@ namespace ExpressionEngine.Functions.Math
         /// div(11.0,5)
         /// </code>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

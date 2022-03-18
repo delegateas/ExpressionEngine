@@ -185,8 +185,6 @@ namespace Test.Expression
         {
             var func = new GuidFunction();
 
-            Assert.AreEqual("guid", func.FunctionName);
-
             var result1 = await func.ExecuteFunction();
 
             Assert.AreEqual(36, result1.GetValue<string>().Length);
@@ -204,8 +202,6 @@ namespace Test.Expression
         public async Task SplitFunctionTest()
         {
             var func = new SplitFunction();
-
-            Assert.AreEqual("split", func.FunctionName);
 
             var result1 = await func.ExecuteFunction(new ValueContainer("This is sp a sp splitted sp string"),
                 new ValueContainer("sp"));

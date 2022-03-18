@@ -5,12 +5,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class FormatNumberFunction : Function
+    public class FormatNumberFunction : IFunction
     {
-        public FormatNumberFunction() : base("formatNumber")
-        {
-        }
-
         /// <functionName>formatNumber</functionName>
         /// <summary>
         /// Return a number as a string that's based on the specified format.
@@ -28,7 +24,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         ///     <type>String</type>
         ///     <description>The specified number as a string in the format that you specified. You can cast this return value to an <c>int</c> or <c>float</c>.</description>
         /// </returns>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2 || parameters.Length > 3)
             {

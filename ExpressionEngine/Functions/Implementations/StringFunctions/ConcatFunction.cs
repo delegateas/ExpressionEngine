@@ -5,12 +5,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class ConcatFunction : Function
+    public class ConcatFunction : IFunction
     {
-        public ConcatFunction() : base("concat")
-        {
-        }
-
         /// <functionName>concat</functionName>
         /// <summary>
         /// Combine two or more strings, and return the combined string.
@@ -26,7 +22,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         ///     <type>String</type>
         ///     <description>The string created from the combined input strings. <br/><br/> Note: The length of the result must not exceed 104,857,600 characters.</description>
         /// </returns>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {

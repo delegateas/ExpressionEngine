@@ -4,13 +4,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class TrimFunction : Function
+    public class TrimFunction : IFunction
     {
-        public TrimFunction() : base("trim")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

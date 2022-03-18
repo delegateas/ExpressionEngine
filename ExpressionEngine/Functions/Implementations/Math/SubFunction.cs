@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class SubFunction : Function
+    public class SubFunction : IFunction
     {
-        public SubFunction() : base("sub")
-        {
-        }
-
         /// <functionName>sub</functionName>
         /// <summary>
         /// Return the result from subtracting the second number from the first number.
@@ -33,7 +29,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And returns this result: <c>10</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

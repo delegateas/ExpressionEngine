@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class StartsWithFunction : Function
+    public class StartsWithFunction : IFunction
     {
-        public StartsWithFunction() : base("startsWith")
-        {
-        }
-
         /// <functionName>startsWith</functionName>
         /// <summary>
         /// Check whether a string starts with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive.
@@ -40,7 +36,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// </code>
         /// And returns this result: <c>false</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2)
             {

@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class FloatFunction : Function
+    public class FloatFunction : IFunction
     {
-        public FloatFunction() : base("float")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

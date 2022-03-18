@@ -5,12 +5,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class RangeFunction : Function
+    public class RangeFunction : IFunction
     {
-        public RangeFunction() : base("range")
-        {
-        }
-
         /// <functionName>range</functionName>
         /// <summary>
         /// Return an integer array that starts from a specified integer.
@@ -34,7 +30,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And returns this result: <c>[1, 2, 3, 4]</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

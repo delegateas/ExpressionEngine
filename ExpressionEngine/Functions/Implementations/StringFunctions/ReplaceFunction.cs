@@ -4,13 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class ReplaceFunction : Function
+    public class ReplaceFunction : IFunction
     {
-        public ReplaceFunction() : base("replace")
-        {
-        }
-
-        
         /// <functionName>replace</functionName>
         /// <summary>
         /// Replace a substring with the specified string, and return the result string. This function is case-sensitive.
@@ -28,7 +23,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         ///     <type>String</type>
         ///     <description>The updated string after replacing the substring<br/>If the substring is not found, return the original string.</description>
         /// </returns>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 3)
             {

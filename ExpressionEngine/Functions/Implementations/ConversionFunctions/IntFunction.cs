@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class IntFunction : Function
+    public class IntFunction : IFunction
     {
-        public IntFunction() : base("int")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

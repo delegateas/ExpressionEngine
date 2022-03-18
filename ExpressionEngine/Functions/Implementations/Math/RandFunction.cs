@@ -5,12 +5,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class RandFunction : Function
+    public class RandFunction : IFunction
     {
-        public RandFunction() : base("rand")
-        {
-        }
-
         /// <functionName>rand</functionName>
         /// <summary>
         /// Return a random integer from a specified range, which is inclusive only at the starting end.
@@ -36,7 +32,7 @@ namespace ExpressionEngine.Functions.Math
         ///
         /// And returns one of these numbers as the result: <c>1</c>1, <c>2</c>, <c>3</c>, or <c>4</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

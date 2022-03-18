@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class AddFunction : Function
+    public class AddFunction : IFunction
     {
-        public AddFunction() : base("add")
-        {
-        }
-
         /// <functionName>add</functionName>
         /// <summary>
         /// Return the result from adding two numbers.
@@ -32,7 +28,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And returns this result: <c>2.5</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {

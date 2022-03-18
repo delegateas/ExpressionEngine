@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Test
@@ -16,11 +17,14 @@ namespace Test
         [SetUp]
         public void SetUp()
         {
+            var t = new ServiceCollection();
             _dummyFunction = new DummyFunction();
+            t.AddTransient(_ => _dummyFunction);
+            t.AddSingleton(new FunctionMetadata(typeof(DummyFunction), "dummyFunction"));
 
-            var functions = new List<IFunction> {_dummyFunction};
+            var functions = new List<FunctionMetadata> {new FunctionMetadata(typeof(DummyFunction), "dummyFunction")};
 
-            _expressionGrammar = new ExpressionGrammar(functions, null);
+            _expressionGrammar = new ExpressionGrammar(functions, null, t.BuildServiceProvider());
         }
 
         [Test]
@@ -78,7 +82,7 @@ namespace Test
             Assert.NotNull(result);
             Assert.AreEqual(ValueType.Null, result.Type());
         }
-        
+
         [Test]
         public async Task IndexOnNonObject()
         {
@@ -86,14 +90,15 @@ namespace Test
 
             const string expressionString = "@dummyFunction()?.name1";
 
-            var exception = Assert.ThrowsAsync<InvalidTemplateException>(async () => await _expressionGrammar.EvaluateToValueContainer(expressionString));
-            
+            var exception = Assert.ThrowsAsync<InvalidTemplateException>(async () =>
+                await _expressionGrammar.EvaluateToValueContainer(expressionString));
+
             Assert.AreEqual("Unable to process template language expressions in action 'Compose' inputs " +
                             "at line 'x' and column 'y': 'The template language expression 'dummyFunction()?.name1' cannot be " +
                             "evaluated because property 'name1' cannot be selected. Property selection is not supported on values " +
                             "of type 'String'.", exception.Message);
         }
-        
+
         [Test]
         public async Task NegativeNumbers()
         {
@@ -104,20 +109,20 @@ namespace Test
             const string expressionString = "@dummyFunction(-1, -3.14, +1, +3.14)";
 
             var functionOutput = await _expressionGrammar.EvaluateToValueContainer(expressionString);
-            
-            if(functionOutput != null && functionOutput.Type() == ValueType.String)
+
+            if (functionOutput != null && functionOutput.Type() == ValueType.String)
             {
                 Assert.AreNotEqual(expressionString, functionOutput.GetValue<string>());
             }
-            
+
             var functionParameters = _dummyFunction.Parameters;
-            
+
             Assert.AreEqual(4, functionParameters.Length);
             Assert.AreEqual(ValueType.Integer, functionParameters[0].Type());
             Assert.AreEqual(ValueType.Float, functionParameters[1].Type());
             Assert.AreEqual(ValueType.Integer, functionParameters[2].Type());
             Assert.AreEqual(ValueType.Float, functionParameters[3].Type());
-            
+
             Assert.AreEqual(expectedOutput1, functionParameters[0]);
             Assert.AreEqual(expectedOutput2, functionParameters[1]);
             Assert.AreEqual(expectedOutput3, functionParameters[2]);
@@ -125,16 +130,12 @@ namespace Test
         }
     }
 
-    public class DummyFunction : Function
+    public class DummyFunction : IFunction
     {
         internal ValueContainer ValueContainer;
         internal ValueContainer[] Parameters;
 
-        public DummyFunction() : base("dummyFunction")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             Parameters = parameters;
             return new ValueTask<ValueContainer>(ValueContainer);
