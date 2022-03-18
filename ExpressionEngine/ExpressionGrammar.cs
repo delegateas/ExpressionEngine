@@ -18,7 +18,7 @@ namespace ExpressionEngine
         {
             _functionDefinitions = functionDefinitions?.ToList();
 
-            var functionCollection = functions ?? throw new ArgumentNullException(nameof(functions));
+            var functionCollection = functions.ToList() ?? throw new ArgumentNullException(nameof(functions));
 
             #region BasicAuxParsers
 
