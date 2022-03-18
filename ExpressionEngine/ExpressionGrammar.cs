@@ -28,10 +28,12 @@ namespace ExpressionEngine
                         constString => new ConstantRule(new ValueContainer(constString, true))
                     );
 
-            Parser<IRule> decimalInvariant =
-                Parse.DecimalInvariant.Select(x => new ConstantRule(new ValueContainer(x, true)));
-
-            Parser<IRule> number = decimalInvariant.Or(integer);
+            Parser<IRule> number = // decimalInvariant.Or(integer);
+                from sign in Parse.Char('-').Or(Parse.Char('+')).Optional()
+                from number1 in Parse.DecimalInvariant.Or(Parse.Digit.AtLeastOnce().Text())
+                select sign.IsDefined && sign.Get().Equals('-')
+                    ? new ConstantRule(new ValueContainer('-' + number1, true))
+                    : new ConstantRule(new ValueContainer(number1, true));
 
             Parser<string> simpleString =
                 Parse.AnyChar.Except(Parse.Char('@')).AtLeastOnce().Text();

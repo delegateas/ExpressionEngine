@@ -97,6 +97,36 @@ namespace Test
                             "evaluated because property 'name1' cannot be selected. Property selection is not supported on values " +
                             "of type 'String'.", exception.Message);
         }
+        
+        [Test]
+        public async Task NegativeNumbers()
+        {
+            var expectedOutput1 = new ValueContainer(-1);
+            var expectedOutput2 = new ValueContainer(-3.14);
+            var expectedOutput3 = new ValueContainer(1);
+            var expectedOutput4 = new ValueContainer(3.14);
+            const string expressionString = "@dummyFunction(-1, -3.14, +1, +3.14)";
+
+            var functionOutput = await _expressionGrammar.EvaluateToValueContainer(expressionString);
+            
+            if(functionOutput != null && functionOutput.Type() == ValueType.String)
+            {
+                Assert.AreNotEqual(expressionString, functionOutput.GetValue<string>());
+            }
+            
+            var functionParameters = _dummyFunction.Parameters;
+            
+            Assert.AreEqual(4, functionParameters.Length);
+            Assert.AreEqual(ValueType.Integer, functionParameters[0].Type());
+            Assert.AreEqual(ValueType.Float, functionParameters[1].Type());
+            Assert.AreEqual(ValueType.Integer, functionParameters[2].Type());
+            Assert.AreEqual(ValueType.Float, functionParameters[3].Type());
+            
+            Assert.AreEqual(expectedOutput1, functionParameters[0]);
+            Assert.AreEqual(expectedOutput2, functionParameters[1]);
+            Assert.AreEqual(expectedOutput3, functionParameters[2]);
+            Assert.AreEqual(expectedOutput4, functionParameters[3]);
+        }
     }
 
     public class DummyFunction : IFunction
