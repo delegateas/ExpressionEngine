@@ -1,4 +1,5 @@
 ﻿using ExpressionEngine.Functions.Base;
+using ExpressionEngine.Functions.CustomException;
 using ExpressionEngine.Functions.Implementations.CollectionFunctions;
 using ExpressionEngine.Functions.Implementations.ConversionFunctions;
 using ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions;
@@ -23,6 +24,22 @@ namespace ExpressionEngine
 
             services.AddTransient<IFunction, LengthFunction>();
             services.AddTransient<IFunction, GreaterFunction>();
+        }
+
+        /// <summary>
+        /// Added FunctionDefinition to service collection.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="fromFunctionName">The name of the function, without function parenthesis</param>
+        /// <param name="toExpression">The full expression which is inserted</param>
+        public static void AddFunctionDefinition(this IServiceCollection services, string fromFunctionName, string toExpression)
+        {
+            if (fromFunctionName.EndsWith("()"))
+            {
+                throw new ArgumentError($"{nameof(fromFunctionName)} cannot end in ()");
+            }
+
+            services.AddSingleton<IFunctionDefinition>(new FunctionDefinition{From = fromFunctionName + "()", To = toExpression});
         }
 
         private static void AddStringFunctions(IServiceCollection services)

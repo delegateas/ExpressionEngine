@@ -19,7 +19,7 @@ namespace Test
 
             var functions = new List<IFunction> {_returnData};
 
-            _expressionGrammar = new ExpressionGrammar(functions);
+            _expressionGrammar = new ExpressionGrammar(functions, null);
         }
 
         [Test]
