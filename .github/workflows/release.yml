@@ -72,7 +72,7 @@ jobs:
         run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown --version 1.0.0
 
       - name: Generate docs
-        run: dotnet tool run tomd --input ExpressionEngine/Release/net5.0/ExpressionEngine.xml --output artifacts/Documentation.md
+        run: dotnet tool run tomd --input artifacts/ExpressionEngine/Release/net5.0/ExpressionEngine.xml --output artifacts/Documentation.md
 
       - name: Release to GitHub and NuGet
         working-directory: .\\.github\\workflows
