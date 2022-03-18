@@ -12,9 +12,9 @@ plugins:
 
   - - "@semantic-release/github"
     - assets:
-        - path: artifacts/ExpressionEngine.*.nupkg
+        - path: ../../artifacts/ExpressionEngine.*.nupkg
           label: Parser DLL
-        - path: artifacts/Documentation.md
+        - path: ../../artifacts/Documentation.md
           label: Documentation
 
   - - "@semantic-release/exec"
