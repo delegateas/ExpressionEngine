@@ -10,12 +10,15 @@ namespace ExpressionEngine
 {
     public class ExpressionGrammar
     {
+        private readonly IList<IFunctionDefinition> _functionDefinitions;
         private readonly Parser<IRule> _method;
         private readonly Parser<Task<ValueContainer>> _input;
 
-        public ExpressionGrammar(IEnumerable<FunctionMetadata> functions, IServiceProvider serviceProvider)
+        public ExpressionGrammar(IEnumerable<FunctionMetadata> functions, IEnumerable<IFunctionDefinition> functionDefinitions, IServiceProvider serviceProvider)
         {
-            var functionCollection = (functions ?? throw new ArgumentNullException(nameof(functions))).ToList();
+            _functionDefinitions = functionDefinitions?.ToList();
+
+            var functionCollection = functions ?? throw new ArgumentNullException(nameof(functions));
 
             #region BasicAuxParsers
 
@@ -124,13 +127,25 @@ namespace ExpressionEngine
 
         public async ValueTask<string> EvaluateToString(string input)
         {
-            var output = await _input.Parse(input);
+            var output = await PreAnalyzeAndParse(input);
 
             return output.GetValue<string>();
         }
 
         public async ValueTask<ValueContainer> EvaluateToValueContainer(string input)
         {
+            return await PreAnalyzeAndParse(input);
+        }
+
+        private async ValueTask<ValueContainer> PreAnalyzeAndParse(string input)
+        {
+            if (_functionDefinitions != null)
+            {
+                input = _functionDefinitions.Aggregate(input,
+                    (current, functionDefinition) =>
+                        current.Replace(functionDefinition.From, functionDefinition.To));
+            }
+
             return await _input.Parse(input);
         }
     }
