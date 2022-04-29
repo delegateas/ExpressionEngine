@@ -34,7 +34,7 @@ namespace Test.Expression
                 new DivFunction(),
                 "div",
                 new[] {new ValueContainer(5), new ValueContainer(0.5)},
-                new ValueContainer(10)
+                new ValueContainer(10m)
             },
             new object[]
             {

@@ -24,7 +24,7 @@ namespace ExpressionEngine
 
             if (tryToParse)
             {
-                if (value.Contains('.') && double.TryParse(value, out var fValue))
+                if (value.Contains('.') && decimal.TryParse(value, out var fValue))
                 {
                     _value = fValue;
                     _type = ValueType.Float;
@@ -57,6 +57,7 @@ namespace ExpressionEngine
             _value = stringValue;
             _type = ValueType.String;
         }
+
         public ValueContainer(Guid guid)
         {
             _value = guid;
@@ -71,13 +72,19 @@ namespace ExpressionEngine
 
         public ValueContainer(float floatValue)
         {
-            _value = Convert.ToDouble(floatValue);
+            _value = Convert.ToDecimal(floatValue);
+            _type = ValueType.Float;
+        }
+
+        public ValueContainer(decimal floatValue)
+        {
+            _value = floatValue;
             _type = ValueType.Float;
         }
 
         public ValueContainer(double floatValue)
         {
-            _value = floatValue;
+            _value = Convert.ToDecimal(floatValue);
             _type = ValueType.Float;
         }
 
@@ -129,10 +136,13 @@ namespace ExpressionEngine
             return _type;
         }
 
+        public bool IsNumber()
+        {
+            return _type == ValueType.Float || _type == ValueType.Integer;
+        }
+
         public T GetValue<T>()
         {
-            
-         
             return _value;
         }
         
@@ -298,23 +308,20 @@ namespace ExpressionEngine
                 }
                 case ValueType.Object when other._type == ValueType.Object:
                 {
-                    var thisDict = (Dictionary<string, ValueContainer>) _value;
-                    var otherDict = other.GetValue<Dictionary<string, ValueContainer>>();
+                    var thisDict = AsDict();
+                    var otherDict = other.AsDict();
 
                     return thisDict.Count == otherDict.Count && !thisDict.Except(otherDict).Any();
                 }
                 case ValueType.Integer when other._type == ValueType.Float:
-                    var v = (double) _value;
-                    return Math.Abs(Math.Floor(v) - other._value) < double.Epsilon;
+                    return 0 == other.GetValue<decimal>().CompareTo(_value);
                 case ValueType.Float when other._type == ValueType.Integer:
                 {
-                    return Math.Abs(Math.Floor(_value) - other._value) < double.Epsilon;
+                    return 0 == GetValue<decimal>().CompareTo(other._value);
                 }
-                case ValueType.Float:
+                case ValueType.Float when other._type == ValueType.Float:
                 {
-                    // TODO: Figure out how to handle comparison and in general how to handle float/double..
-                    // assignee: thygesteffensen
-                    return Math.Abs(_value - other._value) < 0.01;
+                    return 0 == GetValue<decimal>().CompareTo(other.GetValue<decimal>());
                 }
                 default:
                     return Equals(_value, other._value) && _type == other._type;

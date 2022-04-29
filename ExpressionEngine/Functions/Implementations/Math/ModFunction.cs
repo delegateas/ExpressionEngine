@@ -48,10 +48,22 @@ namespace ExpressionEngine.Functions.Math
                     "the dividend as the first parameter and the divisor as the second parameter");
             }
 
-            var first = parameters[0].GetValue<double>();
-            var second = parameters[1].GetValue<double>();
+            var first = parameters[0];
+            var second = parameters[1];
 
-            return new ValueTask<ValueContainer>(new ValueContainer(first % second));
+            if (first.Type() == ValueType.Integer && second.Type() == ValueType.Integer)
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<int>() % second.GetValue<int>()));
+            }
+
+            if (first.IsNumber() && second.IsNumber())
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<decimal>() % second.GetValue<decimal>()));
+            }
+
+            throw new ExpressionEngineException($"Can only mod numbers, not {first.Type()} and {second.Type()}");
         }
     }
 }

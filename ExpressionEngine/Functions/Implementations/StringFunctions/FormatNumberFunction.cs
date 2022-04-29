@@ -48,7 +48,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
 
             if (value.Type() == ValueType.Float)
             {
-                var floatValue = value.GetValue<double>();
+                var floatValue = value.GetValue<decimal>();
 
                 return new ValueTask<ValueContainer>(new ValueContainer(floatValue.ToString(format, CultureInfo.CreateSpecificCulture(locale))));
             }
