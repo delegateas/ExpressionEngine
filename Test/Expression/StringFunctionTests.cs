@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
 using NUnit.Framework;
@@ -206,9 +207,9 @@ namespace Test.Expression
             var result1 = await func.ExecuteFunction(new ValueContainer("This is sp a sp splitted sp string"),
                 new ValueContainer("sp"));
 
-            var array = result1.GetValue<ValueContainer[]>();
+            var array = result1.GetValue<List<ValueContainer>>();
 
-            Assert.AreEqual(5, array.Length);
+            Assert.AreEqual(5, array.Count);
 
             Assert.AreEqual("This is ", array[0].GetValue<string>());
             Assert.AreEqual(" a ", array[1].GetValue<string>());
