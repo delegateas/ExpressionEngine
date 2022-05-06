@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,12 +8,21 @@ using Newtonsoft.Json.Linq;
 
 namespace ExpressionEngine
 {
+    /// <summary>
+    /// Generic container that can contain the values used in expressions, the creation of these from C# types and
+    /// getting them out of the container.
+    /// </summary>
     [JsonConverter(typeof(ValueContainerConverter))]
-    public partial class ValueContainer : IComparable, IEquatable<ValueContainer>
+    public class ValueContainer : IComparable, IEquatable<ValueContainer>
     {
         private readonly object _value;
         private readonly ValueType _type;
 
+        /// <summary>
+        /// Creates Value Container from string
+        /// </summary>
+        /// <param name="value">value which should be contained</param>
+        /// <param name="tryToParse">Try to parse the string int, decimal or boolean</param>
         public ValueContainer(string value, bool tryToParse = false)
         {
             if (value == null)
@@ -147,6 +157,14 @@ namespace ExpressionEngine
             return _type == ValueType.Float || _type == ValueType.Integer;
         }
 
+        /// <summary>
+        /// Get the value of the ValueContainer has it's respective C# type
+        ///
+        /// <code>double</code> and <code>float</code> is converted to <code>decimal</code>.
+        /// </summary>
+        /// <typeparam name="T">Target ype</typeparam>
+        /// <returns>Value of ValueContainer</returns>
+        /// <exception cref="ExpressionEngineException">When T is not castable to ValueContainer type.</exception>
         public T GetValue<T>()
         {
             if (_value.GetType() == typeof(T))
@@ -184,7 +202,7 @@ namespace ExpressionEngine
                     throw new InvalidOperationException("Index operations can only be performed on arrays.");
                 }
 
-                return AsArray()[i];
+                return AsList()[i];
             }
             set
             {
@@ -257,7 +275,7 @@ namespace ExpressionEngine
             throw new ExpressionEngineException("Can't get none object value container as dict.");
         }
 
-        public List<ValueContainer> AsArray()
+        public List<ValueContainer> AsList()
         {
             if (_type == ValueType.Array)
             {
