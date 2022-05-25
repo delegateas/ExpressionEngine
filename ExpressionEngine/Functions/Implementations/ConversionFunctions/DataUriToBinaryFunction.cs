@@ -7,13 +7,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class DataUriToBinaryFunction : Function
+    public class DataUriToBinaryFunction : IFunction
     {
-        public DataUriToBinaryFunction() : base("dataUriToBinary")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length == 0)
             {

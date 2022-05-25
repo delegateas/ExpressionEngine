@@ -4,13 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class SubstringFunction : Function
+    public class SubstringFunction : IFunction
     {
-        public SubstringFunction() : base("substring")
-        {
-        }
-
-
         /// <functionName>substring</functionName>
         /// <summary>
         /// Return characters from a string, starting from the specified position, or index. Index values start with the number 0.
@@ -38,7 +33,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// </code>
         /// And returns this result: <c>"world"</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length < 2 || parameters.Length > 3)
             {

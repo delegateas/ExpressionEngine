@@ -10,12 +10,15 @@ namespace ExpressionEngine
 {
     public class ExpressionGrammar
     {
+        private readonly IList<IFunctionDefinition> _functionDefinitions;
         private readonly Parser<IRule> _method;
         private readonly Parser<Task<ValueContainer>> _input;
 
-        public ExpressionGrammar(IEnumerable<IFunction> functions)
+        public ExpressionGrammar(IEnumerable<FunctionMetadata> functions, IEnumerable<IFunctionDefinition> functionDefinitions, IServiceProvider serviceProvider)
         {
-            var functionCollection = functions ?? throw new ArgumentNullException(nameof(functions));
+            _functionDefinitions = functionDefinitions?.ToList();
+
+            var functionCollection = functions.ToList() ?? throw new ArgumentNullException(nameof(functions));
 
             #region BasicAuxParsers
 
@@ -28,10 +31,12 @@ namespace ExpressionEngine
                         constString => new ConstantRule(new ValueContainer(constString, true))
                     );
 
-            Parser<IRule> decimalInvariant =
-                Parse.DecimalInvariant.Select(x => new ConstantRule(new ValueContainer(x, true)));
-
-            Parser<IRule> number = decimalInvariant.Or(integer);
+            Parser<IRule> number = // decimalInvariant.Or(integer);
+                from sign in Parse.Char('-').Or(Parse.Char('+')).Optional()
+                from number1 in Parse.DecimalInvariant.Or(Parse.Digit.AtLeastOnce().Text())
+                select sign.IsDefined && sign.Get().Equals('-')
+                    ? new ConstantRule(new ValueContainer('-' + number1, true))
+                    : new ConstantRule(new ValueContainer(number1, true));
 
             Parser<string> simpleString =
                 Parse.AnyChar.Except(Parse.Char('@')).AtLeastOnce().Text();
@@ -87,7 +92,7 @@ namespace ExpressionEngine
                 from mandatoryLetter in Parse.Letter
                 from rest in Parse.LetterOrDigit.Many().Text()
                 from args in arguments.Contained(lParenthesis, rParenthesis)
-                select new ExpressionRule(functionCollection, mandatoryLetter + rest,
+                select new ExpressionRule(functionCollection, serviceProvider, mandatoryLetter + rest,
                     args.IsEmpty
                         ? null
                         : args.Get());
@@ -122,13 +127,25 @@ namespace ExpressionEngine
 
         public async ValueTask<string> EvaluateToString(string input)
         {
-            var output = await _input.Parse(input);
+            var output = await PreAnalyzeAndParse(input);
 
             return output.GetValue<string>();
         }
 
         public async ValueTask<ValueContainer> EvaluateToValueContainer(string input)
         {
+            return await PreAnalyzeAndParse(input);
+        }
+
+        private async ValueTask<ValueContainer> PreAnalyzeAndParse(string input)
+        {
+            if (_functionDefinitions != null)
+            {
+                input = _functionDefinitions.Aggregate(input,
+                    (current, functionDefinition) =>
+                        current.Replace(functionDefinition.From, functionDefinition.To));
+            }
+
             return await _input.Parse(input);
         }
     }

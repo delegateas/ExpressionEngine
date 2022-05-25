@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
-    public class UnionFunction : Function
+    public class UnionFunction : IFunction
     {
-        public UnionFunction() : base("union")
-        {
-        }
-
-        public override async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters[0].Type() switch
             {

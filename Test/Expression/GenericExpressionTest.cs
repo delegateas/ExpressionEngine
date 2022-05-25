@@ -13,12 +13,11 @@ namespace Test.Expression
         [TestCaseSource(typeof(LogicalFunctionTest), nameof(LogicalFunctionTest.LogicalFunctionTestInput))]
         [TestCaseSource(typeof(ConversionFunctionTest), nameof(ConversionFunctionTest.ConversionFunctionTestInput))]
         [TestCaseSource(typeof(MathFunctionTests), nameof(MathFunctionTests.MathFunctionTestInput))]
-        public async Task TestFunction(Function func, string name,
+        public async Task TestFunction(IFunction func, string name,
             ValueContainer[] parameters, ValueContainer expected)
         {
             var result = await func.ExecuteFunction(parameters);
 
-            Assert.AreEqual(name, func.FunctionName);
             Assert.AreEqual(expected, result);
         }
     }

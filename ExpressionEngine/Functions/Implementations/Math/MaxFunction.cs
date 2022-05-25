@@ -6,12 +6,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class MaxFunction : Function
+    public class MaxFunction : IFunction
     {
-        public MaxFunction() : base("max")
-        {
-        }
-
         /// <functionName>max</functionName>
         /// <summary>
         /// Return the highest value from a list or array with numbers that is inclusive at both ends.
@@ -37,7 +33,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And return this result: <c>3</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length == 0)
             {

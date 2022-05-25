@@ -80,14 +80,9 @@ jobs:
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: build
+          name: Build
           path: |
             build/netcoreapp3.1/
             build/net5.0/
+            Documentation.md
           retention-days: 5
-          
-      - name: Archive documentation to artifacts
-        uses: actions/upload-artifact@v2.3.1
-        with:
-          name: Documentation
-          path: Documentation.md

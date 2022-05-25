@@ -4,13 +4,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
-    public class AndFunction : Function
+    public class AndFunction : IFunction
     {
-        public AndFunction() : base("and")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return new ValueTask<ValueContainer>(new ValueContainer(parameters.All(x => x.GetValue<bool>())));
         }

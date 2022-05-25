@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class IntFunction : Function
+    public class IntFunction : IFunction
     {
-        public IntFunction() : base("int")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {
@@ -51,9 +47,9 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                     return new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<int>()));
 
                 case ValueType.Float:
-                    var floatToIntVal = (int)System.Math.Round(parameters[0].GetValue<double>());
+                    var floatToIntVal = (int)System.Math.Round(parameters[0].GetValue<decimal>());
                     CheckIntMaxOrMin(floatToIntVal);
-                    return new ValueTask<ValueContainer>(new ValueContainer((int)System.Math.Round(parameters[0].GetValue<double>())));
+                    return new ValueTask<ValueContainer>(new ValueContainer((int)System.Math.Round(parameters[0].GetValue<decimal>())));
 
                 case ValueType.Boolean:
                     return new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<bool>() ? 1 : 0));

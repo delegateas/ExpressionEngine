@@ -4,13 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class ToUpperFunction : Function
+    public class ToUpperFunction : IFunction
     {
-        public ToUpperFunction() : base("toUpper")
-        {
-        }
-
-        
         /// <functionName>toUpper</functionName>
         /// <summary>
         /// Return a string in uppercase format. If a character in the string doesn't have an uppercase version, that character stays unchanged in the returned string.
@@ -33,7 +28,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// </code>
         /// And returns this result: <c>"HELLO WORLD"</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

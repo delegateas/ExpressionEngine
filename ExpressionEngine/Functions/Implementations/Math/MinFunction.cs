@@ -6,12 +6,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class MinFunction : Function
+    public class MinFunction : IFunction
     {
-        public MinFunction() : base("min")
-        {
-        }
-
         /// <functionName>min</functionName>
         /// <summary>
         /// Return the lowest value from a list or array with numbers that is inclusive at both ends.
@@ -37,7 +33,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And return this result: <c>1</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length == 0)
             {

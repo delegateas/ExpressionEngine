@@ -181,21 +181,21 @@ namespace Test.Expression
                 new FloatFunction(),
                 "float",
                 new[] {new ValueContainer(0)},
-                new ValueContainer(0)
+                new ValueContainer(0m)
             },
             new object[]
             {
                 new FloatFunction(),
                 "float",
                 new[] {new ValueContainer(10005000)},
-                new ValueContainer(10005000)
+                new ValueContainer(10005000m)
             },
             new object[]
             {
                 new FloatFunction(),
                 "float",
                 new[] {new ValueContainer(-10000078)},
-                new ValueContainer(-10000078)
+                new ValueContainer(-10000078m)
             },
             new object[]
             {

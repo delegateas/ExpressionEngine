@@ -6,13 +6,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
-    public class ContainsFunction : Function
+    public class ContainsFunction : IFunction
     {
-        public ContainsFunction() : base("contains")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             var collection = parameters[0];
             var value = parameters[1];

@@ -17,8 +17,7 @@ namespace Test
         {
             var services = new ServiceCollection();
             services.AddExpressionEngine();
-            services.AddScoped<VariablesFunction>();
-            services.AddScoped<IFunction, VariablesFunction>(x => x.GetRequiredService<VariablesFunction>());
+            services.RegisterScopedFunctionAlias<VariablesFunction>("variables");
             _serviceProvider = services.BuildServiceProvider();
 
             _serviceProvider.GetRequiredService<VariablesFunction>().DefaultValueContainer = new ValueContainer(

@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class ToLowerFunction : Function
+    public class ToLowerFunction : IFunction
     {
-        public ToLowerFunction() : base("toLower")
-        {
-        }
-
         /// <functionName>toLower</functionName>
         /// <summary>
         /// Return a string in lowercase format. If a character in the string doesn't have a lowercase version, that character stays unchanged in the returned string.
@@ -32,7 +28,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         /// </code>
         /// And returns this result: <c>"hello world"</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

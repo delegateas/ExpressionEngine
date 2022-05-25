@@ -3,13 +3,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class BoolFunction : Function
+    public class BoolFunction : IFunction
     {
-        public BoolFunction() : base("bool")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             switch (parameters[0].Type())
             {
@@ -28,7 +24,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                     var intValue = parameters[0].GetValue<int>();
                     return new ValueTask<ValueContainer>(new ValueContainer(intValue > 0 || intValue < 0));
                 case ValueType.Float:
-                    var doubleValue = parameters[0].GetValue<double>();
+                    var doubleValue = parameters[0].GetValue<decimal>();
                     return new ValueTask<ValueContainer>(new ValueContainer(doubleValue > 0 || doubleValue < 0));
                 case ValueType.Boolean:
                     return new ValueTask<ValueContainer>(parameters[0]);

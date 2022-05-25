@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class FloatFunction : Function
+    public class FloatFunction : IFunction
     {
-        public FloatFunction() : base("float")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {
@@ -21,16 +17,15 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
             switch (parameters[0].Type())
             {
                 case ValueType.String:
-                    if (Double.TryParse(parameters[0].GetValue<string>(), out double doubleValue))
+                    if (decimal.TryParse(parameters[0].GetValue<string>(), out decimal doubleValue))
                     {
                         return new ValueTask<ValueContainer>(new ValueContainer(doubleValue));
                     }
-                    else if (Boolean.TryParse(parameters[0].GetValue<string>(), out bool boolVal))
+                    else if (bool.TryParse(parameters[0].GetValue<string>(), out bool boolVal))
                     {
-                        if (boolVal)
-                            return new ValueTask<ValueContainer>(new ValueContainer(1));
-                        else
-                            return new ValueTask<ValueContainer>(new ValueContainer(0));
+                        return boolVal
+                            ? new ValueTask<ValueContainer>(new ValueContainer(1))
+                            : new ValueTask<ValueContainer>(new ValueContainer(0));
                     }
                     else
                     {
@@ -39,13 +34,13 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                     }
 
                 case ValueType.Integer:
-                    return new ValueTask<ValueContainer>(new ValueContainer((float)parameters[0].GetValue<int>()));
+                    return new ValueTask<ValueContainer>(new ValueContainer((decimal)parameters[0].GetValue<int>()));
 
                 case ValueType.Float:
-                    return new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<double>()));
+                    return new ValueTask<ValueContainer>(new ValueContainer(parameters[0].GetValue<decimal>()));
 
                 case ValueType.Boolean:
-                    return new ValueTask<ValueContainer>(new ValueContainer((double)(parameters[0].GetValue<bool>() ? 0 : 1)));
+                    return new ValueTask<ValueContainer>(new ValueContainer((decimal)(parameters[0].GetValue<bool>() ? 0 : 1)));
 
                 default:
                     throw new ExpressionEngineException(

@@ -7,12 +7,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
-    public class LengthFunction : Function
+    public class LengthFunction : IFunction
     {
-        public LengthFunction() : base("length")
-        {
-        }
-
         /// <functionName>length</functionName>
         /// <summary>
         /// Return the number of items in a collection.
@@ -29,7 +25,7 @@ namespace ExpressionEngine.Functions.Implementations.StringFunctions
         ///     <type>Integer</type>
         ///     <description>The number of items in the collection</description>
         /// </returns>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 1)
             {

@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class MulFunction : Function
+    public class MulFunction : IFunction
     {
-        public MulFunction() : base("mul")
-        {
-        }
-
         /// <functionName>mul</functionName>
         /// <summary>
         /// Return the product from multiplying two numbers.
@@ -37,7 +33,7 @@ namespace ExpressionEngine.Functions.Math
         /// First example: <c>2</c>
         /// Second example <c>3</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {
@@ -46,10 +42,22 @@ namespace ExpressionEngine.Functions.Math
                     "the first multiplicand as the first parameter and the second multiplicand as the second parameter");
             }
 
-            var first = parameters[0].GetValue<double>();
-            var second = parameters[1].GetValue<double>();
+            var first = parameters[0];
+            var second = parameters[1];
 
-            return new ValueTask<ValueContainer>(new ValueContainer(first * second));
+            if (first.Type() == ValueType.Integer && second.Type() == ValueType.Integer)
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<int>() * second.GetValue<int>()));
+            }
+
+            if (first.IsNumber() && second.IsNumber())
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<decimal>() * second.GetValue<decimal>()));
+            }
+
+            throw new ExpressionEngineException($"Can only add numbers, not {first.Type()} and {second.Type()}");
         }
     }
 }
