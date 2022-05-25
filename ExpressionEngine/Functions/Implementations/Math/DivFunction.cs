@@ -42,17 +42,23 @@ namespace ExpressionEngine.Functions.Math
                     "The template language function 'div' expects two numeric parameters: " +
                     "the dividend as the first parameter and the divisor as the second parameter");
             }
+            
+            var first = parameters[0];
+            var second = parameters[1];
 
-            var first = parameters[0].GetValue<double>();
-            var second = parameters[1].GetValue<double>();
-
-            if (second == 0)
+            if (first.Type() == ValueType.Integer && second.Type() == ValueType.Integer)
             {
-                throw new ExpressionEngineException(
-                    "Attempt to divide an integral or decimal value by zero in function 'div'.");
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<int>() / second.GetValue<int>()));
             }
 
-            return new ValueTask<ValueContainer>(new ValueContainer(first / second));
+            if (first.IsNumber() && second.IsNumber())
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<decimal>() / second.GetValue<decimal>()));
+            }
+
+            throw new ExpressionEngineException($"Can only divide numbers, not {first.Type()} and {second.Type()}");
         }
     }
 }

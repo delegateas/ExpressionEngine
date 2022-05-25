@@ -24,7 +24,7 @@ namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
                     var intValue = parameters[0].GetValue<int>();
                     return new ValueTask<ValueContainer>(new ValueContainer(intValue > 0 || intValue < 0));
                 case ValueType.Float:
-                    var doubleValue = parameters[0].GetValue<double>();
+                    var doubleValue = parameters[0].GetValue<decimal>();
                     return new ValueTask<ValueContainer>(new ValueContainer(doubleValue > 0 || doubleValue < 0));
                 case ValueType.Boolean:
                     return new ValueTask<ValueContainer>(parameters[0]);

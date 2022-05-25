@@ -103,7 +103,7 @@ namespace Test
         public async Task NegativeNumbers()
         {
             var expectedOutput1 = new ValueContainer(-1);
-            var expectedOutput2 = new ValueContainer(-3.14);
+            var expectedOutput2 = new ValueContainer(-3.14m);
             var expectedOutput3 = new ValueContainer(1);
             var expectedOutput4 = new ValueContainer(3.14);
             const string expressionString = "@dummyFunction(-1, -3.14, +1, +3.14)";
