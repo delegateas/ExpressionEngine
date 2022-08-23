@@ -158,7 +158,7 @@ namespace ExpressionEngine
         }
 
         /// <summary>
-        /// Get the value of the ValueContainer has it's respective C# type
+        /// Get the value of the ValueContainer as its respective C# type
         ///
         /// <code>double</code> and <code>float</code> is converted to <code>decimal</code>.
         /// </summary>
