@@ -4,12 +4,8 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
-    public class SubFunction : Function
+    public class SubFunction : IFunction
     {
-        public SubFunction() : base("sub")
-        {
-        }
-
         /// <functionName>sub</functionName>
         /// <summary>
         /// Return the result from subtracting the second number from the first number.
@@ -33,7 +29,7 @@ namespace ExpressionEngine.Functions.Math
         /// </code>
         /// And returns this result: <c>10</c>
         /// </example>
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             if (parameters.Length != 2)
             {
@@ -42,10 +38,22 @@ namespace ExpressionEngine.Functions.Math
                     "the minuend as the first parameter and the subtrahend as the second parameter");
             }
 
-            var first = parameters[0].GetValue<double>();
-            var second = parameters[1].GetValue<double>();
+            var first = parameters[0];
+            var second = parameters[1];
 
-            return new ValueTask<ValueContainer>(new ValueContainer(first - second));
+            if (first.Type() == ValueType.Integer && second.Type() == ValueType.Integer)
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<int>() - second.GetValue<int>()));
+            }
+
+            if (first.IsNumber() && second.IsNumber())
+            {
+                return new ValueTask<ValueContainer>(
+                    new ValueContainer(first.GetValue<decimal>() - second.GetValue<decimal>()));
+            }
+
+            throw new ExpressionEngineException($"Can only add numbers, not {first.Type()} and {second.Type()}");
         }
     }
 }

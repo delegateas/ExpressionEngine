@@ -3,13 +3,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
-    public class ArrayFunction : Function
+    public class ArrayFunction : IFunction
     {
-        public ArrayFunction() : base("array")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters[0].Type() switch
             {

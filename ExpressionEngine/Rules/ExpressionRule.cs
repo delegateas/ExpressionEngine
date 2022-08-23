@@ -14,9 +14,17 @@ namespace ExpressionEngine.Rules
         public string FunctionName { get; }
 
 
-        public ExpressionRule(IEnumerable<IFunction> functions, string functionName, IEnumerable<IRule> args)
+        public ExpressionRule(List<FunctionMetadata> functions, IServiceProvider serviceProvider, string functionName,
+            IEnumerable<IRule> args)
         {
-            _function = functions.ToList().Find(x => x.FunctionName == functionName);
+            var functionMetadata = functions.Find(x => x.Alias == functionName);
+            if (functionMetadata == null)
+            {
+                throw new FunctionNotKnown(
+                    $"Function metadata for function with name: {functionName}, does not exist.\nAdd the function metadata to the expression engine to test this expression.");
+            }
+            
+            _function = serviceProvider.GetService(functionMetadata.Function) as IFunction;
             if (_function == null)
             {
                 throw new FunctionNotKnown(

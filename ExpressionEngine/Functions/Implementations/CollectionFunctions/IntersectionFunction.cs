@@ -5,13 +5,9 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
-    public class InterSectionFunction : Function
+    public class InterSectionFunction : IFunction
     {
-        public InterSectionFunction() : base("intersection")
-        {
-        }
-
-        public override ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
+        public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
             return parameters[0].Type() switch
             {

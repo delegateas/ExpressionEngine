@@ -60,19 +60,28 @@ jobs:
 
       - name: Cleaning
         run: dotnet clean
+        if: ${{ env.RELEASE_VERSION }}
 
       - name: Restore NuGet packages
         run: dotnet restore ExpressionEngine.sln
+        if: ${{ env.RELEASE_VERSION }}
 
       - name: Package Parser
         run: dotnet pack -c Release -p:PackageVersion=${env:RELEASE_VERSION} -o ./artifacts
+        if: ${{ env.RELEASE_VERSION }}
+        
+      - name: Install Xml to Markdown tool
+        run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown --version 1.0.0
+        if: ${{ env.RELEASE_VERSION }}
+
+      - name: Generate docs
+        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net5.0/ExpressionEngine.xml --output artifacts/Documentation.md
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Release to GitHub and NuGet
         working-directory: .\\.github\\workflows
         env:
           CI_NUGET_API_KEY: ${{ secrets.NUGETAPIKEY }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIT_AUTHOR_NAME: thygesteffensen
-          GIT_AUTHOR_EMAIL: 31892312+thygesteffensen@users.noreply.github.com
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+        if: ${{ env.RELEASE_VERSION }}
