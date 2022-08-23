@@ -184,9 +184,12 @@ namespace ExpressionEngine
                 {
                     case { } iEnumerable when iEnumerable == typeof(IEnumerable<ValueContainer>):
                         return (T) GetValue<List<ValueContainer>>().AsEnumerable();
-                    // case { } array when array == typeof(ValueContainer[]):
-                        // return GetValue<List<ValueContainer>>().ToArray();
                 }
+            }
+
+            if (typeof(T) == typeof(object))
+            {
+                return (T) _value;
             }
 
             throw new ExpressionEngineException(
