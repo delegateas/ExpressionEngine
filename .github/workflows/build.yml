@@ -13,7 +13,7 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net5.0' ]
+        dotnet: [ 'netcoreapp3.1', 'net5.0', 'net6.0', 'net7.0' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
@@ -26,7 +26,7 @@ jobs:
     name: Building
     strategy:
       matrix: 
-        dotnet: ['netcoreapp3.1', 'net5.0']
+        dotnet: [ 'netcoreapp3.1', 'net5.0', 'net6.0', 'net7.0' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
