@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
+        
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
 
       - name: Run tests
         run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
