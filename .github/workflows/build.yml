@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '7.0.x'
           
       - name: Cleaning
         run: dotnet clean
@@ -69,7 +69,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '7.0.x'
   
       - name: Install Xml to Markdown tool
         run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown
