@@ -12,7 +12,7 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net5.0' ]
+        dotnet: [ 'netcoreapp3.1', 'net5.0', 'net6.0', 'net7.0' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
@@ -30,9 +30,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '7.0.x'
           
       - uses: actions/setup-node@v2
         with:
