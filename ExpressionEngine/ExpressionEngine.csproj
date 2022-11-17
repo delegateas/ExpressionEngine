@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
 
         <PackageId>Delegate.ExpressionEngine</PackageId>
         <Authors>Delegate A/S,thygesteffensen</Authors>
@@ -11,6 +11,12 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.31" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Sprache" Version="2.3.1" />
+    </ItemGroup>
+    
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
