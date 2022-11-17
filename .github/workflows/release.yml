@@ -12,7 +12,7 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net5.0', 'net6.0', 'net7.0' ]
+        dotnet: [ 'net6.0', 'net7.0' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
@@ -79,7 +79,7 @@ jobs:
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Generate docs
-        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net5.0/ExpressionEngine.xml --output artifacts/Documentation.md
+        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net7.0/ExpressionEngine.xml --output artifacts/Documentation.md
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Release to GitHub and NuGet
