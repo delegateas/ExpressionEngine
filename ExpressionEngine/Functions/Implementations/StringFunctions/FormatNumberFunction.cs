@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("formatNumber")]
     public class FormatNumberFunction : IFunction
     {
         /// <functionName>formatNumber</functionName>

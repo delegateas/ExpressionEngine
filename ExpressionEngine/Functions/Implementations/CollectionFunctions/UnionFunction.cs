@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
+    [FunctionRegistration("union")]
     public class UnionFunction : IFunction
     {
         public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

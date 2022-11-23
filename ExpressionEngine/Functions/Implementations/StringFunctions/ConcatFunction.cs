@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("concat")]
     public class ConcatFunction : IFunction
     {
         /// <functionName>concat</functionName>

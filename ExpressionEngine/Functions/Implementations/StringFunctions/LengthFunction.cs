@@ -7,6 +7,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("length")]
     public class LengthFunction : IFunction
     {
         /// <functionName>length</functionName>
