@@ -204,5 +204,28 @@ namespace Test
             var parameters = inputs["parameters"];
             Assert.AreEqual(2,parameters.GetValue<Dictionary<string,ValueContainer>>().Count);
         }
+
+        [Test]
+        public async Task TestArrayToListConversion()
+        {
+            var array = new ValueContainer(new [] {new ValueContainer("test"), new ValueContainer("test"), new ValueContainer("test") });
+
+
+            var test = array.GetValue<List<ValueContainer>>();
+            var test2 = array.GetValue<IList<ValueContainer>>();
+
+        }
+
+        [Test]
+        public async Task GetValueString()
+        {
+            var v42 = new ValueContainer(42);
+
+            var test2 = v42.ToString();
+            //Used to work in earlier versions.
+            var test = v42.GetValue<string>();
+           
+        }
+
     }
 }

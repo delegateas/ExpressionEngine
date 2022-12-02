@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExpressionEngine;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using ValueType = ExpressionEngine.ValueType;
@@ -11,18 +12,38 @@ namespace Test
     [TestFixture]
     public class ValueContainerJTokenConstructorTest
     {
+        static DateTimeOffset now = DateTimeOffset.UtcNow;
+
         [TestCaseSource(nameof(_valueContainerConstructorInput))]
         public async Task ConstructorTest(JToken jToken, ValueType expectedValueType,
             ValueContainer expectedValue)
         {
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc,
+                DateParseHandling = Newtonsoft.Json.DateParseHandling.DateTimeOffset,
+            };
+
+           // var valueContainer1 = await ValueContainerExtension.CreateValueContainerFromJToken(JsonConvert.DeserializeObject<JObject>("{\"test\":\"2022-02-01T10:14:00Z\"}"));
+            //var valueContainer2 = await ValueContainerExtension.CreateValueContainerFromJToken(JToken.FromObject(new { test = DateTime.UtcNow}, JsonSerializer.CreateDefault(new JsonSerializerSettings
+            //{
+            //    DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+            //    DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc,
+            //    DateParseHandling = Newtonsoft.Json.DateParseHandling.DateTimeOffset,
+            //})));
+
             var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(jToken);
             
             Assert.AreEqual(expectedValueType, valueContainer.Type());
             Assert.AreEqual(expectedValue, valueContainer);
         }
-
+        
         private static object[] _valueContainerConstructorInput =
         {
+           
+           
             new object[]
             {
                 new JObject(new JProperty("value",new JArray(new JObject(new JProperty("id",Guid.Empty))))),
@@ -77,6 +98,12 @@ namespace Test
                 ValueType.Boolean,
                 new ValueContainer(true)
             },
+            // new object[]
+            //{
+            //    new JValue(now),
+            //    ValueType.Date,
+            //    new ValueContainer(now)
+            //}
         };
     }
 }
