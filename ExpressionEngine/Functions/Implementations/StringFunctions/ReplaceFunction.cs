@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("replace")]
     public class ReplaceFunction : IFunction
     {
         /// <functionName>replace</functionName>

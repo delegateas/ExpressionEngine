@@ -6,6 +6,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("split")]
     public class SplitFunction : IFunction
     {
         /// <functionName>split</functionName>

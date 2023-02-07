@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("substring")]
     public class SubstringFunction : IFunction
     {
         /// <functionName>substring</functionName>

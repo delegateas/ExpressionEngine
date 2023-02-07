@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
+    [FunctionRegistration("lessOrEquals")]
     public class LessOrEqualsFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("toUpper")]
     public class ToUpperFunction : IFunction
     {
         /// <functionName>toUpper</functionName>

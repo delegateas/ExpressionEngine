@@ -14,11 +14,12 @@ namespace Test
     {
         public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
         {
-            await Task.Delay((int) (new Random().NextDouble()* 10000));
+            await Task.Delay((int) (new Random().NextDouble() * 10000));
             return new ValueContainer("Hello World");
         }
     }
-    
+
+    [FunctionRegistration("asynctest")]
     public class NonExistingFunction1 : IFunction
     {
         public async ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
@@ -27,7 +28,7 @@ namespace Test
         }
     }
 
-    
+
     [TestFixture]
     public class ParserTest
     {
@@ -35,8 +36,8 @@ namespace Test
         {
             var services = new ServiceCollection();
             services.AddExpressionEngine();
-            services.RegisterTransientFunctionAlias<AsynctestFunction>("asynctest");
-            services.AddSingleton(_ => new FunctionMetadata(typeof(NonExistingFunction1),"nonExistingFunction1"));
+            services.AddFunction<AsynctestFunction>();
+            services.AddSingleton(_ => new FunctionMetadata(typeof(NonExistingFunction1), "nonExistingFunction1"));
             return services.BuildServiceProvider();
         }
 
@@ -95,8 +96,8 @@ namespace Test
                 new ValueContainer("Just a simple string without an exceptions")),
             new TestInput("tst@delegate.dk", new ValueContainer("tst@delegate.dk")),
             new TestInput(
-                "@{toLower(\'user@DOMAIN.dk\')} - Send me an email or call on 8888 8888!", new ValueContainer(
-                    "user@domain.dk - Send me an email or call on 8888 8888!")
+                "Email: @{toLower(\'user@DOMAIN.dk\')} - Send me an email or call on 8888 8888!", new ValueContainer(
+                    "Email: user@domain.dk - Send me an email or call on 8888 8888!")
             ),
             new TestInput("@concat(\'Hi you,\',\' Alice B.\')", new ValueContainer("Hi you, Alice B.")),
             new TestInput(
@@ -114,8 +115,6 @@ namespace Test
             new TestInput("@greater(10.1, 10.0)", new ValueContainer(true)),
             new TestInput("@greater(10.1, 10)", new ValueContainer(true)),
             new TestInput("@add(10,0.5)", new ValueContainer(10.5)),
-            
-
         };
 
         #endregion
@@ -137,7 +136,6 @@ namespace Test
                 new ValueContainer("Hello World - Hello World - Hello World")),
         };
 
-     
 
         public class TestInput
         {
@@ -146,6 +144,7 @@ namespace Test
                 Input = input;
                 ExpectedOutput = expectedOutput;
             }
+
             public ValueContainer[] ValueContainers { get; set; }
             public string Input { get; set; }
             public ValueContainer ExpectedOutput { get; set; }

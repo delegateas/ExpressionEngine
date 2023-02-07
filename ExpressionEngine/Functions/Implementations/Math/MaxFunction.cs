@@ -6,6 +6,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("max")]
     public class MaxFunction : IFunction
     {
         /// <functionName>max</functionName>

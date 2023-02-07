@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("range")]
     public class RangeFunction : IFunction
     {
         /// <functionName>range</functionName>

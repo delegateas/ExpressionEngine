@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("rand")]
     public class RandFunction : IFunction
     {
         /// <functionName>rand</functionName>

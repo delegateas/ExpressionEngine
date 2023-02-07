@@ -20,7 +20,7 @@ namespace Test
             {
                 var services = new ServiceCollection();
                 services.AddExpressionEngine();
-                services.RegisterScopedFunctionAlias<VariablesFunction>("variables");
+                services.BuildFunction<VariablesFunction>().WithAlias("variables").AsScoped().Add();
                 _serviceProvider = services.BuildServiceProvider();
             }
 

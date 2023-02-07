@@ -3,6 +3,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
+    [FunctionRegistration("if")]
     public class IfFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

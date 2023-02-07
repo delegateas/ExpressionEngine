@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("mul")]
     public class MulFunction : IFunction
     {
         /// <functionName>mul</functionName>

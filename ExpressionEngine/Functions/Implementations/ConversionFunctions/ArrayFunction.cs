@@ -3,6 +3,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
+    [FunctionRegistration("array")]
     public class ArrayFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

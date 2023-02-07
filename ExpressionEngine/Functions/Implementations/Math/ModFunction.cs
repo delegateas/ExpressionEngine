@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("mod")]
     public class ModFunction : IFunction
     {
         /// <functionName>mod</functionName>

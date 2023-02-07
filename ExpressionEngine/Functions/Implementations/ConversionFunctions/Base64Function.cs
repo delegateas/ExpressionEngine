@@ -3,6 +3,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
+    [FunctionRegistration("base64")]
     public class Base64Function : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

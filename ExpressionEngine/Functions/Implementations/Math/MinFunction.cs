@@ -6,6 +6,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Math
 {
+    [FunctionRegistration("min")]
     public class MinFunction : IFunction
     {
         /// <functionName>min</functionName>

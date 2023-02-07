@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("toLower")]
     public class ToLowerFunction : IFunction
     {
         /// <functionName>toLower</functionName>
