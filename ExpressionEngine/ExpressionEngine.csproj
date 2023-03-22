@@ -1,16 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net48;net462</TargetFrameworks>
 
         <PackageId>Delegate.ExpressionEngine</PackageId>
         <Authors>Delegate A/S,thygesteffensen</Authors>
         <PackageDescription>Expression Engine for Power Automate expressions written in C# using Sprache.net!</PackageDescription>
         <RepositoryUrl>https://github.com/delegateas/ExpressionEngine</RepositoryUrl>
         
+        <LangVersion>8</LangVersion>
+        
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Sprache" Version="2.3.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Sprache" Version="2.3.1" />
+    </ItemGroup>
+    
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.31" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
