@@ -38,9 +38,7 @@ jobs:
         with:
           dotnet-version: '7.0.x'
           
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+      - uses: actions/setup-node@v3
 
       - name: Add plugin for conventional commits
         run: npm install conventional-changelog-conventionalcommits
