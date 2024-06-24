@@ -20,6 +20,7 @@ namespace Test
             t.RegisterTransientFunctionAlias<DummyFunction>("dummy");
             _returnData = new ReturnData();
             t.RegisterScopedFunctionAlias("returnData", _ => _returnData);
+            t.RegisterScopedFunctionAlias("returnData", _ => _returnData);
             t.BuildServiceProvider().GetService<IExpressionEngine>();
 
             t.AddSingleton<ExpressionGrammar>();

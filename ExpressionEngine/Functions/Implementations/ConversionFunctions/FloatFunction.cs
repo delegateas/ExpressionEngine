@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
+    [FunctionRegistration("float")]
     public class FloatFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

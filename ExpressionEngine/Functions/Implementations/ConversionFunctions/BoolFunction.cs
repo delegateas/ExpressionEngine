@@ -3,6 +3,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.ConversionFunctions
 {
+    [FunctionRegistration("bool")]
     public class BoolFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

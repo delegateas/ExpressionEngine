@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("endsWith")]
     public class EndsWithFunction : IFunction
     {
         /// <functionName>endsWith</functionName>

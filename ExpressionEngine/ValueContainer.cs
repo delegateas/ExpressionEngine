@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +17,16 @@ namespace ExpressionEngine
         private readonly object _value;
         private readonly ValueType _type;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static implicit operator ValueContainer(string value)
+        {
+            return new ValueContainer(value);
+        }
+        
         /// <summary>
         /// Creates Value Container from string
         /// </summary>
@@ -62,60 +71,100 @@ namespace ExpressionEngine
             }
         }
 
+        /// <summary>
+        /// Construct string ValueContainer
+        /// </summary>
+        /// <param name="stringValue">ValueContainer content</param>
         public ValueContainer(string stringValue)
         {
             _value = stringValue;
             _type = ValueType.String;
         }
 
+        /// <summary>
+        /// Construct Guid ValueContainer
+        /// </summary>
+        /// <param name="guid">ValueContainer content</param>
         public ValueContainer(Guid guid)
         {
             _value = guid;
             _type = ValueType.Guid;
         }
 
+        /// <summary>
+        /// Construct Date ValueContainer
+        /// </summary>
+        /// <param name="dateTime">ValueContainer content</param>
         public ValueContainer(DateTimeOffset dateTime)
         {
             _value = dateTime;
             _type = ValueType.Date;
         }
 
+        /// <summary>
+        /// Construct decimal ValueContainer from float
+        /// </summary>
+        /// <param name="floatValue">ValueContainer content</param>
         public ValueContainer(float floatValue)
         {
             _value = Convert.ToDecimal(floatValue);
             _type = ValueType.Float;
         }
 
+        /// <summary>
+        /// Construct decimal ValueContainer
+        /// </summary>
+        /// <param name="floatValue">ValueContainer content</param>
         public ValueContainer(decimal floatValue)
         {
             _value = floatValue;
             _type = ValueType.Float;
         }
 
+        /// <summary>
+        /// Construct float ValueContainer from double
+        /// </summary>
+        /// <param name="floatValue">ValueContainer content</param>
         public ValueContainer(double floatValue)
         {
             _value = Convert.ToDecimal(floatValue);
             _type = ValueType.Float;
         }
 
+        /// <summary>
+        /// Construct int ValueContainer
+        /// </summary>
+        /// <param name="intValue">ValueContainer content</param>
         public ValueContainer(int intValue)
         {
             _value = intValue;
             _type = ValueType.Integer;
         }
 
+        /// <summary>
+        /// Construct boolean ValueContainer
+        /// </summary>
+        /// <param name="boolValue">ValueContainer content</param>
         public ValueContainer(bool boolValue)
         {
             _value = boolValue;
             _type = ValueType.Boolean;
         }
 
+        /// <summary>
+        /// Construct Array ValueContainer
+        /// </summary>
+        /// <param name="arrayValue">ValueContainer content</param>
         public ValueContainer(List<ValueContainer> arrayValue)
         {
             _value = arrayValue;
             _type = ValueType.Array;
         }
 
+        /// <summary>
+        /// Construct Array ValueContainer
+        /// </summary>
+        /// <param name="arrayValue">ValueContainer content</param>
         public ValueContainer(IEnumerable<ValueContainer> arrayValue)
         {
             _value = arrayValue.ToList();
@@ -129,29 +178,48 @@ namespace ExpressionEngine
             _type = ValueType.Object;
         }
 
+        /// <summary>
+        /// Construct Object ValueContainer
+        /// </summary>
+        /// <param name="objectValue">ValueContainer content</param>
         public ValueContainer(Dictionary<string, ValueContainer> objectValue)
         {
             _value = objectValue.Normalize();
             _type = ValueType.Object;
         }
 
+        /// <summary>
+        /// Construct ValueContainer copied from another ValueContainer
+        /// </summary>
+        /// <param name="valueContainer">ValueContainer content</param>
         public ValueContainer(ValueContainer valueContainer)
         {
             _type = valueContainer._type;
             _value = valueContainer._value;
         }
 
+        /// <summary>
+        /// Construct Null ValueContainer
+        /// </summary>
         public ValueContainer()
         {
             _type = ValueType.Null;
             _value = null;
         }
 
+        /// <summary>
+        /// Type of the value within the ValueContainer
+        /// </summary>
+        /// <returns></returns>
         public ValueType Type()
         {
             return _type;
         }
 
+        /// <summary>
+        /// Check if value in ValueContainer is a number
+        /// </summary>
+        /// <returns>true if number else false</returns>
         public bool IsNumber()
         {
             return _type == ValueType.Float || _type == ValueType.Integer;
@@ -196,6 +264,11 @@ namespace ExpressionEngine
                 $"Cannot convert ValueContainer of type {_value.GetType()} to {typeof(T)}");
         }
 
+        /// <summary>
+        /// Access i'th element of array
+        /// </summary>
+        /// <param name="i">index</param>
+        /// <exception cref="InvalidOperationException">Is thrown is this is not an array</exception>
         public ValueContainer this[int i]
         {
             get
@@ -218,6 +291,11 @@ namespace ExpressionEngine
             }
         }
 
+        /// <summary>
+        /// Access element in object by key
+        /// </summary>
+        /// <param name="key">key of element tor retrieve</param>
+        /// <exception cref="InvalidOperationException">Is thrown is this is not an object</exception>
         public ValueContainer this[string key]
         {
             get
@@ -268,6 +346,11 @@ namespace ExpressionEngine
             }
         }
 
+        /// <summary>
+        /// Return value of ValueContainer as Dictionary
+        /// </summary>
+        /// <returns>Value as Dictionary</returns>
+        /// <exception cref="ExpressionEngineException">Is thrown is this is not an Object</exception>
         public Dictionary<string, ValueContainer> AsDict()
         {
             if (_type == ValueType.Object)
@@ -278,6 +361,11 @@ namespace ExpressionEngine
             throw new ExpressionEngineException("Can't get none object value container as dict.");
         }
 
+        /// <summary>
+        /// Return value of ValueCOntianer as List
+        /// </summary>
+        /// <returns>Value as List</returns>
+        /// <exception cref="ExpressionEngineException">Is thrown is this is not an Array</exception>
         public List<ValueContainer> AsList()
         {
             if (_type == ValueType.Array)
@@ -311,11 +399,16 @@ namespace ExpressionEngine
             };
         }
 
+        /// <summary>
+        /// Check if ValueContainer is of type null
+        /// </summary>
+        /// <returns>boolean</returns>
         public bool IsNull()
         {
             return _type == ValueType.Null;
         }
 
+        /// <inheritdoc />
         public int CompareTo(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
@@ -353,6 +446,7 @@ namespace ExpressionEngine
             }
         }
 
+        /// <inheritdoc />
         public bool Equals(ValueContainer other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -384,6 +478,7 @@ namespace ExpressionEngine
             }
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -391,11 +486,19 @@ namespace ExpressionEngine
             return obj.GetType() == GetType() && Equals((ValueContainer) obj);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return new {_type, _value}.GetHashCode();
         }
 
+        /// <summary>
+        /// Check if ValueContainer of type Object contains the given key
+        ///
+        /// Key is split according to '/'
+        /// </summary>
+        /// <param name="key">key or path</param>
+        /// <returns>boolean</returns>
         public bool ContainsKey(string key)
         {
             if (_type != ValueType.Object) return false;

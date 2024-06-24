@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("startsWith")]
     public class StartsWithFunction : IFunction
     {
         /// <functionName>startsWith</functionName>

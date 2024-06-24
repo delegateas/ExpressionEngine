@@ -4,6 +4,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.LogicalComparisonFunctions
 {
+    [FunctionRegistration("not")]
     public class NotFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

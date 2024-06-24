@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.CustomException;
 
 namespace ExpressionEngine.Functions.Implementations.StringFunctions
 {
+    [FunctionRegistration("indexOf")]
     public class IndexOfFunction : IFunction
     {
         public  ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)

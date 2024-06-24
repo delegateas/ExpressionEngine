@@ -5,6 +5,7 @@ using ExpressionEngine.Functions.Base;
 
 namespace ExpressionEngine.Functions.Implementations.CollectionFunctions
 {
+    [FunctionRegistration("take")]
     public class TakeFunction : IFunction
     {
         public ValueTask<ValueContainer> ExecuteFunction(params ValueContainer[] parameters)
