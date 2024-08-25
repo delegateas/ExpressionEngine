@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -474,7 +474,7 @@ namespace ExpressionEngine
                         JTokenType.String => new ValueContainer(jValue.Value<string>()),
                         JTokenType.None => new ValueContainer(),
                         JTokenType.Guid => new ValueContainer(jValue.Value<Guid>()),
-                        JTokenType.Date => new ValueContainer(jValue.Value<DateTimeOffset>()),
+                        JTokenType.Date => new ValueContainer(jValue.ToObject<DateTimeOffset>()),
                         _ => throw new ExpressionEngineException(
                             $"{jValue.Type} is not yet supported in ValueContainer conversion")
                     };
