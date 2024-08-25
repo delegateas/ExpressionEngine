@@ -10,6 +10,12 @@ plugins:
   - - "@semantic-release/release-notes-generator"
     - preset: conventionalcommits
 
+  - - "@semantic-release/github"
+    - assets:
+        - path: ../../artifacts/ExpressionEngine.*.nupkg
+          label: Parser DLL
+        - path: ../../artifacts/Documentation.md
+          label: Documentation
 
   - - "@semantic-release/exec"
     - publishCmd: "dotnet nuget push ..\\..\\artifacts\\Delegate.ExpressionEngine.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${process.env.CI_NUGET_API_KEY}"
