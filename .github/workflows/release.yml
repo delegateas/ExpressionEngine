@@ -12,14 +12,14 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net6.0', 'net7.0' ]
+        dotnet: ['net6.0', 'net7.0', 'net462', 'net48','net8.0' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
         
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Run tests
         run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
@@ -36,11 +36,11 @@ jobs:
 
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '8.0.x'
           
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Add plugin for conventional commits
         run: npm install conventional-changelog-conventionalcommits
@@ -53,7 +53,7 @@ jobs:
       - name: Dry Run Semantic to get next Version nummber
         working-directory: ./.github/workflows
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: thygesteffensen
           GIT_AUTHOR_EMAIL: 31892312+thygesteffensen@users.noreply.github.com
         run: |
@@ -79,7 +79,7 @@ jobs:
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Generate docs
-        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net7.0/ExpressionEngine.xml --output artifacts/Documentation.md
+        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net8.0/ExpressionEngine.xml --output artifacts/Documentation.md
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Release to GitHub and NuGet
