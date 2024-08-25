@@ -79,7 +79,7 @@ jobs:
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Generate docs
-        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net7.0/ExpressionEngine.xml --output artifacts/Documentation.md
+        run: dotnet tool run tomd --input ExpressionEngine/bin/Release/net8.0/ExpressionEngine.xml --output artifacts/Documentation.md
         if: ${{ env.RELEASE_VERSION }}
 
       - name: Release to GitHub and NuGet
