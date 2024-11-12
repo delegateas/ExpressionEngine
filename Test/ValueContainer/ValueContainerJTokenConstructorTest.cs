@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
@@ -17,8 +17,8 @@ namespace Test
         {
             var valueContainer = await ValueContainerExtension.CreateValueContainerFromJToken(jToken);
             
-            Assert.AreEqual(expectedValueType, valueContainer.Type());
-            Assert.AreEqual(expectedValue, valueContainer);
+            ClassicAssert.AreEqual(expectedValueType, valueContainer.Type());
+            ClassicAssert.AreEqual(expectedValue, valueContainer);
         }
 
         private static object[] _valueContainerConstructorInput =

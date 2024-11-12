@@ -1,5 +1,5 @@
 ﻿using ExpressionEngine;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 
 namespace Test
 {
@@ -13,7 +13,7 @@ namespace Test
 
             var value = valueContainer.GetValue<object>();
 
-            Assert.AreEqual(typeof(string), value.GetType());
+            ClassicAssert.AreEqual(typeof(string), value.GetType());
         }
     }
 }

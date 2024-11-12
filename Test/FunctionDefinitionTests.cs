@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
+using NUnit.Framework.Legacy;
 
 namespace Test
 {
@@ -27,7 +28,7 @@ namespace Test
 
             var actualResult = await ee.Parse("@concat(addAndConcat(), '!')");
 
-            Assert.AreEqual(expectedResult, actualResult);
+            ClassicAssert.AreEqual(expectedResult, actualResult);
         }
 
         [TestCase]
@@ -35,13 +36,13 @@ namespace Test
         {
             const string expectedMessage = "fromFunctionName cannot end in ()";
             
-            var exception = Assert.Throws<ArgumentError>(() =>
+            var exception = ClassicAssert.Throws<ArgumentError>(() =>
             {
                 _serviceCollection.AddFunctionDefinition("addAndConcat()", "concat('result of 1+1 is: ', add(1,1))");
             });
             
-            Assert.NotNull(exception);
-            Assert.AreEqual(expectedMessage,exception.Message);
+            ClassicAssert.NotNull(exception);
+            ClassicAssert.AreEqual(expectedMessage,exception.Message);
         }
     }
 }

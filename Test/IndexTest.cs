@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 
 namespace Test
 {
@@ -40,8 +40,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Boolean, output.Type());
-            Assert.AreEqual(true, output.GetValue<bool>());
+            ClassicAssert.AreEqual(ValueType.Boolean, output.Type());
+            ClassicAssert.AreEqual(true, output.GetValue<bool>());
         }
         
         [Test]
@@ -52,8 +52,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Boolean, output.Type());
-            Assert.AreEqual(true, output.GetValue<bool>());
+            ClassicAssert.AreEqual(ValueType.Boolean, output.Type());
+            ClassicAssert.AreEqual(true, output.GetValue<bool>());
         }
         
         [Test]
@@ -64,8 +64,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-             Assert.AreEqual(ValueType.Boolean, output.Type());
-            Assert.AreEqual(true, output.GetValue<bool>());
+             ClassicAssert.AreEqual(ValueType.Boolean, output.Type());
+            ClassicAssert.AreEqual(true, output.GetValue<bool>());
         }
         
         [Test]
@@ -76,8 +76,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Boolean, output.Type());
-            Assert.AreEqual(true, output.GetValue<bool>());
+            ClassicAssert.AreEqual(ValueType.Boolean, output.Type());
+            ClassicAssert.AreEqual(true, output.GetValue<bool>());
         }
         
         [Test]
@@ -88,8 +88,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Boolean, output.Type());
-            Assert.AreEqual(true, output.GetValue<bool>());
+            ClassicAssert.AreEqual(ValueType.Boolean, output.Type());
+            ClassicAssert.AreEqual(true, output.GetValue<bool>());
         }
         
         
@@ -101,8 +101,8 @@ namespace Test
              
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Object, output.Type());
-            Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+            ClassicAssert.AreEqual(ValueType.Object, output.Type());
+            ClassicAssert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
         }
 
         [Test]
@@ -113,8 +113,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.String, output.Type());
-            Assert.AreEqual("John Doe", output.GetValue<string>());
+            ClassicAssert.AreEqual(ValueType.String, output.Type());
+            ClassicAssert.AreEqual("John Doe", output.GetValue<string>());
         }
         
         [Test]
@@ -125,8 +125,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.Object, output.Type());
-            Assert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
+            ClassicAssert.AreEqual(ValueType.Object, output.Type());
+            ClassicAssert.AreEqual("John Doe", output.AsDict()["name"].GetValue<string>());
 
             var t = new ValueContainer();
         }
@@ -140,8 +140,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.String, output.Type());
-            Assert.AreEqual("John Doe", output.GetValue<string>());
+            ClassicAssert.AreEqual(ValueType.String, output.Type());
+            ClassicAssert.AreEqual("John Doe", output.GetValue<string>());
         }
         
         [Test]
@@ -152,8 +152,8 @@ namespace Test
             
             var output = await ee.ParseToValueContainer(str);
         
-            Assert.AreEqual(ValueType.String, output.Type());
-            Assert.AreEqual("John Doe", output.GetValue<string>());
+            ClassicAssert.AreEqual(ValueType.String, output.Type());
+            ClassicAssert.AreEqual("John Doe", output.GetValue<string>());
         }
     }
 }

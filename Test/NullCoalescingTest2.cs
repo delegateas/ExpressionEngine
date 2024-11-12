@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 
 namespace Test
 {
@@ -36,7 +36,7 @@ namespace Test
 
             var result = await _expressionGrammar.EvaluateToValueContainer(input);
             
-            Assert.AreEqual(new ValueContainer(), result);
+            ClassicAssert.AreEqual(new ValueContainer(), result);
         }
     }
 

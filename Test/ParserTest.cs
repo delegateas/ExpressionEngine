@@ -4,7 +4,7 @@ using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
 using ExpressionEngine.Functions.CustomException;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 using ValueType = ExpressionEngine.ValueType;
 
 
@@ -48,10 +48,10 @@ namespace Test
             var sp = BuildServiceProvider();
             var engine = sp.GetRequiredService<IExpressionEngine>();
 
-            var exception = Assert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
+            var exception = ClassicAssert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
                 async () => { await engine.Parse(testInput.Input); });
 
-            Assert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
+            ClassicAssert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
         }
 
         private static TestInput[] _simpleCasesExceptions =
@@ -86,7 +86,7 @@ namespace Test
 
             var result = await engine.ParseToValueContainer(testInput.Input);
 
-            Assert.AreEqual(testInput.ExpectedOutput, result);
+            ClassicAssert.AreEqual(testInput.ExpectedOutput, result);
         }
 
         private static TestInput[] _simpleCases =
@@ -128,7 +128,7 @@ namespace Test
 
             var result = await engine.ParseToValueContainer(testInput.Input);
 
-            Assert.AreEqual(testInput.ExpectedOutput, result);
+            ClassicAssert.AreEqual(testInput.ExpectedOutput, result);
         }
 
         private static TestInput[] _async =

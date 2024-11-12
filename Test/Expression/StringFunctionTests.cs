@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Implementations.StringFunctions;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
+using NUnit.Framework.Legacy;
 
 namespace Test.Expression
 {
@@ -188,15 +189,15 @@ namespace Test.Expression
 
             var result1 = await func.ExecuteFunction();
 
-            Assert.AreEqual(36, result1.GetValue<string>().Length);
+            ClassicAssert.AreEqual(36, result1.GetValue<string>().Length);
 
             var result2 = await func.ExecuteFunction(new ValueContainer("N"));
 
-            Assert.AreEqual(32, result2.GetValue<string>().Length);
+            ClassicAssert.AreEqual(32, result2.GetValue<string>().Length);
 
             var result3 = await func.ExecuteFunction(new ValueContainer("B"));
 
-            Assert.AreEqual(38, result3.GetValue<string>().Length);
+            ClassicAssert.AreEqual(38, result3.GetValue<string>().Length);
         }
 
         [Test]
@@ -209,13 +210,13 @@ namespace Test.Expression
 
             var array = result1.GetValue<List<ValueContainer>>();
 
-            Assert.AreEqual(5, array.Count);
+            ClassicAssert.AreEqual(5, array.Count);
 
-            Assert.AreEqual("This is ", array[0].GetValue<string>());
-            Assert.AreEqual(" a ", array[1].GetValue<string>());
-            Assert.AreEqual(" ", array[2].GetValue<string>());
-            Assert.AreEqual("litted ", array[3].GetValue<string>());
-            Assert.AreEqual(" string", array[4].GetValue<string>());
+            ClassicAssert.AreEqual("This is ", array[0].GetValue<string>());
+            ClassicAssert.AreEqual(" a ", array[1].GetValue<string>());
+            ClassicAssert.AreEqual(" ", array[2].GetValue<string>());
+            ClassicAssert.AreEqual("litted ", array[3].GetValue<string>());
+            ClassicAssert.AreEqual(" string", array[4].GetValue<string>());
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ExpressionEngine;
 using ExpressionEngine.Functions.Base;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 
 namespace Test.Expression
 {
@@ -18,7 +18,7 @@ namespace Test.Expression
         {
             var result = await func.ExecuteFunction(parameters);
 
-            Assert.AreEqual(expected, result);
+            ClassicAssert.AreEqual(expected, result);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExpressionEngine;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using NUnit.Framework;using NUnit.Framework.Legacy;
 using ValueType = ExpressionEngine.ValueType;
 
 namespace Test
@@ -39,7 +39,7 @@ namespace Test
 
             var result = await engine.ParseToValueContainer(testInput.Input);
 
-            Assert.AreEqual(testInput.ExpectedOutput, result);
+            ClassicAssert.AreEqual(testInput.ExpectedOutput, result);
         }
 
         private static object[] _triggerOutputTest =
@@ -123,10 +123,10 @@ namespace Test
             var variablesFunction = sp.GetRequiredService<VariablesFunction>();
             variablesFunction.DefaultValueContainer = testInput.ValueContainers.First();
 
-            var exception = Assert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
+            var exception = ClassicAssert.ThrowsAsync(Is.InstanceOf(testInput.ExceptionType),
                 async () => { await engine.Parse(testInput.Input); });
 
-            Assert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
+            ClassicAssert.AreEqual(testInput.ExpectedOutput.GetValue<string>(), exception.Message);
         }
 
         private static TestInput[] _simpleCasesExceptions =
@@ -168,7 +168,7 @@ namespace Test
 
             var result = await engine.ParseToValueContainer(input.Input);
 
-            Assert.AreEqual(input.ExpectedOutput, result);
+            ClassicAssert.AreEqual(input.ExpectedOutput, result);
         }
 
 
@@ -234,7 +234,7 @@ namespace Test
 
             var result = await engine.ParseToValueContainer(input.Input);
 
-            Assert.AreEqual(input.ExpectedOutputType, result.Type());
+            ClassicAssert.AreEqual(input.ExpectedOutputType, result.Type());
         }
 
         private static TestInput[] _testStorageValueContainer =
