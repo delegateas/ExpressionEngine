@@ -13,14 +13,14 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net6.0', 'net7.0', 'net462', 'net48' ]
+        dotnet: [  'net8.0', 'net9.0', 'net462', 'net48' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
 
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Run tests
         run: dotnet test --verbosity normal -f ${{ matrix.dotnet }}
@@ -30,14 +30,14 @@ jobs:
     name: Building
     strategy:
       matrix:
-        dotnet: [ 'netcoreapp3.1', 'net6.0', 'net7.0', 'net462', 'net48' ]
+         dotnet: [  'net8.0', 'net9.0', 'net462', 'net48' ]
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
 
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '9.0.x'
           
       - name: Cleaning
         run: dotnet clean
@@ -59,34 +59,34 @@ jobs:
     name: Generate docs and publish artifacts
     needs: ['build']
     steps:
-      - name: Get cache - net6.0
+      - name: Get cache - net8.0
         uses: actions/cache@v2
         with:
-          path: build/net6.0
-          key: ${{ runner.os }}-build-net6.0
+          path: build/net8.0
+          key: ${{ runner.os }}-build-net8.0
           
-      - name: Get cache - net7.0
+      - name: Get cache - net9.0
         uses: actions/cache@v2
         with:
-          path: build/net7.0
-          key: ${{ runner.os }}-build-net7.0
+          path: build/net9.0
+          key: ${{ runner.os }}-build-net9.0
 
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '9.0.x'
   
       - name: Install Xml to Markdown tool
         run: dotnet new tool-manifest && dotnet tool install EAVFW.Extensions.Docs.TransformToMarkdown
         
       - name: Generate docs
-        run: dotnet tool run tomd --input build/net7.0/ExpressionEngine.xml --output Documentation.md
+        run: dotnet tool run tomd --input build/net9.0/ExpressionEngine.xml --output Documentation.md
 
       - name: Archive build to artifacts
         uses: actions/upload-artifact@v2.3.1
         with:
           name: Build
           path: |
-            build/net6.0/
-            build/net7.0/
+            build/net8.0/
+            build/net9.0/
             Documentation.md
           retention-days: 5

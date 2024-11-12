@@ -1,4 +1,4 @@
-﻿name: "Create issues from todo"
+name: "Create issues from todo"
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: "TODO to Issue"
-        uses: "alstr/todo-to-issue-action@v2.4"
+        uses: "alstr/todo-to-issue-action"
         id: "todo"
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
