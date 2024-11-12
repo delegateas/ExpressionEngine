@@ -12,7 +12,7 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        dotnet: ['net8.0', 'net9.0', 'net462', 'net48','net8.0' ]
+        dotnet: ['net8.0', 'net9.0', 'net462', 'net48']
     steps:
       - name: Checkout code base
         uses: actions/checkout@v2
